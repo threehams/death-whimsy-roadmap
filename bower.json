@@ -1,6 +1,6 @@
 {
-  "name": "karmakoangulpify",
-  "version": "0.0.0",
+  "name": "death-whimsy-roadmap",
+  "version": "0.0.1",
   "authors": [
     "threehams <threehams@gmail.com>"
   ],
@@ -9,8 +9,7 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "test",
-    "tests"
+    "test"
   ],
   "dependencies": {
 

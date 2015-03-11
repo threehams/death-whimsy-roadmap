@@ -2,7 +2,6 @@
 
 var gulp = require('gulp');
 
-var minifyCSS = require('gulp-minify-css');
 var browserify = require('browserify');
 var partialify = require('partialify');
 var watchify = require('watchify');
@@ -17,6 +16,7 @@ var nodemon = require('nodemon');
 var mocha = require('gulp-mocha-co');
 var sass = require('gulp-sass');
 var reload = browserSync.reload;
+var autoprefixer = require('gulp-autoprefixer');
 
 gulp.task('clean', function (callback) {
   return del(['./dist'], callback);
@@ -25,8 +25,30 @@ gulp.task('clean', function (callback) {
 gulp.task('sass', function () {
   return gulp.src('./client/**/*.scss')
     .pipe(sass())
+    .on('error', function(err) {
+      // don't crash, just log the error!
+      console.log('Error when processing CSS!');
+      console.log(err);
+      browserSync.notify('Error when processing CSS!');
+      this.emit('end');
+    })
+    .pipe(autoprefixer({ browsers: ['last 2 version'] }))
     .pipe(gulp.dest('./dist/'))
     .pipe(reload({stream: true}));
+});
+
+gulp.task('vendor', function() {
+  return browserify()
+    .require('lodash')
+    .require('moment')
+    .require('angular')
+    .require('angular-route')
+    .require('angular-animate')
+    .require('angular-bootstrap')
+    .require('angular-messages')
+    .bundle()
+    .pipe(source('vendor.js'))
+    .pipe(gulp.dest('./dist/js'));
 });
 
 gulp.task('watch', function () {
@@ -34,7 +56,8 @@ gulp.task('watch', function () {
 
   browserSync({
     proxy: 'localhost:8888',
-    port: 8080
+    port: 8080,
+    open: false
   });
 
   gulp.watch('client/**/*.scss', ['sass']);
@@ -43,6 +66,13 @@ gulp.task('watch', function () {
 
   bundler
     .add('./client/js/main.js')
+    .external('lodash')
+    .external('moment')
+    .external('angular')
+    .external('angular-route')
+    .external('angular-animate')
+    .external('angular-bootstrap')
+    .external('angular-messages')
     .transform(partialify)
     .transform(jadeify)
     .on('update', rebundle);
@@ -80,7 +110,10 @@ gulp.task('connect-dist', function () {
 
 gulp.task('mocha', function() {
   return gulp.src(['./server/test/**/*_test.js'])
-    .pipe(mocha());
+    .pipe(mocha())
+    .on('error', function() {
+      this.emit('end'); // without this, can't start watching tests if one is broken
+    });
 });
 
 gulp.task('karma', function() {
@@ -92,9 +125,9 @@ gulp.task('karma', function() {
 });
 
 gulp.task('default', function() {
-  runSequence('clean', 'build', 'karma');
+  runSequence('clean', 'build', 'mocha', 'karma');
 });
 
 gulp.task('build',
-  ['watch', 'sass', 'copy-html-files', 'connect-dist']
+  ['vendor', 'watch', 'sass', 'copy-html-files', 'connect-dist']
 );

@@ -4,7 +4,7 @@ module.exports = function() {
   return {
     restrict: 'E',
     scope: {
-      data: '='
+      color: '='
     },
     replace: true,
     template: require('./component-template.jade'),

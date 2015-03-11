@@ -1,3 +1,60 @@
-div.header
-div.container
-  component(ng-repeat='resource in vm.resources', data='resource.url')
+header.header
+  div.title Death Whimsy
+
+header.build-title Current Build: v.{{ ::vm.build.version }} ({{ ::vm.build.title }})
+
+div.body-container
+  section.progress-container
+    div.progress-group
+      div.progress-title Sprint \#{{ ::vm.sprint.title }} (ending {{ ::vm.sprint.endDate | date : 'MM/dd/yyyy' }})
+      progress(min='0', max='100', value='25')
+
+  section.progress-container
+    div.progress-group
+      div.progress-title Code!
+      progress(min='0', max='100', value='50')
+    div.progress-group
+      div.progress-title Art!
+      progress(min='0', max='100', value='66')
+    div.progress-group
+      div.progress-title Design!
+      progress(min='0', max='100', value='15')
+    div.progress-group
+      div.progress-title Bugs!
+      progress(min='0', max='100', value='10')
+
+  section.character-container
+    div.character-icon
+      img(src='http://placehold.it/200x200&text=Cindy')
+    div.character-text
+      | "Ut varius massa at mauris ornare vehicula. Phasellus volutpat, erat et mollis rhoncus, arcu lectus hendrerit nulla, quis finibus lectus sed."
+
+  section.design-container
+    img(src='http://placehold.it/600x400&text=Design')
+
+  section.upcoming-container
+    // Stuff from the current sprint which is in progress
+    div.upcoming-group
+      div.upcoming
+
+  section.character-container
+    div.character-text
+      | "Fusce quis porttitor enim, eu vestibulum dui. Pellentesque turpis est, egestas laoreet vulputate blandit, ultrices a lectus. Mauris posuere."
+    div.character-icon
+      img(src='http://placehold.it/200x200&text=Michelle')
+
+  section.art-container
+    img(src='http://placehold.it/600x400&text=Art')
+
+  section.character-container
+    div.character-icon
+      img(src='http://placehold.it/200x200&text=Zach')
+    div.character-text
+      | "Morbi vel pharetra nibh, vitae mollis massa. Mauris scelerisque nibh eget ligula vulputate feugiat sit amet non nisl. Donec rhoncus posuere."
+  section.code-box-container
+    component(ng-repeat='box in vm.codeBoxes' color='::box.color')
+
+  div.large-divider
+
+  section.jar-room
+    img(src='http://placehold.it/600x400&text=JarRoom')
