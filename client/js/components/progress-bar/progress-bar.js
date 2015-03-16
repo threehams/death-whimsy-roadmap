@@ -4,11 +4,13 @@ module.exports = function() {
   return {
     restrict: 'E',
     scope: {
-      color: '='
+      current: '=',
+      barMax: '=',
+      barMin: '='
     },
     replace: true,
-    template: require('./component-template.jade'),
-    controller: require('./component-controller'),
+    template: require('./progress-bar-template.jade'),
+    controller: require('./progress-bar-controller'),
     controllerAs: 'vm',
     bindToController: true
   };
