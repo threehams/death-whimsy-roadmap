@@ -17,6 +17,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var streamify = require('gulp-streamify');
+var gzip = require('gulp-gzip');
 
 gulp.task('clean', function (callback) {
   return del(['./dist'], callback);
@@ -34,6 +35,7 @@ gulp.task('sass', function () {
     })
     .pipe(autoprefixer({ browsers: ['last 2 version'] }))
     .pipe(concat('style.css'))
+    .pipe(gzip())
     .pipe(gulp.dest('./dist/css/'))
     .pipe(reload({stream: true}));
 });
@@ -49,6 +51,7 @@ gulp.task('vendor', function() {
     .bundle()
     .pipe(source('vendor.js'))
     .pipe(streamify(uglify()))
+    .pipe(gzip())
     .pipe(gulp.dest('./dist/js'));
 });
 
@@ -65,6 +68,7 @@ gulp.task('browserify', function() {
     .bundle()
     .pipe(source('main.js'))
     .pipe(streamify(uglify()))
+    .pipe(gzip())
     .pipe(gulp.dest('./dist/js'));
 });
 
