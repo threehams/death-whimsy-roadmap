@@ -7,12 +7,10 @@ var watchify = require('watchify');
 var source = require('vinyl-source-stream');
 var browserSync = require('browser-sync');
 var del = require('del');
-var karma = require('karma');
 var path = require('path');
 var runSequence = require('run-sequence');
 var jadeify = require('jadeify');
 var nodemon = require('nodemon');
-var mocha = require('gulp-mocha-co');
 var sass = require('gulp-sass');
 var reload = browserSync.reload;
 var autoprefixer = require('gulp-autoprefixer');
@@ -122,6 +120,7 @@ gulp.task('connect-dist', function () {
 });
 
 gulp.task('mocha', function() {
+  var mocha = require('gulp-mocha-co');
   return gulp.src(['./server/test/**/*_test.js'])
     .pipe(mocha())
     .on('error', function() {
@@ -130,6 +129,7 @@ gulp.task('mocha', function() {
 });
 
 gulp.task('karma', function() {
+  var karma = require('karma');
   var root = path.resolve('./');
   return karma.server.start({
     basePath: root,
