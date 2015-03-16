@@ -3,7 +3,6 @@
 var gulp = require('gulp');
 
 var browserify = require('browserify');
-var partialify = require('partialify');
 var watchify = require('watchify');
 var source = require('vinyl-source-stream');
 var browserSync = require('browser-sync');
@@ -17,13 +16,14 @@ var mocha = require('gulp-mocha-co');
 var sass = require('gulp-sass');
 var reload = browserSync.reload;
 var autoprefixer = require('gulp-autoprefixer');
+var concat = require('gulp-concat');
 
 gulp.task('clean', function (callback) {
   return del(['./dist'], callback);
 });
 
 gulp.task('sass', function () {
-  return gulp.src('./client/**/*.scss')
+  return gulp.src('./client/css/main.scss')
     .pipe(sass())
     .on('error', function(err) {
       // don't crash, just log the error!
@@ -33,7 +33,8 @@ gulp.task('sass', function () {
       this.emit('end');
     })
     .pipe(autoprefixer({ browsers: ['last 2 version'] }))
-    .pipe(gulp.dest('./dist/'))
+    .pipe(concat('style.css'))
+    .pipe(gulp.dest('./dist/css/'))
     .pipe(reload({stream: true}));
 });
 
@@ -61,7 +62,7 @@ gulp.task('watch', function () {
   });
 
   gulp.watch('client/**/*.scss', ['sass']);
-  gulp.watch('client/**/*.html', ['copy-html-files']);
+  gulp.watch(['client/**/*.html', 'client/**/*.css', 'client/img/*.*'], ['copy-static-files']);
   gulp.watch('server/**/*.js', ['mocha']);
 
   bundler
@@ -73,7 +74,6 @@ gulp.task('watch', function () {
     .external('angular-animate')
     .external('angular-bootstrap')
     .external('angular-messages')
-    .transform(partialify)
     .transform(jadeify)
     .on('update', rebundle);
   return rebundle();
@@ -90,13 +90,10 @@ gulp.task('watch', function () {
       .pipe(reload({stream: true}));
   }
 });
-gulp.task('copy-bower-components', function () {
-  return gulp.src('./bower_components/**')
-    .pipe(gulp.dest('dist/bower_components'));
-});
-gulp.task('copy-html-files', function () {
-  return gulp.src('./client/**/*.html')
-    .pipe(gulp.dest('dist/'));
+gulp.task('copy-static-files', function () {
+  return gulp.src(['./client/**/*.html', './client/**/*.css', 'client/**/*.png', 'client/**/*.jpg'])
+    .pipe(gulp.dest('dist/'))
+    .pipe(reload({stream: true}));
 });
 gulp.task('connect-dist', function () {
   nodemon({
@@ -129,5 +126,5 @@ gulp.task('default', function() {
 });
 
 gulp.task('build',
-  ['vendor', 'watch', 'sass', 'copy-html-files', 'connect-dist']
+  ['vendor', 'watch', 'sass', 'copy-static-files', 'connect-dist']
 );
