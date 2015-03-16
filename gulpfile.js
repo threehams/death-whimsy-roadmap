@@ -52,6 +52,22 @@ gulp.task('vendor', function() {
     .pipe(gulp.dest('./dist/js'));
 });
 
+gulp.task('browserify', function() {
+  return browserify()
+    .add('./client/js/main.js')
+    .external('lodash')
+    .external('moment')
+    .external('angular')
+    .external('angular-route')
+    .external('angular-animate')
+    .external('angular-bootstrap')
+    .external('angular-messages')
+    .transform(jadeify)
+    .bundle()
+    .pipe(source('main.js'))
+    .pipe(gulp.dest('./dist/js'));
+});
+
 gulp.task('watch', function () {
   var bundler = watchify(browserify({ cache: {}, packageCache: {}, fullPaths: true, debug: true}));
 
@@ -127,4 +143,11 @@ gulp.task('default', function() {
 
 gulp.task('build',
   ['vendor', 'watch', 'sass', 'copy-static-files', 'connect-dist']
+);
+
+gulp.task('deploy',
+  runSequence(
+    'clean',
+    ['vendor', 'browserify', 'sass', 'copy-static-files']
+  )
 );
