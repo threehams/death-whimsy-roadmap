@@ -15,6 +15,8 @@ var sass = require('gulp-sass');
 var reload = browserSync.reload;
 var autoprefixer = require('gulp-autoprefixer');
 var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
+var streamify = require('gulp-streamify');
 
 gulp.task('clean', function (callback) {
   return del(['./dist'], callback);
@@ -43,10 +45,10 @@ gulp.task('vendor', function() {
     .require('angular')
     .require('angular-route')
     .require('angular-animate')
-    .require('angular-bootstrap')
     .require('angular-messages')
     .bundle()
     .pipe(source('vendor.js'))
+    .pipe(streamify(uglify()))
     .pipe(gulp.dest('./dist/js'));
 });
 
@@ -58,11 +60,11 @@ gulp.task('browserify', function() {
     .external('angular')
     .external('angular-route')
     .external('angular-animate')
-    .external('angular-bootstrap')
     .external('angular-messages')
     .transform(jadeify)
     .bundle()
     .pipe(source('main.js'))
+    .pipe(streamify(uglify()))
     .pipe(gulp.dest('./dist/js'));
 });
 
@@ -86,7 +88,6 @@ gulp.task('watch', function () {
     .external('angular')
     .external('angular-route')
     .external('angular-animate')
-    .external('angular-bootstrap')
     .external('angular-messages')
     .transform(jadeify)
     .on('update', rebundle);
