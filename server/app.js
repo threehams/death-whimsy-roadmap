@@ -27,6 +27,7 @@ app.use(serve('dist', {defer: true}));
 //});
 
 require('./routes/resources-routes')(router);
+require('./routes/webhooks-routes')(router);
 
 app.use(router.routes());
 app.use(router.allowedMethods());
