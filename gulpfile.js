@@ -7,10 +7,12 @@ var watchify = require('watchify');
 var source = require('vinyl-source-stream');
 var browserSync = require('browser-sync');
 var del = require('del');
+var karma = require('karma');
 var path = require('path');
 var runSequence = require('run-sequence');
 var jadeify = require('jadeify');
 var nodemon = require('nodemon');
+var mocha = require('gulp-mocha-co');
 var sass = require('gulp-sass');
 var reload = browserSync.reload;
 var autoprefixer = require('gulp-autoprefixer');
@@ -23,7 +25,15 @@ gulp.task('clean', function (callback) {
   return del(['./dist'], callback);
 });
 
-gulp.task('sass', function () {
+gulp.task('sass', function() {
+  return buildSass().pipe(gulp.dest('./dist/css/')).pipe(reload({stream: true}));
+});
+
+gulp.task('deploy-sass', function() {
+  return buildSass().pipe(gzip()).pipe(gulp.dest('./dist/css/'));
+});
+
+function buildSass() {
   return gulp.src('./client/css/main.scss')
     .pipe(sass())
     .on('error', function(err) {
@@ -34,13 +44,22 @@ gulp.task('sass', function () {
       this.emit('end');
     })
     .pipe(autoprefixer({ browsers: ['last 2 version'] }))
-    .pipe(concat('style.css'))
-    .pipe(gzip())
-    .pipe(gulp.dest('./dist/css/'))
-    .pipe(reload({stream: true}));
-});
+    .pipe(concat('style.css'));
+
+}
 
 gulp.task('vendor', function() {
+  return buildVendor().pipe(gulp.dest('./dist/js'));
+});
+
+gulp.task('deploy-vendor', function() {
+  return buildVendor().pipe(streamify(uglify()))
+
+    .pipe(gzip())
+    .pipe(gulp.dest('./dist/js'));
+});
+
+function buildVendor() {
   return browserify()
     .require('lodash')
     .require('moment')
@@ -49,13 +68,10 @@ gulp.task('vendor', function() {
     .require('angular-animate')
     .require('angular-messages')
     .bundle()
-    .pipe(source('vendor.js'))
-    .pipe(streamify(uglify()))
-    .pipe(gzip())
-    .pipe(gulp.dest('./dist/js'));
-});
+    .pipe(source('vendor.js'));
+}
 
-gulp.task('browserify', function() {
+gulp.task('deploy-bundle', function() {
   return browserify()
     .add('./client/js/main.js')
     .external('lodash')
@@ -125,7 +141,6 @@ gulp.task('connect-dist', function () {
 });
 
 gulp.task('mocha', function() {
-  var mocha = require('gulp-mocha-co');
   return gulp.src(['./server/test/**/*_test.js'])
     .pipe(mocha())
     .on('error', function() {
@@ -134,7 +149,6 @@ gulp.task('mocha', function() {
 });
 
 gulp.task('karma', function() {
-  var karma = require('karma');
   var root = path.resolve('./');
   return karma.server.start({
     basePath: root,
@@ -150,9 +164,10 @@ gulp.task('build',
   ['vendor', 'watch', 'sass', 'copy-static-files', 'connect-dist']
 );
 
-gulp.task('deploy',
-  runSequence(
-    'clean',
-    ['vendor', 'browserify', 'sass', 'copy-static-files']
-  )
+gulp.task('deploy', function() {
+    runSequence(
+      'clean',
+      ['deploy-vendor', 'deploy-bundle', 'deploy-sass', 'copy-static-files']
+    );
+  }
 );
