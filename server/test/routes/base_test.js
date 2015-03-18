@@ -10,13 +10,13 @@ require('co-mocha');
 var app = require('../../app');
 var request = require('co-supertest');
 
-describe('GET /api/resources', function() {
+describe('GET /', function() {
   before(function() {
     request = request.agent(app.listen());
   });
 
-  it('returns resources', function *() {
-    var response = yield request.get('/api/resources').expect(200).end();
-    expect(JSON.parse(response.text).length).to.equal(100);
+  it('returns index.html', function *() {
+    var response = yield request.get('/').expect(200).end();
+    expect(response.text).to.match(/Death Whimsy/);
   });
 });

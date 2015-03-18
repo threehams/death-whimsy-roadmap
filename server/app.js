@@ -26,7 +26,8 @@ app.use(serve('dist', {defer: true}));
 //  console.log('%s %s - %s', this.method, this.url, ms, 'ms');
 //});
 
-require('./routes/resources-routes')(router);
+require('./routes/webhooks-routes')(router);
+require('./routes/progress-routes')(router);
 
 app.use(router.routes());
 app.use(router.allowedMethods());

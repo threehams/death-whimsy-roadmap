@@ -22,6 +22,7 @@ app.controller('ProgressBarController', require('./components/progress-bar/progr
 
 // resources
 app.factory('ResourceService', require('./services/resource-service'));
+app.factory('ProgressService', require('./services/progress-service'));
 
 // custom validators
 app.directive('match', require('./validators/match'));
