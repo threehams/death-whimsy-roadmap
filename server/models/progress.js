@@ -37,14 +37,14 @@ Progress.prototype.calculate = function(issues, opts) {
 Progress.prototype.writeAll = function() {
   var filters = [
     {sprint: 1},
-    {sprint: 1, type: 'Story', labels: ['Art']},
-    {sprint: 1, type: 'Story', labels: ['Design']},
-    {sprint: 1, type: 'Story', labels: ['Code']},
+    {sprint: 1, type: 'Story', labels: ['art']},
+    {sprint: 1, type: 'Story', labels: ['design']},
+    {sprint: 1, type: 'Story', labels: ['dev']},
     {sprint: 1, type: 'Bug'},
     {},
-    {type: 'Story', labels: ['Art']},
-    {type: 'Story', labels: ['Design']},
-    {type: 'Story', labels: ['Code']},
+    {type: 'Story', labels: ['art']},
+    {type: 'Story', labels: ['design']},
+    {type: 'Story', labels: ['dev']},
     {type: 'Bug'}
   ];
 

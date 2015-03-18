@@ -30,7 +30,7 @@ describe('Jira', function() {
       expect(issues[0].type).to.equal('Story');
       expect(issues[0].status).to.equal('To Do');
       expect(issues[0].estimate).to.equal(1);
-      expect(issues[0].labels).to.eql(['Promotion']);
+      expect(issues[0].labels).to.eql(['promotion']);
       expect(issues[0].sprintIds).to.eql([1]);
 
       expect(issues[1].estimate).to.equal(3);

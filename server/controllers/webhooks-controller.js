@@ -1,16 +1,25 @@
 'use strict';
 
-var Webhook = require('../models/webhook');
+var Jira = require('../models/jira');
+var Progress = require('../models/progress');
 var parse = require('co-body');
 
 module.exports = {
-  index: function *() {
-    var resource = new Webhook();
-    this.body = yield resource.all();
-  },
   create: function *() {
     var body = yield parse.json(this);
-    console.log(body);
     this.body = {};
+
+    var jira = new Jira();
+    if (body.webhookEvent === 'jira:issue_created') {
+      yield jira.create(body.issue);
+    } else if (body.webhookEvent === 'jira:issue_updated') {
+      yield jira.update(body.issue);
+    } else if (body.webhookEvent === 'jira:issue_deleted') {
+      yield jira.delete(body.issue);
+    } else {
+      return;
+    }
+    var progress = new Progress();
+    yield progress.writeAll();
   }
 };
