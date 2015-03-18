@@ -8,11 +8,11 @@ var services = require('../services');
 function Jira() { }
 
 Jira.prototype.create = function(issue) {
-  return services.redisClient.setAsync(this.formatIssue(issue));
+  return services.redisClient.setAsync('issue' + issue.id, JSON.stringify(this.formatIssue(issue)));
 };
 
 Jira.prototype.update = function(issue) {
-  return services.redisClient.setAsync(this.formatIssue(issue));
+  return services.redisClient.setAsync('issue' + issue.id, JSON.stringify(this.formatIssue(issue)));
 };
 
 Jira.prototype.delete = function(issue) {
@@ -52,7 +52,7 @@ Jira.prototype.formatIssue = function(issue) {
     labels: _.map(issue.fields.labels, function(label) { return label.toLowerCase(); }),
     description: issue.fields.description,
     estimate: issue.fields.customfield_10005 ? Math.floor(issue.fields.customfield_10005) : 1,
-    sprintIds: getSprintIds(issue.fields.customfield_10007)
+    sprints: getSprintIds(issue.fields.customfield_10007)
   };
 };
 

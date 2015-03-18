@@ -21,7 +21,7 @@ Progress.prototype.calculate = function(issues, opts) {
     if (opts.labels && _.difference(opts.labels, issue.labels).length > 0) {
       return false;
     }
-    if (opts.sprint && !(_.contains(issue.sprints, opts.sprint))) {
+    if (opts.sprint && !(_.includes(issue.sprints, opts.sprint))) {
       return false;
     }
     if (opts.type && opts.type !== issue.type) return false;
