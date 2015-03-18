@@ -16,7 +16,8 @@ body {
 
 .header {
   padding: 20px;
-  background-color: $dark-grey;
+  background-color: $background;
+  border: 2px solid $secondary;
   display: flex;
   flex-wrap: wrap;
   align-items: center;

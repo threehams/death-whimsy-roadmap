@@ -5,3 +5,4 @@ dist/
 tmp/
 npm-debug.log
 _ref/
+.env.json

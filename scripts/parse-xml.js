@@ -7,7 +7,7 @@ var Promise = require('bluebird');
 var fs = Promise.promisifyAll(require('fs'));
 var parser = new xml2js.Parser();
 
-fs.readFile('./entities.xml', function(err, data) {
+fs.readFile('tmp/entities.xml', function(err, data) {
   if (err) {
     console.log(err);
     process.exit(1);
@@ -19,22 +19,40 @@ fs.readFile('./entities.xml', function(err, data) {
     }
 
     var base = result['entity-engine-xml'];
-    var issueTypes = getIssueTypes(base.IssueType);
-    console.log(issueTypes);
-    var linkTypes = getLinkTypes(base.IssueLinkType);
-    console.log(linkTypes);
-    var issueLinks = getIssueLinks(base.IssueLink);
-    console.log(issueLinks);
-    //logLinks(base.IssueLink);;
-    //logIssues(base.Issue);
-    //dirIssues(base.Issue);
-    //console.log(_.keys());
+
+    //var issueTypes = getIssueTypes(base.IssueType);
+    //console.log(issueTypes);
+
+    //var linkTypes = getLinkTypes(base.IssueLinkType);
+    //console.log(linkTypes);
+
+    //var issueLinks = getIssueLinks(base.IssueLink);
+    //console.log(issueLinks);
+
+    logIssues(base.Issue);
+    dirIssues(base.Issue);
+    console.log(_.keys());
   });
 });
 
 /*
 
 this is what I want
+
+- find all issues:
+  - ID
+  - summary
+  - description
+  - label
+  - sprint
+- iterate through issues and divide between art, code, design, and bugs
+- save issues for later use with webhooks
+- calculate and cache percentage completion for each category and the overall sprint
+
+issues: [
+  id: '10292',
+  summary: ''
+]
 
  */
 
@@ -68,7 +86,6 @@ function logIssues(issues) {
 
 function dirIssues(issues) {
   _.forEach(issues, function(container) {
-    //var issue = container.$;
     console.dir(container);
   });
 }

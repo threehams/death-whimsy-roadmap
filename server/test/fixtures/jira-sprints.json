@@ -1,0 +1,12 @@
+{
+  "sprints": [
+    {
+      "id": 1,
+      "sequence": 1,
+      "name": "Sprint 4",
+      "state": "OPEN",
+      "linkedPagesCount": 0
+    }
+  ],
+  "rapidViewId": 1
+}
