@@ -65,7 +65,7 @@ Jira.prototype.getCurrentSprint = function() {
     },
     json: true
   }).bind(this).spread(function(response, body) {
-    return _.find(body.sprints, {state: 'OPEN'});
+    return _.find(body.sprints, {state: 'ACTIVE'});
   });
 };
 

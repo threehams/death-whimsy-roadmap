@@ -163,7 +163,7 @@ describe('Jira', function() {
 
     it('calculates progress', function *() {
       var progress = new Progress();
-      progress.writeAll();
+      progress.writeAll({id: 1, name: 'THE BEST SPRINT'});
       // TODO this needs expectations, should probably split into multiple tests
     });
   });

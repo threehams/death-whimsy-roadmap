@@ -34,13 +34,13 @@ Progress.prototype.calculate = function(issues, opts) {
   return Promise.resolve(Math.round(current / total * 100));
 };
 
-Progress.prototype.writeAll = function() {
+Progress.prototype.writeAll = function(sprint) {
   var filters = [
-    {sprint: 1},
-    {sprint: 1, type: 'Story', labels: ['art']},
-    {sprint: 1, type: 'Story', labels: ['design']},
-    {sprint: 1, type: 'Story', labels: ['dev']},
-    {sprint: 1, type: 'Bug'},
+    {sprint: sprint.id},
+    {sprint: sprint.id, type: 'Story', labels: ['art']},
+    {sprint: sprint.id, type: 'Story', labels: ['design']},
+    {sprint: sprint.id, type: 'Story', labels: ['dev']},
+    {sprint: sprint.id, type: 'Bug'},
     {},
     {type: 'Story', labels: ['art']},
     {type: 'Story', labels: ['design']},

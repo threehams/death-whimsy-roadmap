@@ -20,6 +20,7 @@ module.exports = {
       return;
     }
     var progress = new Progress();
-    yield progress.writeAll();
+    var sprint = yield jira.getCurrentSprint();
+    yield progress.writeAll(sprint);
   }
 };
