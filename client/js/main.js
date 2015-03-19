@@ -19,6 +19,8 @@ app.directive('component', require('./components/component/component'));
 app.controller('ComponentController', require('./components/component/component-controller.js'));
 app.directive('progressBar', require('./components/progress-bar/progress-bar'));
 app.controller('ProgressBarController', require('./components/progress-bar/progress-bar-controller.js'));
+app.directive('designCanvas', require('./components/design-canvas/design-canvas'));
+app.controller('DesignCanvasController', require('./components/design-canvas/design-canvas-controller.js'));
 
 // resources
 app.factory('ResourceService', require('./services/resource-service'));
