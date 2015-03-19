@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = ['ProgressService', function (ProgressService) {
+module.exports = ['ProgressService', '$timeout', function (ProgressService, $timeout) {
   var vm = this;
 
   vm.codeBoxes = _.map(_.range(0, 200), function() {
@@ -10,7 +10,15 @@ module.exports = ['ProgressService', function (ProgressService) {
   vm.sprint = { title: 1, endDate: moment().toDate() };
   vm.build = {version: '0.1', title: 'Ephemeral Lagamorph'};
 
-  ProgressService.index().then(function(data) {
-    vm.progress = data;
-  });
+  function getProgress() {
+    ProgressService.index().then(function(data) {
+      vm.progress = data;
+      $timeout(getProgress, 10000);
+    }).catch(function(err) {
+      console.log(err);
+      $timeout(getProgress, 60000);
+    });
+  }
+
+  getProgress();
 }];
