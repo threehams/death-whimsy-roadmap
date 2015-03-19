@@ -13,7 +13,7 @@ module.exports = function() {
     controller: require('./design-canvas-controller'),
     controllerAs: 'vm',
     bindToController: true,
-    link: function(scope, element, attrs) {
+    link: function(scope, element) {
       var canvas = element.find('canvas')[0];
       var context = canvas.getContext('2d');
 
@@ -31,7 +31,7 @@ module.exports = function() {
       Sprite.prototype.render = function(xOffset, yOffset) {
         var that = this;
 
-        this.context.clearRect(0, 0, 1000, 500);
+        this.context.clearRect(0, 0, 1000, 588);
 
         this.context.drawImage(
           that.image,
@@ -39,8 +39,8 @@ module.exports = function() {
           0,
           that.width / that.numberOfFrames,
           that.height,
-          20 + xOffset,
-          373,
+          5 + xOffset,
+          373 + yOffset,
           that.width / that.numberOfFrames,
           that.height
         );
@@ -62,12 +62,20 @@ module.exports = function() {
       var morgan = new Sprite({context: context, width: 720, height: 50});
 
       var xOffset = 0;
+      var yOffset = 0;
+
       function loop() {
-        window.requestAnimationFrame(loop);
+        if (yOffset < 600) {
+          window.requestAnimationFrame(loop);
+        }
 
         morgan.update();
-        xOffset += 2.5;
-        morgan.render(xOffset);
+        xOffset += 3;
+        if (xOffset > 120) {
+          yOffset += -8 + (xOffset - 120) * 0.2;
+        }
+        morgan.render(xOffset, yOffset);
+
       }
 
       scope.$watch('vm.morganSrc', function(newValue) {
