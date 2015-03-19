@@ -16,6 +16,8 @@ module.exports = function() {
     link: function(scope, element) {
       var canvas = element.find('canvas')[0];
       var context = canvas.getContext('2d');
+      var morganRun;
+      var morganJump;
 
       function Sprite(opts) {
         this.context = opts.context;
@@ -26,6 +28,8 @@ module.exports = function() {
         this.tickCount = 0;
         this.ticksPerFrame = 1;
         this.numberOfFrames = 18;
+
+        this.state = 'running';
       }
 
       Sprite.prototype.render = function(xOffset, yOffset) {
@@ -39,7 +43,7 @@ module.exports = function() {
           0,
           that.width / that.numberOfFrames,
           that.height,
-          5 + xOffset,
+          -50 + xOffset,
           373 + yOffset,
           that.width / that.numberOfFrames,
           that.height
@@ -71,21 +75,37 @@ module.exports = function() {
 
         morgan.update();
         xOffset += 3;
-        if (xOffset > 120) {
-          yOffset += -8 + (xOffset - 120) * 0.2;
+        if (xOffset > 170) {
+          if (morgan.state === 'running') {
+            console.log('jumping!');
+            morgan.image = morganJump;
+            morgan.state = 'jumping';
+          }
+          yOffset += -8 + (xOffset - 170) * 0.2;
         }
         morgan.render(xOffset, yOffset);
-
       }
 
       scope.$watch('vm.morganSrc', function(newValue) {
+        var loaded = 0;
         if (!newValue) return;
-        var morganRun = new Image();
+        morganRun = new Image();
         morgan.image = morganRun;
+        morganJump = new Image();
         morganRun.onload = function() {
-          loop();
+          loaded++;
+          if (loaded > 1) {
+            loop();
+          }
         };
-        morganRun.src = '/img/morgan-run.png';
+        morganJump.onload = function() {
+          loaded++;
+          if (loaded > 1) {
+            loop();
+          }
+        };
+        morganRun.src = newValue.run;
+        morganJump.src = newValue.jump;
 
       });
     }

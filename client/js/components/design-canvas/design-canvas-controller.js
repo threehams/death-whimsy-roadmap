@@ -3,5 +3,11 @@
 module.exports = ['$timeout', function ($timeout) {
   var vm = this;
 
-  vm.morganSrc = '/img/morgan-run.png';
+  $timeout(function() {
+    vm.morganSrc = {
+      run: '/img/morgan-run.png',
+      jump: '/img/morgan-jump.png'
+    };
+  }, 1000);
+
 }];
