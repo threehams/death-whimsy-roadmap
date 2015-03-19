@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "gulp": "node --harmony-generators ./node_modules/gulp/bin/gulp.js",
+    "recalculate": "node --harmony-generators ./server/tasks/calculate-progress",
+    "server": "node --harmony-generators server",
     "postinstall": "node scripts/post-install.js"
   },
   "repository": {

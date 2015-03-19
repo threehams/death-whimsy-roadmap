@@ -21,7 +21,7 @@ Progress.prototype.calculate = function(issues, opts) {
     if (opts.labels && _.difference(opts.labels, issue.labels).length > 0) {
       return false;
     }
-    if (opts.sprint && !(_.contains(issue.sprints, opts.sprint))) {
+    if (opts.sprint && !(_.includes(issue.sprints, opts.sprint))) {
       return false;
     }
     if (opts.type && opts.type !== issue.type) return false;
@@ -34,17 +34,17 @@ Progress.prototype.calculate = function(issues, opts) {
   return Promise.resolve(Math.round(current / total * 100));
 };
 
-Progress.prototype.writeAll = function() {
+Progress.prototype.writeAll = function(sprint) {
   var filters = [
-    {sprint: 1},
-    {sprint: 1, type: 'Story', labels: ['Art']},
-    {sprint: 1, type: 'Story', labels: ['Design']},
-    {sprint: 1, type: 'Story', labels: ['Code']},
-    {sprint: 1, type: 'Bug'},
+    {sprint: sprint.id},
+    {sprint: sprint.id, type: 'Story', labels: ['art']},
+    {sprint: sprint.id, type: 'Story', labels: ['design']},
+    {sprint: sprint.id, type: 'Story', labels: ['dev']},
+    {sprint: sprint.id, type: 'Bug'},
     {},
-    {type: 'Story', labels: ['Art']},
-    {type: 'Story', labels: ['Design']},
-    {type: 'Story', labels: ['Code']},
+    {type: 'Story', labels: ['art']},
+    {type: 'Story', labels: ['design']},
+    {type: 'Story', labels: ['dev']},
     {type: 'Bug'}
   ];
 

@@ -13,7 +13,9 @@ var progress = new Progress();
 
 var run = Promise.coroutine(function *() {
   yield jira.writeAll();
-  yield progress.writeAll();
+  var sprint = yield jira.getCurrentSprint();
+  console.log(JSON.stringify(sprint));
+  yield progress.writeAll(sprint);
 });
 
 services.redisClient = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});

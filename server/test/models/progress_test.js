@@ -33,26 +33,26 @@ describe('Jira', function() {
           id: '45',
           estimate: 3,
           status: 'Done',
-          labels: ['Art']
+          labels: ['art']
         },
         {
           id: '756',
           estimate: 1,
           status: 'To Do',
-          labels: ['Art', 'Design']
+          labels: ['art', 'design']
         },
         {
           id: '421',
           estimate: 3,
           status: 'Done',
-          labels: ['Design']
+          labels: ['design']
         }
       ];
     });
 
     it('returns the correct progress', function *() {
       var progress = new Progress();
-      var result = yield progress.calculate(that.issues, {labels: ['Art']});
+      var result = yield progress.calculate(that.issues, {labels: ['art']});
       expect(result).to.equal(75);
     });
   });
@@ -127,7 +127,7 @@ describe('Jira', function() {
       yield services.redisClient.setAsync('issue45', JSON.stringify({
         id: '45',
         estimate: 2,
-        labels: ['Art'],
+        labels: ['art'],
         sprints: [1],
         status: 'Done',
         type: 'Bug'
@@ -135,7 +135,7 @@ describe('Jira', function() {
       yield services.redisClient.setAsync('issue756', JSON.stringify({
         id: '756',
         estimate: 3,
-        labels: ['Art'],
+        labels: ['art'],
         status: 'To Do',
         type: 'Bug'
       }));
@@ -149,7 +149,7 @@ describe('Jira', function() {
       yield services.redisClient.setAsync('issue421', JSON.stringify({
         id: '421',
         estimate: 3,
-        labels: ['Art', 'Design'],
+        labels: ['art', 'design'],
         sprints: [1],
         status: 'Done',
         type: 'Story'
@@ -163,7 +163,7 @@ describe('Jira', function() {
 
     it('calculates progress', function *() {
       var progress = new Progress();
-      progress.writeAll();
+      progress.writeAll({id: 1, name: 'THE BEST SPRINT'});
       // TODO this needs expectations, should probably split into multiple tests
     });
   });
