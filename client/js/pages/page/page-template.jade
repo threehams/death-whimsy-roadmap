@@ -5,30 +5,14 @@ header.header
 header.build-title Current Build: v.{{ ::vm.build.version }} ({{ ::vm.build.title }})
 
 div.body-container
-  section.progress-container
-    div.progress-group
-      div.progress-title Sprint \#{{ ::vm.sprint.title }} (ending {{ ::vm.sprint.endDate | date : 'MM/dd/yyyy' }})
-      progress-bar(bar-min='0', bar-max='100', current='vm.progress.sprint.all')
+  section.progress-bar-container
+    progress-bar(title='vm.sprintTitle', bar-min='0', bar-max='100', current='vm.progress.sprint.all')
 
-  section.progress-container
-    div.progress-group
-      div.progress-title Code!
-      progress-bar(bar-min='0', bar-max='100', current='vm.progress.sprint.code')
-    div.progress-group
-      div.progress-title Art!
-      progress-bar(bar-min='0', bar-max='100', current='vm.progress.sprint.art')
-    div.progress-group
-      div.progress-title Design!
-      progress-bar(bar-min='0', bar-max='100', current='vm.progress.sprint.design')
-    div.progress-group
-      div.progress-title Bugs!
-      progress-bar(bar-min='0', bar-max='100', current='vm.progress.sprint.bugs')
-
-  section.character-container
-    div.character-icon
-      img(src='http://placehold.it/200x200&text=Cindy')
-    div.character-text
-      | "Ut varius massa at mauris ornare vehicula. Phasellus volutpat, erat et mollis rhoncus, arcu lectus hendrerit nulla, quis finibus lectus sed."
+  section.progress-bar-container
+    progress-bar(title='"Code!"', bar-min='0', bar-max='100', current='vm.progress.sprint.code')
+    progress-bar(title='"Art!"', bar-min='0', bar-max='100', current='vm.progress.sprint.art')
+    progress-bar(title='"Design!"', bar-min='0', bar-max='100', current='vm.progress.sprint.design')
+    progress-bar(title='"Bugs!"', bar-min='0', bar-max='100', current='vm.progress.sprint.bugs')
 
   section.design-container
     .design-title Design status!
@@ -54,6 +38,12 @@ div.body-container
       img(src='http://placehold.it/200x200&text=Zach')
     div.character-text
       | "Morbi vel pharetra nibh, vitae mollis massa. Mauris scelerisque nibh eget ligula vulputate feugiat sit amet non nisl. Donec rhoncus posuere."
+
+  section.character-container
+    div.character-icon
+      img(src='http://placehold.it/200x200&text=Cindy')
+    div.character-text
+      | "Ut varius massa at mauris ornare vehicula. Phasellus volutpat, erat et mollis rhoncus, arcu lectus hendrerit nulla, quis finibus lectus sed."
 
   section.code-container
     component(ng-repeat='box in vm.codeBoxes' color='::box.color')

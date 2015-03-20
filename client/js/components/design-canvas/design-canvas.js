@@ -14,7 +14,7 @@ module.exports = function() {
     controllerAs: 'vm',
     bindToController: true,
     link: function(scope, element) {
-      var canvas = element.find('canvas')[0];
+      var canvas = element[0];
       var context = canvas.getContext('2d');
       var morganRun;
       var morganJump;
@@ -35,16 +35,14 @@ module.exports = function() {
       Sprite.prototype.render = function(xOffset, yOffset) {
         var that = this;
 
-        this.context.clearRect(0, 0, 1000, 588);
-
         this.context.drawImage(
           that.image,
           that.frameIndex * (that.width / that.numberOfFrames),
           0,
           that.width / that.numberOfFrames,
           that.height,
-          -50 + xOffset,
-          373 + yOffset,
+          Math.floor(-50 + xOffset),
+          Math.floor(373 + yOffset),
           that.width / that.numberOfFrames,
           that.height
         );
@@ -69,11 +67,8 @@ module.exports = function() {
       var yOffset = 0;
 
       function showCompletion() {
-        console.log('showing completion!');
-        context.clearRect(0, 0, 1000, 588);
-
         context.fillStyle = 'rgba(255, 255, 255, 0.5)';
-        context.fillRect(0, 0, 1000, 588);
+        context.fillRect(0, 0, canvas.width, canvas.height);
 
         context.fillStyle = 'black';
         context.font = '100px Open Sans';
@@ -81,6 +76,7 @@ module.exports = function() {
       }
 
       function loop() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
         if (yOffset < 300) {
           window.requestAnimationFrame(loop);
         } else {
@@ -88,14 +84,14 @@ module.exports = function() {
         }
 
         morgan.update();
-        xOffset += 3;
+        xOffset += 2.5;
         if (xOffset > 170) {
           if (morgan.state === 'running') {
             console.log('jumping!');
             morgan.image = morganJump;
             morgan.state = 'jumping';
           }
-          yOffset += -8 + (xOffset - 170) * 0.2;
+          yOffset += Math.round(-8 + (xOffset - 170) * 0.2);
         }
         morgan.render(xOffset, yOffset);
       }

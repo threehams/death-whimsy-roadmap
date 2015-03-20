@@ -7,8 +7,9 @@ module.exports = ['ProgressService', '$timeout', function (ProgressService, $tim
     if (Math.random() > 0.5) return {color: 'red'};
     return {color: 'green'};
   });
-  vm.sprint = { title: 1, endDate: moment().toDate() };
+  vm.sprint = { title: 1, endDate: moment().format('MM-DD-YYYY') };
   vm.build = {version: '0.1', title: 'Ephemeral Lagamorph'};
+  vm.sprintTitle = 'Sprint #' + vm.sprint.title + ' (ending ' + vm.sprint.endDate + ')';
 
   function getProgress() {
     ProgressService.index().then(function(data) {

@@ -1,14 +1,5 @@
-.design-canvas-container {
-  width: 100%;
-  position: relative;
-}
-
-.design-canvas-background {
-  width: 100%;
-//  position: absolute;
-}
-
 .design-canvas {
   width: 100%;
-  position: absolute;
+  background-image: url('/img/design-start.jpg');
+  background-size: 100% 100%;
 }

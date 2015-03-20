@@ -4,6 +4,7 @@ module.exports = function() {
   return {
     restrict: 'E',
     scope: {
+      title: '=',
       current: '=',
       barMax: '=',
       barMin: '='
