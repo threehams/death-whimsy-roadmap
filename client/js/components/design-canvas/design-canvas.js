@@ -85,7 +85,9 @@ module.exports = function() {
       Morgan.prototype.setState = function(state) {
         if (state === 'running') {
           this.sprite.setImage(morganRun, 18);
-          this.vector[0] = 3;
+          this.vector = [3, 0];
+        } else if (state === 'stopped') {
+          this.vector = [0, 0];
         } else if (state === 'jumping') {
           this.sprite.setImage(morganJump, 18);
           this.vector[1] = -8;
@@ -123,7 +125,7 @@ module.exports = function() {
         }, 700);
         setTimeout(function() {
           context.font = '100px Open Sans';
-          context.fillText('JUST STARTED', 180, 340);
+          context.fillText('GETTING THERE', 120, 340);
         }, 1400);
       }
 
@@ -143,6 +145,23 @@ module.exports = function() {
         }
       }
 
+      //var sequence = {
+      //  1: function(morgan) {
+      //    if (morgan.x > 130) {
+      //      morgan.setState('jumping');
+      //      return true;
+      //    }
+      //    return false;
+      //  },
+      //  2: function(morgan) {
+      //    if (morgan.y > 580) {
+      //      showCompletion();
+      //      return true;
+      //    }
+      //    return false;
+      //  }
+      //};
+
       var sequence = {
         1: function(morgan) {
           if (morgan.x > 130) {
@@ -152,6 +171,21 @@ module.exports = function() {
           return false;
         },
         2: function(morgan) {
+          if (morgan.y > 416) {
+            morgan.setState('stopped');
+            morgan.setState('running');
+            return true;
+          }
+          return false;
+        },
+        3: function(morgan) {
+          if (morgan.x > 390) {
+            morgan.setState('jumping');
+            return true;
+          }
+          return false;
+        },
+        4: function(morgan) {
           if (morgan.y > 580) {
             showCompletion();
             return true;
