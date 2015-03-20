@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function() {
+module.exports = ['Character', function(Character) {
   return {
     restrict: 'E',
     scope: {
@@ -16,30 +16,22 @@ module.exports = function() {
     link: function(scope, element) {
       var canvas = element[0];
       var context = canvas.getContext('2d');
-      var morganRun;
-      var morganJump;
+      var morgan;
 
       function Sprite(opts) {
         this.context = opts.context;
-        this.width = opts.width;
-        this.height = opts.height;
         this.image = opts.image;
+        this.width = this.image.width;
+        this.height = this.image.height;
         this.frameIndex = 0;
         this.tickCount = 0;
-        this.ticksPerFrame = 1;
-        this.frameCount = 18;
+        this.ticksPerFrame = this.ticksPerFrame || 1;
+        this.frameCount = opts.frameCount;
       }
 
       Sprite.prototype.reset = function() {
         this.frameIndex = 0;
         this.tickCount = 0;
-      };
-
-      Sprite.prototype.setImage = function(image, frameCount) {
-        this.image = image;
-        this.width = image.width;
-        this.height = image.height;
-        this.frameCount = frameCount;
       };
 
       Sprite.prototype.update = function() {
@@ -70,49 +62,6 @@ module.exports = function() {
           that.height
         );
       };
-
-      /*
-       * @param sprite     Sprite instance
-       * @param position   Initial [x, y] position
-       */
-      function Morgan(sprite, position) {
-        this.sprite = sprite;
-        this.x = position[0];
-        this.y = position[1];
-        this.vector = [0, 0];
-      }
-
-      Morgan.prototype.setState = function(state) {
-        if (state === 'running') {
-          this.sprite.setImage(morganRun, 18);
-          this.vector = [3, 0];
-        } else if (state === 'stopped') {
-          this.vector = [0, 0];
-        } else if (state === 'jumping') {
-          this.sprite.setImage(morganJump, 18);
-          this.vector[1] = -8;
-        }
-        this.state = state;
-        this.sprite.reset();
-      };
-
-      Morgan.prototype.render = function() {
-        this.sprite.render(this.x, this.y);
-      };
-
-      Morgan.prototype.update = function() {
-        if (this.state === 'jumping') {
-          this.vector[1] += 0.5;
-        }
-        this.x += this.vector[0];
-        this.y += this.vector[1];
-        this.sprite.update();
-      };
-
-      var morgan = new Morgan(
-        new Sprite({context: context}),
-        [-50, 373]
-      );
 
       function showCompletion(text) {
         context.fillStyle = 'rgba(255, 255, 255, 0.5)';
@@ -172,7 +121,7 @@ module.exports = function() {
         },
         2: function(morgan) {
           if (morgan.y > 416) {
-            morgan.setState('stopped');
+            morgan.setState('idle');
             morgan.setState('running');
             return true;
           }
@@ -195,25 +144,35 @@ module.exports = function() {
       };
 
       scope.$watch('vm.morganSrc', function(newValue) {
-        var loaded = 0;
+        if (!newValue) return;
 
+        var loaded = 0;
         function afterAllLoaded() {
           loaded++;
           if (loaded === 2) {
+            morgan = new Character({
+              sprites: {
+                running: new Sprite({context: context, image: morganRun, frameCount: 18}),
+                // TODO idle animation once it exists!
+                idle: new Sprite({context: context, image: morganRun, frameCount: 18}),
+                jumping: new Sprite({context: context, image: morganJump, frameCount: 18})
+              },
+              x: -50,
+              y: 373
+            });
+
             morgan.setState('running');
             loop();
           }
         }
-        if (!newValue) return;
-        morganRun = new Image();
-        morgan.image = morganRun;
-        morganJump = new Image();
+        var morganRun = new Image();
+        var morganJump = new Image();
+
         morganRun.onload = afterAllLoaded;
         morganJump.onload = afterAllLoaded;
         morganRun.src = newValue.run;
         morganJump.src = newValue.jump;
-
       });
     }
   };
-};
+}];
