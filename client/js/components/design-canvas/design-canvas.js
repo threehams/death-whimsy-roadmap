@@ -68,9 +68,23 @@ module.exports = function() {
       var xOffset = 0;
       var yOffset = 0;
 
+      function showCompletion() {
+        console.log('showing completion!');
+        context.clearRect(0, 0, 1000, 588);
+
+        context.fillStyle = 'rgba(255, 255, 255, 0.5)';
+        context.fillRect(0, 0, 1000, 588);
+
+        context.fillStyle = 'black';
+        context.font = '100px Open Sans';
+        context.fillText('JUST STARTED', 180, 320);
+      }
+
       function loop() {
-        if (yOffset < 600) {
+        if (yOffset < 300) {
           window.requestAnimationFrame(loop);
+        } else {
+          return showCompletion();
         }
 
         morgan.update();
