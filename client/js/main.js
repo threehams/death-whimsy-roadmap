@@ -14,19 +14,13 @@ var app = angular.module('SampleApp', vendor.concat(components));
 app.controller('PageController', require('./pages/page/page-controller.js'));
 
 // components (controllers exposed for testing)
-app.directive('component', require('./components/component/component'));
-app.controller('ComponentController', require('./components/component/component-controller.js'));
 app.directive('progressBar', require('./components/progress-bar/progress-bar'));
 app.controller('ProgressBarController', require('./components/progress-bar/progress-bar-controller.js'));
 app.directive('designCanvas', require('./components/design-canvas/design-canvas'));
 app.controller('DesignCanvasController', require('./components/design-canvas/design-canvas-controller.js'));
 
 // resources
-app.factory('ResourceService', require('./services/resource-service'));
 app.factory('ProgressService', require('./services/progress-service'));
-
-// custom validators
-app.directive('match', require('./validators/match'));
 
 app.config([
   '$locationProvider',

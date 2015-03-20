@@ -44,33 +44,18 @@ body {
   margin: 20px 0;
 }
 
-.divider {
-  min-height: 40px;
-}
-
-.large-divider {
-  min-height: 80px;
-}
-
-.bugs {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
+.bugs-container {
   img {
     width: 100%;
   }
 }
 
 .code-container {
-  width: 80%;
-  align-items: flex-start;
-  align-content: flex-start;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
+
+  img {
+    width: 100%;
+  }
 }
 
 .code-box {
@@ -135,12 +120,4 @@ body {
   border-radius: 5px;
   margin: 4px;
   padding: 10px;
-}
-
-.green {
-  background-color: $green;
-}
-
-.red {
-  background-color: $red;
 }

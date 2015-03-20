@@ -8,6 +8,6 @@ module.exports = ['$timeout', function ($timeout) {
       run: '/img/morgan-run.png',
       jump: '/img/morgan-jump.png'
     };
-  }, 1000);
+  });
 
 }];

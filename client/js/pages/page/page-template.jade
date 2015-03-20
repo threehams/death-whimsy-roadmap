@@ -18,7 +18,7 @@ div.body-container
     progress-bar(title='"Bugs!"', bar-min='0', bar-max='100', current='vm.progress.sprint.bugs')
 
   section.design-container
-    .design-title Design status!
+    .section-title Design status!
     design-canvas
 
   section.upcoming-container
@@ -33,7 +33,7 @@ div.body-container
       img(src='http://placehold.it/200x200&text=Michelle')
 
   section.art-container
-    .art-title Art status!
+    .section-title Art status!
     img(src='/img/art-end.jpg')
 
   //section.character-container
@@ -49,8 +49,10 @@ div.body-container
       | "Ut varius massa at mauris ornare vehicula. Phasellus volutpat, erat et mollis rhoncus, arcu lectus hendrerit nulla, quis finibus lectus sed."
 
   section.code-container
-    component(ng-repeat='box in vm.codeBoxes' color='::box.color')
+    .section-title Code status!
+    //component(ng-repeat='box in vm.codeBoxes' color='::box.color')
+    img(src='http://placehold.it/1000x568&text=Code')
 
-  section.bugs
-    .bugs-title
+  section.bugs-container
+    .section-title Bugs status!
     img(src='/img/bugs-end.jpg')

@@ -27,25 +27,19 @@ module.exports = function() {
         this.frameIndex = 0;
         this.tickCount = 0;
         this.ticksPerFrame = 1;
-        this.numberOfFrames = 18;
-
-        this.state = 'running';
+        this.frameCount = 18;
       }
 
-      Sprite.prototype.render = function(xOffset, yOffset) {
-        var that = this;
+      Sprite.prototype.reset = function() {
+        this.frameIndex = 0;
+        this.tickCount = 0;
+      };
 
-        this.context.drawImage(
-          that.image,
-          that.frameIndex * (that.width / that.numberOfFrames),
-          0,
-          that.width / that.numberOfFrames,
-          that.height,
-          Math.floor(-50 + xOffset),
-          Math.floor(373 + yOffset),
-          that.width / that.numberOfFrames,
-          that.height
-        );
+      Sprite.prototype.setImage = function(image, frameCount) {
+        this.image = image;
+        this.width = image.width;
+        this.height = image.height;
+        this.frameCount = frameCount;
       };
 
       Sprite.prototype.update = function() {
@@ -53,7 +47,7 @@ module.exports = function() {
         if (this.tickCount > this.ticksPerFrame) {
           this.tickCount = 0;
 
-          if (this.frameIndex < this.numberOfFrames - 1) {
+          if (this.frameIndex < this.frameCount - 1) {
             this.frameIndex += 1;
           } else {
             this.frameIndex = 0;
@@ -61,59 +55,127 @@ module.exports = function() {
         }
       };
 
-      var morgan = new Sprite({context: context, width: 720, height: 50});
+      Sprite.prototype.render = function(x, y) {
+        var that = this;
 
-      var xOffset = 0;
-      var yOffset = 0;
+        this.context.drawImage(
+          that.image,
+          that.frameIndex * (that.width / that.frameCount),
+          0,
+          that.width / that.frameCount,
+          that.height,
+          Math.floor(x),
+          Math.floor(y),
+          that.width / that.frameCount,
+          that.height
+        );
+      };
+
+      /*
+       * @param sprite     Sprite instance
+       * @param position   Initial [x, y] position
+       */
+      function Morgan(sprite, position) {
+        this.sprite = sprite;
+        this.x = position[0];
+        this.y = position[1];
+        this.vector = [0, 0];
+      }
+
+      Morgan.prototype.setState = function(state) {
+        if (state === 'running') {
+          this.sprite.setImage(morganRun, 18);
+          this.vector[0] = 3;
+        } else if (state === 'jumping') {
+          this.sprite.setImage(morganJump, 18);
+          this.vector[1] = -8;
+        }
+        this.state = state;
+        this.sprite.reset();
+      };
+
+      Morgan.prototype.render = function() {
+        this.sprite.render(this.x, this.y);
+      };
+
+      Morgan.prototype.update = function() {
+        if (this.state === 'jumping') {
+          this.vector[1] += 0.5;
+        }
+        this.x += this.vector[0];
+        this.y += this.vector[1];
+        this.sprite.update();
+      };
+
+      var morgan = new Morgan(
+        new Sprite({context: context}),
+        [-50, 373]
+      );
 
       function showCompletion() {
         context.fillStyle = 'rgba(255, 255, 255, 0.5)';
         context.fillRect(0, 0, canvas.width, canvas.height);
 
         context.fillStyle = 'black';
-        context.font = '100px Open Sans';
-        context.fillText('JUST STARTED', 180, 320);
+        setTimeout(function() {
+          context.font = '60px Open Sans';
+          context.fillText('DESIGN STATUS:', 270, 240);
+        }, 700);
+        setTimeout(function() {
+          context.font = '100px Open Sans';
+          context.fillText('JUST STARTED', 180, 340);
+        }, 1400);
       }
+
+      var step = 1;
 
       function loop() {
         context.clearRect(0, 0, canvas.width, canvas.height);
-        if (yOffset < 300) {
-          window.requestAnimationFrame(loop);
-        } else {
-          return showCompletion();
+        if (sequence[step](morgan)) {
+          step++;
         }
 
         morgan.update();
-        xOffset += 2.5;
-        if (xOffset > 170) {
-          if (morgan.state === 'running') {
-            console.log('jumping!');
-            morgan.image = morganJump;
-            morgan.state = 'jumping';
-          }
-          yOffset += Math.round(-8 + (xOffset - 170) * 0.2);
+        morgan.render();
+
+        if (sequence[step]) {
+          window.requestAnimationFrame(loop);
         }
-        morgan.render(xOffset, yOffset);
       }
+
+      var sequence = {
+        1: function(morgan) {
+          if (morgan.x > 130) {
+            morgan.setState('jumping');
+            return true;
+          }
+          return false;
+        },
+        2: function(morgan) {
+          if (morgan.y > 580) {
+            showCompletion();
+            return true;
+          }
+          return false;
+        }
+      };
 
       scope.$watch('vm.morganSrc', function(newValue) {
         var loaded = 0;
+
+        function afterAllLoaded() {
+          loaded++;
+          if (loaded === 2) {
+            morgan.setState('running');
+            loop();
+          }
+        }
         if (!newValue) return;
         morganRun = new Image();
         morgan.image = morganRun;
         morganJump = new Image();
-        morganRun.onload = function() {
-          loaded++;
-          if (loaded > 1) {
-            loop();
-          }
-        };
-        morganJump.onload = function() {
-          loaded++;
-          if (loaded > 1) {
-            loop();
-          }
-        };
+        morganRun.onload = afterAllLoaded;
+        morganJump.onload = afterAllLoaded;
         morganRun.src = newValue.run;
         morganJump.src = newValue.jump;
 
