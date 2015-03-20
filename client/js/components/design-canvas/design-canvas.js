@@ -114,7 +114,7 @@ module.exports = function() {
         [-50, 373]
       );
 
-      function showCompletion() {
+      function showCompletion(text) {
         context.fillStyle = 'rgba(255, 255, 255, 0.5)';
         context.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -125,7 +125,7 @@ module.exports = function() {
         }, 700);
         setTimeout(function() {
           context.font = '100px Open Sans';
-          context.fillText('GETTING THERE', 120, 340);
+          context.fillText(text, 120, 340);
         }, 1400);
       }
 
@@ -133,36 +133,36 @@ module.exports = function() {
 
       function loop() {
         context.clearRect(0, 0, canvas.width, canvas.height);
-        if (sequence[step](morgan)) {
+        if (sequence2[step](morgan)) {
           step++;
         }
 
         morgan.update();
         morgan.render();
 
-        if (sequence[step]) {
+        if (sequence2[step]) {
           window.requestAnimationFrame(loop);
         }
       }
 
-      //var sequence = {
-      //  1: function(morgan) {
-      //    if (morgan.x > 130) {
-      //      morgan.setState('jumping');
-      //      return true;
-      //    }
-      //    return false;
-      //  },
-      //  2: function(morgan) {
-      //    if (morgan.y > 580) {
-      //      showCompletion();
-      //      return true;
-      //    }
-      //    return false;
-      //  }
-      //};
+      var sequence1 = {
+        1: function(morgan) {
+          if (morgan.x > 130) {
+            morgan.setState('jumping');
+            return true;
+          }
+          return false;
+        },
+        2: function(morgan) {
+          if (morgan.y > 580) {
+            showCompletion('JUST STARTED');
+            return true;
+          }
+          return false;
+        }
+      };
 
-      var sequence = {
+      var sequence2 = {
         1: function(morgan) {
           if (morgan.x > 130) {
             morgan.setState('jumping');
@@ -187,7 +187,7 @@ module.exports = function() {
         },
         4: function(morgan) {
           if (morgan.y > 580) {
-            showCompletion();
+            showCompletion('GETTING THERE');
             return true;
           }
           return false;
