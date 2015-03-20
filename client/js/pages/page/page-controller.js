@@ -1,20 +1,22 @@
 'use strict';
 
-module.exports = ['ProgressService', '$timeout', function (ProgressService, $timeout) {
+module.exports = ['ProgressService', '$timeout', '$filter', function (ProgressService, $timeout, $filter) {
   var vm = this;
 
   vm.codeBoxes = _.map(_.range(0, 200), function() {
     if (Math.random() > 0.5) return {color: 'red'};
     return {color: 'green'};
   });
-  vm.sprint = { title: 1, endDate: moment().format('MM-DD-YYYY') };
-  vm.build = {version: '0.1', title: 'Ephemeral Lagamorph'};
-  vm.sprintTitle = 'Sprint #' + vm.sprint.title + ' (ending ' + vm.sprint.endDate + ')';
 
   function getProgress() {
     ProgressService.index().then(function(data) {
-      vm.progress = data;
-      $timeout(getProgress, 10000);
+      vm.progress = data.progress;
+      vm.sprint = data.sprint;
+      vm.sprint.formattedTitle = vm.sprint.title +
+        ' (' + $filter('date')(vm.sprint.startDate, 'shortDate') + ' - ' +
+        $filter('date')(vm.sprint.endDate, 'shortDate') + ')';
+      console.dir(vm.sprint);
+      $timeout(getProgress, 2000);
     }).catch(function(err) {
       console.log(err);
       $timeout(getProgress, 60000);

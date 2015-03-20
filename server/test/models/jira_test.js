@@ -12,6 +12,7 @@ var nock = require('nock');
 nock.enableNetConnect();
 var services = require('../../services');
 var redis = Promise.promisifyAll(require('redis'));
+var moment = require('moment');
 
 describe('Jira', function() {
   describe('query', function() {
@@ -42,12 +43,18 @@ describe('Jira', function() {
       nock('https://squidtankgames.atlassian.net')
         .get('/rest/greenhopper/1.0/sprintquery/1')
         .replyWithFile(200, __dirname + '/../fixtures/jira-sprints.json');
+      nock('https://squidtankgames.atlassian.net')
+        .get('/rest/greenhopper/1.0/rapid/charts/sprintreport?rapidViewId=1&sprintId=1')
+        .replyWithFile(200, __dirname + '/../fixtures/jira-sprint-details.json');
     });
 
     it('returns the latest sprint', function *() {
       var jira = new Jira();
       var sprint = yield jira.getCurrentSprint();
+      expect(sprint.id).to.equal(1);
       expect(sprint.name).to.equal('Sprint 4');
+      expect(sprint.startDate).to.eql(moment('2015-03-18T20:51:00.000Z').toDate());
+      expect(sprint.endDate).to.eql(moment('2015-03-30T20:51:00.000Z').toDate());
     });
   });
 
@@ -65,7 +72,7 @@ describe('Jira', function() {
       services.redisClient.quit();
     });
 
-    it('returns the latest sprint', function *() {
+    it('writes all issues to Redis', function *() {
       var jira = new Jira();
       yield jira.writeAll();
       var record = JSON.parse(yield services.redisClient.getAsync('issue10153'));

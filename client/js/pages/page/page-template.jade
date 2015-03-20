@@ -2,11 +2,14 @@ header.header
   img.header-logo(src='/img/logo-200.png')
   span.header-title The Deathmap
 
-header.build-title Current Build: v.{{ ::vm.build.version }} ({{ ::vm.build.title }})
+//header.sprint-title Current Sprint: {{ ::vm.sprint.name }} ({{ ::vm.sprint.startDate | date:'shortDate' }} - {{ ::vm.sprint.endDate | date:'shortDate' }})
 
 div.body-container
   section.progress-bar-container
-    progress-bar(title='vm.sprintTitle', bar-min='0', bar-max='100', current='vm.progress.sprint.all')
+    progress-bar(
+      title="vm.sprint.formattedTitle",
+      bar-min='0', bar-max='100', current='vm.progress.sprint.all'
+    )
 
   section.progress-bar-container
     progress-bar(title='"Code!"', bar-min='0', bar-max='100', current='vm.progress.sprint.code')

@@ -8,6 +8,15 @@ function Progress() {}
 
 Progress.prototype.get = function() {
   return services.redisClient.getAsync('progress').then(JSON.parse);
+  //return {
+  //  sprint: {
+  //    all: 100,
+  //    code: 70,
+  //    art: 50,
+  //    design: 50,
+  //    bugs: 50
+  //  }
+  //};
 };
 
 Progress.prototype.calculate = function(issues, opts) {
@@ -55,19 +64,26 @@ Progress.prototype.writeAll = function(sprint) {
     return this.calculate(this.issues, filter);
   }).then(function(num) {
     return services.redisClient.setAsync('progress', JSON.stringify({
-      sprint: {
-        all: num[0],
-        art: num[1],
-        design: num[2],
-        code: num[3],
-        bugs: num[4]
+      progress: {
+        sprint: {
+          all: num[0],
+          art: num[1],
+          design: num[2],
+          code: num[3],
+          bugs: num[4]
+        },
+        total: {
+          all: num[5],
+          art: num[6],
+          design: num[7],
+          code: num[8],
+          bugs: num[9]
+        }
       },
-      total: {
-        all: num[5],
-        art: num[6],
-        design: num[7],
-        code: num[8],
-        bugs: num[9]
+      sprint: {
+        title: sprint.name,
+        startDate: sprint.startDate,
+        endDate: sprint.endDate
       }
     }));
   });

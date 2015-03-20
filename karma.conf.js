@@ -18,7 +18,6 @@ module.exports = function(config) {
       'dist/js/vendor.js',
       'dist/js/main.js',
       'node_modules/angular-mocks/angular-mocks.js',
-      'node_modules/moment/moment.js',
       'client/**/*_test.js'
     ],
 

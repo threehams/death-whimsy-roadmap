@@ -9,19 +9,20 @@
   flex-basis: 400px;
   flex-shrink: 1;
   min-height: 20px;
-  margin: 0 10px 0 20px;
+  margin: 0 10px 5px 20px;
 }
 
 .progress-bar-title {
-  color: $light-grey;
+  color: $primary;
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 800;
+  margin-bottom: 5px;
 }
 
 .progress-bar-jars {
-  width: 100%;
-  margin: 0 0 -7px 8px;
+  width: 90%;
+  margin: auto auto -5px 6%;
 
   :nth-child(2n+1) {
     transform: rotate(-2deg);
@@ -44,18 +45,26 @@
   }
 }
 
-
-.progress-bar-empty {
+.progress-bar-jar {
   display: inline-block;
   width: 10%;
-  transition:visibility 0s linear 0.5s,opacity 0.5s linear;
+
+  &.ng-enter {
+    animation:pop-in 0.2s;
+    opacity: 0;
+  }
+
+//  &.ng-leave {
+//    opacity: 0;
+//  }
 }
 
-.progress-bar-full {
-  display: inline-block;
-  width: 10%;
-  transition:visibility 0s linear 0.5s,opacity 0.5s linear;
-}
 .progress-bar-shelf {
   width: 100%;
+}
+
+@keyframes pop-in {
+  0% { opacity: 0; transform: scale(0.1); }
+  80% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 1; transform: scale(1); }
 }

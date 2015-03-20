@@ -1,6 +1,6 @@
 div.progress-bar-group
   div.progress-bar-title {{ vm.title }}
   .progress-bar-jars
-    img.progress-bar-full(ng-repeat='jar in vm.jarsFull', src='/img/jar-full.png')
-    img.progress-bar-empty(ng-repeat='jar in vm.jarsEmpty', src='/img/jar-empty.png')
+    img.progress-bar-jar(ng-repeat='jar in vm.jarsFull', src='/img/jar-full.png')
+    img.progress-bar-jar(ng-repeat='jar in vm.jarsEmpty', src='/img/jar-empty.png')
   img.progress-bar-shelf(src='/img/jar-shelf.png')

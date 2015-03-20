@@ -2,7 +2,6 @@
   "extends": "../.jshintrc",
   "predef": [
     "_",
-    "moment",
     "angular",
     "describe",
     "expect",

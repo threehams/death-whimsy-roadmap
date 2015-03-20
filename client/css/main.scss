@@ -23,6 +23,7 @@ body {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  margin-bottom: 20px;
 }
 
 .header-logo {
@@ -35,9 +36,9 @@ body {
   color: $primary;
 }
 
-.build-title {
+.sprint-title {
   text-align: center;
-  color: $light-grey;
+  color: $primary;
   font-size: 18px;
   font-weight: 800;
   margin: 20px 0;

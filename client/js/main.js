@@ -5,7 +5,6 @@ require('angular-route');
 require('angular-animate');
 require('angular-messages');
 global._ = require('lodash');
-global.moment = require('moment');
 
 var vendor = ['ngRoute', 'ngAnimate', 'ngMessages'];
 var components = [];

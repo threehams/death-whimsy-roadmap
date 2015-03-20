@@ -4,6 +4,7 @@ var Promise = require('bluebird');
 var _ = require('lodash');
 var requestAsync = Promise.promisify(require('request'));
 var services = require('../services');
+var moment = require('moment');
 
 function Jira() { }
 
@@ -56,6 +57,13 @@ Jira.prototype.formatIssue = function(issue) {
   };
 };
 
+/*
+ * Get sprint details from undocumented Jira Agile API.
+ *
+ * This requests a full list of issues for the sprint, and throws away everything except the sprint details.
+ * It may be possible to find a better route to hit, with a lot of searching.
+ *
+ */
 Jira.prototype.getCurrentSprint = function() {
   return requestAsync({
     url: 'https://squidtankgames.atlassian.net/rest/greenhopper/1.0/sprintquery/1', // TODO rapidview id 1 hardcoded
@@ -65,7 +73,23 @@ Jira.prototype.getCurrentSprint = function() {
     },
     json: true
   }).bind(this).spread(function(response, body) {
-    return _.find(body.sprints, {state: 'ACTIVE'});
+    var sprintId = _.find(body.sprints, {state: 'ACTIVE'}).id;
+    return requestAsync({
+      url: 'https://squidtankgames.atlassian.net/rest/greenhopper/1.0/rapid/charts/sprintreport?rapidViewId=1&sprintId=' + sprintId,
+      auth: {
+        user: process.env.JIRA_USERNAME || require('../../.env.json').jira.username,
+        password: process.env.JIRA_PASSWORD || require('../../.env.json').jira.password
+      },
+      json: true
+    });
+  }).spread(function(response, body) {
+    var sprint = body.sprint;
+    return {
+      id: sprint.id,
+      name: sprint.name,
+      startDate: moment(sprint.startDate, 'D/MMM/YY H:mm a').toDate(), // 18/Mar/15 1:51 PM
+      endDate: moment(sprint.endDate, 'D/MMM/YY H:mm a').toDate()
+    };
   });
 };
 
