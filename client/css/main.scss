@@ -4,8 +4,10 @@
 @import '../js/components/progress-bar/progress-bar-style';
 @import '../js/components/design-canvas/design-canvas-style';
 
+$container-margin: 0px auto 20px auto;
+
 body {
-  background-color: $black;
+  background-color: $background;
   color: $primary;
   margin: 0;
 }
@@ -17,8 +19,8 @@ body {
 
 .header {
   padding: 20px;
-  background-color: $background;
-  border: 2px solid $secondary;
+  background-color: $tertiary;
+//  border: 2px solid $secondary;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -26,14 +28,10 @@ body {
   margin-bottom: 20px;
 }
 
-.header-logo {
-
-}
-
 .header-title {
   margin: 5px 20px;
   font-size: 30px;
-  color: $primary;
+  color: $black;
 }
 
 .sprint-title {
@@ -44,33 +42,55 @@ body {
   margin: 20px 0;
 }
 
+.section-title {
+  color: $black;
+  text-transform: uppercase;
+  font-weight: 800;
+  padding: 5px;
+  text-align: center;
+}
+
 .bugs-container {
+  margin: $container-margin;
+  width: 98%;
+
   img {
     width: 100%;
   }
 }
 
 .code-container {
-  margin-bottom: 20px;
+  margin: $container-margin;
+  width: 98%;
 
   img {
     width: 100%;
   }
 }
 
-.code-box {
-  background-color: #3299bb;
-  margin: 2px;
-  padding: 2px;
-  width: 15px;
-  height: 15px;
-  color: white;
+.design-container {
+  margin: $container-margin;
+  width: 98%;
+//  border: 1px solid rgba(0, 0, 0, 0.2);
 
-  @include desktop {
-    border-radius: 2px;
-    width: 45px;
-    height: 45px;
-    color: white;
+//  border-radius: 4px 4px 0 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 1);
+
+
+  img {
+    width: 100%;
+  }
+  canvas {
+    display: block;
+  }
+}
+
+.art-container {
+  margin: $container-margin;
+  width: 98%;
+
+  img {
+    width: 100%;
   }
 }
 
@@ -80,22 +100,6 @@ body {
   align-items: flex-start;
   justify-content: flex-start;
   margin-bottom: 20px;
-}
-
-.design-container {
-  margin-bottom: 20px;
-
-  img {
-    width: 100%;
-  }
-}
-
-.art-container {
-  margin-bottom: 20px;
-
-  img {
-    width: 100%;
-  }
 }
 
 .character-icon {

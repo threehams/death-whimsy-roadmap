@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = ['Character', function(Character) {
+module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, Sprite, DesignSequence) {
   return {
     restrict: 'E',
     scope: {
@@ -17,51 +17,6 @@ module.exports = ['Character', function(Character) {
       var canvas = element[0];
       var context = canvas.getContext('2d');
       var morgan;
-
-      function Sprite(opts) {
-        this.context = opts.context;
-        this.image = opts.image;
-        this.width = this.image.width;
-        this.height = this.image.height;
-        this.frameIndex = 0;
-        this.tickCount = 0;
-        this.ticksPerFrame = this.ticksPerFrame || 1;
-        this.frameCount = opts.frameCount;
-      }
-
-      Sprite.prototype.reset = function() {
-        this.frameIndex = 0;
-        this.tickCount = 0;
-      };
-
-      Sprite.prototype.update = function() {
-        this.tickCount += 1;
-        if (this.tickCount > this.ticksPerFrame) {
-          this.tickCount = 0;
-
-          if (this.frameIndex < this.frameCount - 1) {
-            this.frameIndex += 1;
-          } else {
-            this.frameIndex = 0;
-          }
-        }
-      };
-
-      Sprite.prototype.render = function(x, y) {
-        var that = this;
-
-        this.context.drawImage(
-          that.image,
-          that.frameIndex * (that.width / that.frameCount),
-          0,
-          that.width / that.frameCount,
-          that.height,
-          Math.floor(x),
-          Math.floor(y),
-          that.width / that.frameCount,
-          that.height
-        );
-      };
 
       function showCompletion(text) {
         context.fillStyle = 'rgba(255, 255, 255, 0.5)';
@@ -80,68 +35,21 @@ module.exports = ['Character', function(Character) {
 
       var step = 1;
 
+      var sequence = DesignSequence[10];
+
       function loop() {
         context.clearRect(0, 0, canvas.width, canvas.height);
-        if (sequence2[step](morgan)) {
+        if (sequence[step](morgan)) {
           step++;
         }
 
         morgan.update();
         morgan.render();
 
-        if (sequence2[step]) {
+        if (sequence[step]) {
           window.requestAnimationFrame(loop);
         }
       }
-
-      var sequence1 = {
-        1: function(morgan) {
-          if (morgan.x > 130) {
-            morgan.setState('jumping');
-            return true;
-          }
-          return false;
-        },
-        2: function(morgan) {
-          if (morgan.y > 580) {
-            showCompletion('JUST STARTED');
-            return true;
-          }
-          return false;
-        }
-      };
-
-      var sequence2 = {
-        1: function(morgan) {
-          if (morgan.x > 130) {
-            morgan.setState('jumping');
-            return true;
-          }
-          return false;
-        },
-        2: function(morgan) {
-          if (morgan.y > 416) {
-            morgan.setState('idle');
-            morgan.setState('running');
-            return true;
-          }
-          return false;
-        },
-        3: function(morgan) {
-          if (morgan.x > 390) {
-            morgan.setState('jumping');
-            return true;
-          }
-          return false;
-        },
-        4: function(morgan) {
-          if (morgan.y > 580) {
-            showCompletion('GETTING THERE');
-            return true;
-          }
-          return false;
-        }
-      };
 
       scope.$watch('vm.morganSrc', function(newValue) {
         if (!newValue) return;

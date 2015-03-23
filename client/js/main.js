@@ -22,6 +22,8 @@ app.controller('DesignCanvasController', require('./components/design-canvas/des
 // resources
 app.factory('ProgressService', require('./services/progress-service'));
 app.factory('Character', require('./services/character-service'));
+app.factory('Sprite', require('./services/sprite-service'));
+app.factory('DesignSequence', require('./services/design-sequence-service'));
 
 app.config([
   '$locationProvider',
