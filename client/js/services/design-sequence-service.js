@@ -97,7 +97,7 @@ function DesignSequenceService() {
       }
     },
     10: function(morgan) {
-      if (morgan.x > 580) {
+      if (morgan.x > 600) {
         morgan.setState('running');
         morgan.setState('falling');
         return true;
@@ -132,7 +132,8 @@ function DesignSequenceService() {
         console.log('BLAM');
         return true;
       }
-    }
+    },
+    complete: {text: 'DONE!', x: 350, y: 340}
   };
 
   return sequences;

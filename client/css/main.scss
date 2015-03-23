@@ -3,6 +3,7 @@
 @import 'mixins';
 @import '../js/components/progress-bar/progress-bar-style';
 @import '../js/components/design-canvas/design-canvas-style';
+@import '../js/components/bugs-canvas/bugs-canvas-style';
 
 $container-margin: 0px auto 20px auto;
 
@@ -19,19 +20,20 @@ body {
 
 .header {
   padding: 20px;
-  background-color: $tertiary;
-//  border: 2px solid $secondary;
+  background-color: $dark-grey;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 1);
 }
 
 .header-title {
   margin: 5px 20px;
   font-size: 30px;
-  color: $black;
+  text-transform: uppercase;
+  color: $light-grey;
 }
 
 .sprint-title {
@@ -50,47 +52,19 @@ body {
   text-align: center;
 }
 
-.bugs-container {
+.main-container {
   margin: $container-margin;
   width: 98%;
 
-  img {
-    width: 100%;
-  }
-}
-
-.code-container {
-  margin: $container-margin;
-  width: 98%;
-
-  img {
-    width: 100%;
-  }
-}
-
-.design-container {
-  margin: $container-margin;
-  width: 98%;
-//  border: 1px solid rgba(0, 0, 0, 0.2);
-
-//  border-radius: 4px 4px 0 0;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 1);
 
 
   img {
+    display: block;
     width: 100%;
   }
   canvas {
     display: block;
-  }
-}
-
-.art-container {
-  margin: $container-margin;
-  width: 98%;
-
-  img {
-    width: 100%;
   }
 }
 

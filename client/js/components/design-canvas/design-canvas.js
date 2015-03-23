@@ -18,7 +18,7 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, S
       var context = canvas.getContext('2d');
       var morgan;
 
-      function showCompletion(text) {
+      function showCompletion(message) {
         context.fillStyle = 'rgba(255, 255, 255, 0.5)';
         context.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -29,7 +29,7 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, S
         }, 700);
         setTimeout(function() {
           context.font = '100px Open Sans';
-          context.fillText(text, 120, 340);
+          context.fillText(message.text, message.x, message.y);
         }, 1400);
       }
 
@@ -48,6 +48,8 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, S
 
         if (sequence[step]) {
           window.requestAnimationFrame(loop);
+        } else {
+          showCompletion(sequence.complete);
         }
       }
 

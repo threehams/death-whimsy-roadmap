@@ -18,6 +18,8 @@ app.directive('progressBar', require('./components/progress-bar/progress-bar'));
 app.controller('ProgressBarController', require('./components/progress-bar/progress-bar-controller.js'));
 app.directive('designCanvas', require('./components/design-canvas/design-canvas'));
 app.controller('DesignCanvasController', require('./components/design-canvas/design-canvas-controller.js'));
+app.directive('bugsCanvas', require('./components/bugs-canvas/bugs-canvas'));
+app.controller('BugsCanvasController', require('./components/bugs-canvas/bugs-canvas-controller.js'));
 
 // resources
 app.factory('ProgressService', require('./services/progress-service'));
