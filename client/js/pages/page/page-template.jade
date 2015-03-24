@@ -1,52 +1,46 @@
-//header.sprint-title Current Sprint: {{ ::vm.sprint.name }} ({{ ::vm.sprint.startDate | date:'shortDate' }} - {{ ::vm.sprint.endDate | date:'shortDate' }})
+slideshow(slide-states='vm.slideStates')
+  section.slideshow-slide.summary-container(auto-height)
+    header.header
+      img.header-logo(src='/img/logo-150.png')
+      span.header-title Progress
 
-.slideshow-overflow
-  .slideshow-container
-    section.slideshow-slide.summary-container(auto-height)
-      header.header
-        img.header-logo(src='/img/logo-200.png')
-        span.header-title Progress
+    .section-title Here's what we're working on right now!
 
-      section.progress-bar-container
-        progress-bar(
-          title="vm.sprint.formattedTitle",
-          bar-min='0', bar-max='100', current='vm.progress.sprint.all'
-        )
+    section.progress-bar-container
+      progress-bar(title='"Morgan Animations"', bar-min='0', bar-max='100', current='20')
+      progress-bar(title='"Mason Implementation"', bar-min='0', bar-max='100', current='25')
+      progress-bar(title='"Website"', bar-min='0', bar-max='100', current='50')
+      progress-bar(title='"Caverns Level Art"', bar-min='0', bar-max='100', current='39')
+      progress-bar(title='"Roadmap"', bar-min='0', bar-max='100', current='2')
+      progress-bar(title='"Design"', bar-min='0', bar-max='100', current='90')
 
-      section.progress-bar-container
-        progress-bar(title='"Code!"', bar-min='0', bar-max='100', current='vm.progress.sprint.code')
-        progress-bar(title='"Art!"', bar-min='0', bar-max='100', current='vm.progress.sprint.art')
-        progress-bar(title='"Design!"', bar-min='0', bar-max='100', current='vm.progress.sprint.design')
-        progress-bar(title='"Bugs!"', bar-min='0', bar-max='100', current='vm.progress.sprint.bugs')
+  section.slideshow-slide.design-container(auto-height)
+    header.header
+      span.header-title Design
 
-    section.slideshow-slide.design-container(auto-height)
-      design-canvas
+    design-canvas(active='vm.slideStates[1].active')
 
-    //section.character-container
-      div.character-text
-        | "Fusce quis porttitor enim, eu vestibulum dui. Pellentesque turpis est, egestas laoreet vulputate blandit, ultrices a lectus. Mauris posuere."
-      div.character-icon
-        img(src='http://placehold.it/200x200&text=Michelle')
+  //section.character-container
+    .character-text
+      | "Fusce quis porttitor enim, eu vestibulum dui. Pellentesque turpis est, egestas laoreet vulputate blandit, ultrices a lectus. Mauris posuere."
+    .character-icon
+      img(src='http://placehold.it/200x200&text=Michelle')
 
-    section.slideshow-slide.art-container(auto-height)
-      img.main-image(src='/img/art-end.jpg')
+  section.slideshow-slide.art-container(auto-height)
+    header.header
+      span.header-title Art
 
-    //section.character-container
-      div.character-icon
-        img(src='http://placehold.it/200x200&text=Zach')
-      div.character-text
-        | "Morbi vel pharetra nibh, vitae mollis massa. Mauris scelerisque nibh eget ligula vulputate feugiat sit amet non nisl. Donec rhoncus posuere."
+    //video.main-image(src='/vid/art-timelapse-mobile.mp4', autoplay=true)
+    art-canvas(active='vm.slideStates[2].active')
 
-    //section.character-container
-      div.character-icon
-        img(src='http://placehold.it/200x200&text=Cindy')
-      div.character-text
-        | "Ut varius massa at mauris ornare vehicula. Phasellus volutpat, erat et mollis rhoncus, arcu lectus hendrerit nulla, quis finibus lectus sed."
+  section.slideshow-slide.code-container(auto-height)
+    header.header
+      span.header-title Code
 
-    section.slideshow-slide.code-container(auto-height)
-      img.main-image(src='http://placehold.it/1000x568&text=Code')
+    img.main-image(src='http://placehold.it/1000x568&text=Code')
 
-    section.slideshow-slide.bugs-container(auto-height)
-      bugs-canvas
-.slideshow-arrow-left(ng-click='vm.back()')
-.slideshow-arrow-right(ng-click='vm.forward()')
+  section.slideshow-slide.bugs-container(auto-height)
+    header.header
+      span.header-title Code
+
+    bugs-canvas(active='vm.slideStates[4].active')

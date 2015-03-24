@@ -4,9 +4,10 @@ require('angular');
 require('angular-route');
 require('angular-animate');
 require('angular-messages');
+require('angular-touch');
 global._ = require('lodash');
 
-var vendor = ['ngRoute', 'ngAnimate', 'ngMessages'];
+var vendor = ['ngRoute', 'ngAnimate', 'ngMessages', 'ngTouch'];
 var components = [];
 var app = angular.module('SampleApp', vendor.concat(components));
 
@@ -20,6 +21,12 @@ app.directive('designCanvas', require('./components/design-canvas/design-canvas'
 app.controller('DesignCanvasController', require('./components/design-canvas/design-canvas-controller.js'));
 app.directive('bugsCanvas', require('./components/bugs-canvas/bugs-canvas'));
 app.controller('BugsCanvasController', require('./components/bugs-canvas/bugs-canvas-controller.js'));
+app.directive('slideshow', require('./components/slideshow/slideshow'));
+app.controller('SlideshowController', require('./components/slideshow/slideshow-controller.js'));
+app.directive('artCanvas', require('./components/art-canvas/art-canvas'));
+app.controller('ArtCanvasController', require('./components/art-canvas/art-canvas-controller.js'));
+
+// components with no controller
 app.directive('autoHeight', require('./components/auto-height/auto-height.js'));
 
 // resources

@@ -4,9 +4,7 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, S
   return {
     restrict: 'E',
     scope: {
-      current: '=',
-      barMax: '=',
-      barMin: '='
+      active: '='
     },
     replace: true,
     template: require('./design-canvas-template.jade'),
@@ -18,26 +16,16 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, S
       var context = canvas.getContext('2d');
       var morgan;
 
-      function showCompletion(message) {
-        context.fillStyle = 'rgba(255, 255, 255, 0.5)';
-        context.fillRect(0, 0, canvas.width, canvas.height);
+      function showCompletion() {
 
-        context.fillStyle = 'black';
-        setTimeout(function() {
-          context.font = '60px Open Sans';
-          context.fillText('DESIGN STATUS:', 270, 240);
-        }, 700);
-        setTimeout(function() {
-          context.font = '100px Open Sans';
-          context.fillText(message.text, message.x, message.y);
-        }, 1400);
       }
 
       var step = 1;
 
       var sequence = DesignSequence[10];
 
-      function loop() {
+      scope.vm.loop = function() {
+        if (!sequence[step]) return;
         context.clearRect(0, 0, canvas.width, canvas.height);
         if (sequence[step](morgan)) {
           step++;
@@ -46,12 +34,18 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, S
         morgan.update();
         morgan.render();
 
-        if (sequence[step]) {
-          window.requestAnimationFrame(loop);
+        if (sequence[step] && scope.vm.active) {
+          window.requestAnimationFrame(scope.vm.loop);
         } else {
           showCompletion(sequence.complete);
         }
-      }
+      };
+
+      scope.$watch('vm.active', function(newValue) {
+        if (newValue) {
+          scope.vm.loop();
+        }
+      });
 
       scope.$watch('vm.morganSrc', function(newValue) {
         if (!newValue) return;
@@ -72,7 +66,9 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, S
             });
 
             morgan.setState('running');
-            loop();
+            if (scope.vm.active) {
+              scope.vm.loop();
+            }
           }
         }
         var morganRun = new Image();

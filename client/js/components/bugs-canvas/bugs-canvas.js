@@ -4,9 +4,7 @@ module.exports = [function() {
   return {
     restrict: 'E',
     scope: {
-      current: '=',
-      barMax: '=',
-      barMin: '='
+      active: '='
     },
     replace: true,
     template: require('./bugs-canvas-template.jade'),
@@ -32,9 +30,9 @@ module.exports = [function() {
         );
       }
 
-      var progress = -1000;
+      var progress = -1500;
 
-      function loop() {
+      scope.vm.loop = function() {
         context.clearRect(0, 0, canvas.width, canvas.height);
         if (progress > 0) {
           showBugsImage();
@@ -45,9 +43,15 @@ module.exports = [function() {
         progress += 12;
 
         if (progress < 1050) {
-          window.requestAnimationFrame(loop);
+          window.requestAnimationFrame(scope.vm.loop);
         }
-      }
+      };
+
+      scope.$watch('vm.active', function(newValue) {
+        if (newValue) {
+          scope.vm.loop();
+        }
+      });
 
       scope.$watch('vm.bugsSrc', function(newValue) {
         if (!newValue) return;
@@ -55,7 +59,9 @@ module.exports = [function() {
         bugsImage = new Image();
 
         bugsImage.onload = function() {
-          loop();
+          if (scope.vm.active) {
+            scope.vm.loop();
+          }
         };
         bugsImage.src = newValue;
       });

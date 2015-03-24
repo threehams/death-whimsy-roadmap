@@ -1,0 +1,5 @@
+.slideshow-overflow
+  .slideshow-container
+    ng-transclude(ng-swipe-right='vm.back()', ng-swipe-left='vm.forward()')
+  .slideshow-arrow-left(ng-click='vm.back()')
+  .slideshow-arrow-right.enabled(ng-click='vm.forward()')

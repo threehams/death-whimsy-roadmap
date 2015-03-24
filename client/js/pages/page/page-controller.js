@@ -19,17 +19,20 @@ module.exports = ['ProgressService', '$timeout', '$filter', function (ProgressSe
     });
   }
 
-  vm.forward = function() {
-    if (vm.slide === 4) return;
-    vm.slide++;
-    document.querySelector('.slideshow-container').style['margin-left'] = (vm.slide * -100).toString() + '%';
-  };
-
-  vm.back = function() {
-    if (vm.slide === 0) return;
-    vm.slide--;
-    document.querySelector('.slideshow-container').style['margin-left'] = (vm.slide * -100).toString() + '%';
-  };
-
   getProgress();
+
+  vm.slideStates = {
+    1: {
+      active: false,
+      progress: 0
+    },
+    2: {
+      active: false,
+      progress: 0
+    },
+    4: {
+      active: false,
+      progress: 0
+    }
+  };
 }];

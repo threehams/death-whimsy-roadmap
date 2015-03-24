@@ -64,6 +64,7 @@ function buildVendor() {
     .require('angular-route')
     .require('angular-animate')
     .require('angular-messages')
+    .require('angular-touch')
     .bundle()
     .pipe(source('vendor.js'));
 }
@@ -76,6 +77,7 @@ gulp.task('deploy-bundle', function() {
     .external('angular-route')
     .external('angular-animate')
     .external('angular-messages')
+    .external('angular-touch')
     .transform(jadeify)
     .bundle()
     .pipe(source('main.js'))
@@ -94,7 +96,7 @@ gulp.task('watch', function () {
   });
 
   gulp.watch('client/**/*.scss', ['sass']);
-  gulp.watch(['client/**/*.html', 'client/**/*.css', 'client/img/*.*'], ['copy-static-files']);
+  gulp.watch(['client/**/*.html', 'client/**/*.css', 'client/img/*.*', 'client/vid/*.*'], ['copy-static-files']);
   gulp.watch('server/**/*.js', ['mocha']);
 
   bundler
@@ -104,6 +106,7 @@ gulp.task('watch', function () {
     .external('angular-route')
     .external('angular-animate')
     .external('angular-messages')
+    .external('angular-touch')
     .transform(jadeify)
     .on('update', rebundle);
   return rebundle();
@@ -121,7 +124,7 @@ gulp.task('watch', function () {
   }
 });
 gulp.task('copy-static-files', function () {
-  return gulp.src(['./client/**/*.html', './client/**/*.css', 'client/**/*.png', 'client/**/*.jpg'])
+  return gulp.src(['./client/**/*.html', './client/**/*.css', 'client/**/*.png', 'client/**/*.jpg', 'client/**/*.mp4'])
     .pipe(gulp.dest('dist/'))
     .pipe(reload({stream: true}));
 });
