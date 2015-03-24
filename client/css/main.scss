@@ -1,12 +1,6 @@
 @import 'constants';
 @import 'base';
 @import 'mixins';
-@import '../js/components/progress-bar/progress-bar-style';
-@import '../js/components/design-canvas/design-canvas-style';
-@import '../js/components/bugs-canvas/bugs-canvas-style';
-@import '../js/components/slideshow/slideshow-style';
-@import '../js/components/art-canvas/art-canvas-style';
-
 
 .arrow-right {
   position: absolute;
@@ -19,15 +13,30 @@ body {
 }
 
 .header {
-  padding: 10px;
-  height: 20%;
+  padding: 0;
   background-color: $dark-grey;
+  font-size: 30px;
+  text-transform: uppercase;
+  color: $light-grey;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-//  margin-bottom: 40px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 1);
+  box-shadow: $element-shadow;
+}
+
+.header-subpage {
+  float: left;
+  padding: 5px 15px;
+  background-color: $dark-grey;
+  font-size: 30px;
+  text-transform: uppercase;
+  color: $light-grey;
+  box-shadow: $element-shadow;
+
+  @include desktop {
+    float: none;
+  }
 }
 
 .main-image {
@@ -35,24 +44,20 @@ body {
   display: block;
 }
 
-.header-title {
-  margin: 5px 5px;
-  font-size: 30px;
-  text-transform: uppercase;
-  color: $light-grey;
-}
-
 .total-progress-container {
-  padding: 5px;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .total-progress-bar {
-  width: 94%;
   box-sizing: border-box;
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 
 .total-progress-title {
-  width: 6%;
   display: inline-block;
   color: $dark-grey;
   font-size: 20px;
@@ -61,14 +66,16 @@ body {
 }
 
 .total-progress-description {
+  width: 100%;
   color: $dark-grey;
-  padding: 10px;
-  opacity: 0;
+  padding: 0;
+  opacity: 1;
   transition-property: opacity;
   transition-duration: 0.3s;
 
-  &.show {
-    opacity: 1;
+  &.ng-hide {
+    display: block !important;
+    opacity: 0;
   }
 }
 
@@ -109,3 +116,9 @@ body {
   margin: 4px;
   padding: 10px;
 }
+
+@import '../js/components/progress-bar/progress-bar-style';
+@import '../js/components/design-canvas/design-canvas-style';
+@import '../js/components/bugs-canvas/bugs-canvas-style';
+@import '../js/components/slideshow/slideshow-style';
+@import '../js/components/art-canvas/art-canvas-style';

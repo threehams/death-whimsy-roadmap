@@ -1,8 +1,8 @@
 slideshow(slide-states='vm.slideStates')
   section.slideshow-slide.summary-container(auto-height)
     header.header
-      img.header-logo(src='/img/logo-150.png')
-      span.header-title Progress
+      img(src='/img/logo-150.png')
+      span Progress
 
     //.section-title
 
@@ -15,8 +15,8 @@ slideshow(slide-states='vm.slideStates')
       progress-bar(title='"Design"', bar-min='0', bar-max='100', current='90')
 
   section.slideshow-slide.design-container(auto-height)
-    header.header
-      span.header-title Design
+    header.header-subpage
+      span Design
 
     design-canvas(active='vm.slideStates[1].active')
 
@@ -27,19 +27,19 @@ slideshow(slide-states='vm.slideStates')
       img(src='http://placehold.it/200x200&text=Michelle')
 
   section.slideshow-slide.art-container(auto-height)
-    header.header
-      span.header-title Art
+    header.header-subpage
+      span Art
 
     art-canvas(active='vm.slideStates[2].active')
 
   section.slideshow-slide.code-container(auto-height)
-    header.header
-      span.header-title Code
+    header.header-subpage
+      span Code
 
     img.main-image(src='http://placehold.it/1000x568&text=Code')
 
   section.slideshow-slide.bugs-container(auto-height)
-    header.header
-      span.header-title Bugs
+    header.header-subpage
+      span Bugs
 
     bugs-canvas(active='vm.slideStates[4].active')

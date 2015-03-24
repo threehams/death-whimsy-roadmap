@@ -15,9 +15,11 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, S
       var canvas = element[0].querySelector('.design-canvas');
       var context = canvas.getContext('2d');
       var morgan;
+      var progress = 0;
 
       function showCompletion() {
         scope.vm.progressDone = true;
+        scope.$digest();
       }
 
       var step = 1;
@@ -25,7 +27,11 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, S
       var sequence = DesignSequence[10];
 
       scope.vm.loop = function() {
-        if (!sequence[step]) return;
+        if (!sequence[step]) {
+          showCompletion(sequence.complete);
+          return;
+        }
+
         context.clearRect(0, 0, canvas.width, canvas.height);
         if (sequence[step](morgan)) {
           step++;
@@ -34,10 +40,12 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, S
         morgan.update();
         morgan.render();
 
-        if (sequence[step] && scope.vm.active) {
+        progress++;
+        scope.vm.progress = progress * (scope.vm.currentProgress / sequence.frames);
+
+        if (scope.vm.active) {
           window.requestAnimationFrame(scope.vm.loop);
-        } else {
-          showCompletion(sequence.complete);
+          scope.$digest();
         }
       };
 

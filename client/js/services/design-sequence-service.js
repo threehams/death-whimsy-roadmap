@@ -132,7 +132,8 @@ function DesignSequenceService() {
         return true;
       }
     },
-    complete: {text: 'DONE!', x: 350, y: 340}
+    complete: {text: 'DONE!', x: 350, y: 340},
+    frames: 363
   };
 
   return sequences;

@@ -2,7 +2,7 @@ div
   .total-progress-container
     span.total-progress-title {{vm.progress | number: 0}}%
     progress.total-progress-bar(min=0, max=100, value='{{vm.progress}}')
-    div.total-progress-description(ng-class='{show: vm.progressDone}') Animation is complete for Morgan, Death, Earthworm Richard, and five enemies in
+    div.total-progress-description(ng-show='vm.progressDone') Animation is complete for Morgan, Death, Earthworm Richard, and five enemies in
       | the caverns, along with first-pass art on the backgrounds and tiles for the Caverns!
   canvas.art-canvas(width=1000, height=563)
   video.art-video(src='/vid/art-timelapse.mp4', preload='none')

@@ -1,15 +1,11 @@
 .bugs-title {
-  padding: 10px;
-  width: 50%;
-  display: inline-block;
+  @extend .total-progress-title;
   color: red;
-  font-size: 20px;
-  padding-right: 5px;
-  box-sizing: border-box;
 }
 
 .bugs-canvas {
   width: 100%;
   background-image: url('/img/bugs-1.jpg');
   background-size: 100% 100%;
+  box-shadow: $element-shadow;
 }
