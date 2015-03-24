@@ -12,7 +12,7 @@ module.exports = [function() {
     controllerAs: 'vm',
     bindToController: true,
     link: function(scope, element) {
-      var canvas = element[0];
+      var canvas = element[0].querySelector('.bugs-canvas');
       var context = canvas.getContext('2d');
       var bugsImage;
 
@@ -43,7 +43,12 @@ module.exports = [function() {
         progress += 12;
 
         if (progress < 1050) {
-          window.requestAnimationFrame(scope.vm.loop);
+          if (scope.vm.active) {
+            window.requestAnimationFrame(scope.vm.loop);
+          }
+        } else {
+          scope.vm.progressDone = true;
+          scope.$digest();
         }
       };
 

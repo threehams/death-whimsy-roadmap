@@ -1,1 +1,7 @@
-canvas.bugs-canvas(width=1000, height=563)
+div
+  .total-progress-container
+    span.bugs-title There are bugs.
+    //progress.total-progress-bar(min=0, max=100, value='{{vm.progress}}')
+    div.total-progress-description(ng-class='{show: vm.progressDone}') Bugs currently make up 18% of all open issues.
+      | We're working on it!
+  canvas.bugs-canvas(width=1000, height=563)

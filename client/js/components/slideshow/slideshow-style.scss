@@ -22,12 +22,12 @@
 
 .slideshow-arrow-left {
   position: fixed;
-  right: 80px;
+  right: 100px;
   bottom: 50px;
   width: 0;
   height: 0;
   border-bottom: 20px solid transparent;
-  border-right: 20px solid $dark-grey;
+  border-right: 20px solid $primary;
   border-top: 20px solid transparent;
   cursor: auto;
   opacity: 0.2;
@@ -47,12 +47,12 @@
 
 .slideshow-arrow-right {
   position: fixed;
-  right: 30px;
+  right: 50px;
   bottom: 50px;
   width: 0;
   height: 0;
   border-bottom: 20px solid transparent;
-  border-left: 20px solid $dark-grey;
+  border-left: 20px solid $primary;
   border-top: 20px solid transparent;
   cursor: auto;
   opacity: 0.2;
@@ -60,9 +60,9 @@
   transition-property: all;
   transition-delay: 0s;
 
-  &.enabled:hover {
-    border-left-color: $primary;
-  }
+//  &.enabled:hover {
+  //    border-left-color: $primary;
+  //  }
 
   &.enabled {
     opacity: 1;
