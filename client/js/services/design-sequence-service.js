@@ -129,7 +129,6 @@ function DesignSequenceService() {
     },
     15: function(morgan) {
       if (morgan.x > 1000) {
-        console.log('BLAM');
         return true;
       }
     },

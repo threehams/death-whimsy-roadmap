@@ -18,10 +18,6 @@ module.exports = [function() {
       var context = canvas.getContext('2d');
       var bugsImage;
 
-      //window.addEventListener('scroll', function(event) {
-      //  console.log(element);
-      //});
-
       function showBugsImage() {
         context.drawImage(
           bugsImage,

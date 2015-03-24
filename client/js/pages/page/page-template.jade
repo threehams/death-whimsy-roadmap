@@ -1,55 +1,52 @@
-header.header
-  img.header-logo(src='/img/logo-200.png')
-  span.header-title The Deathmap
-
 //header.sprint-title Current Sprint: {{ ::vm.sprint.name }} ({{ ::vm.sprint.startDate | date:'shortDate' }} - {{ ::vm.sprint.endDate | date:'shortDate' }})
 
-div.body-container
-  section.progress-bar-container
-    progress-bar(
-      title="vm.sprint.formattedTitle",
-      bar-min='0', bar-max='100', current='vm.progress.sprint.all'
-    )
+.slideshow-overflow
+  .slideshow-container
+    section.slideshow-slide.summary-container(auto-height)
+      header.header
+        img.header-logo(src='/img/logo-200.png')
+        span.header-title Progress
 
-  section.progress-bar-container
-    progress-bar(title='"Code!"', bar-min='0', bar-max='100', current='vm.progress.sprint.code')
-    progress-bar(title='"Art!"', bar-min='0', bar-max='100', current='vm.progress.sprint.art')
-    progress-bar(title='"Design!"', bar-min='0', bar-max='100', current='vm.progress.sprint.design')
-    progress-bar(title='"Bugs!"', bar-min='0', bar-max='100', current='vm.progress.sprint.bugs')
+      section.progress-bar-container
+        progress-bar(
+          title="vm.sprint.formattedTitle",
+          bar-min='0', bar-max='100', current='vm.progress.sprint.all'
+        )
 
-  section.main-container
-    //.section-title Design status!
-    design-canvas
+      section.progress-bar-container
+        progress-bar(title='"Code!"', bar-min='0', bar-max='100', current='vm.progress.sprint.code')
+        progress-bar(title='"Art!"', bar-min='0', bar-max='100', current='vm.progress.sprint.art')
+        progress-bar(title='"Design!"', bar-min='0', bar-max='100', current='vm.progress.sprint.design')
+        progress-bar(title='"Bugs!"', bar-min='0', bar-max='100', current='vm.progress.sprint.bugs')
 
-  section.upcoming-container
-    // Stuff from the current sprint which is in progress
-    div.upcoming-group
-      div.upcoming
+    section.slideshow-slide.design-container(auto-height)
+      design-canvas
 
-  //section.character-container
-    div.character-text
-      | "Fusce quis porttitor enim, eu vestibulum dui. Pellentesque turpis est, egestas laoreet vulputate blandit, ultrices a lectus. Mauris posuere."
-    div.character-icon
-      img(src='http://placehold.it/200x200&text=Michelle')
+    //section.character-container
+      div.character-text
+        | "Fusce quis porttitor enim, eu vestibulum dui. Pellentesque turpis est, egestas laoreet vulputate blandit, ultrices a lectus. Mauris posuere."
+      div.character-icon
+        img(src='http://placehold.it/200x200&text=Michelle')
 
-  section.main-container
-    img(src='/img/art-end.jpg')
+    section.slideshow-slide.art-container(auto-height)
+      img.main-image(src='/img/art-end.jpg')
 
-  //section.character-container
-    div.character-icon
-      img(src='http://placehold.it/200x200&text=Zach')
-    div.character-text
-      | "Morbi vel pharetra nibh, vitae mollis massa. Mauris scelerisque nibh eget ligula vulputate feugiat sit amet non nisl. Donec rhoncus posuere."
+    //section.character-container
+      div.character-icon
+        img(src='http://placehold.it/200x200&text=Zach')
+      div.character-text
+        | "Morbi vel pharetra nibh, vitae mollis massa. Mauris scelerisque nibh eget ligula vulputate feugiat sit amet non nisl. Donec rhoncus posuere."
 
-  //section.character-container
-    div.character-icon
-      img(src='http://placehold.it/200x200&text=Cindy')
-    div.character-text
-      | "Ut varius massa at mauris ornare vehicula. Phasellus volutpat, erat et mollis rhoncus, arcu lectus hendrerit nulla, quis finibus lectus sed."
+    //section.character-container
+      div.character-icon
+        img(src='http://placehold.it/200x200&text=Cindy')
+      div.character-text
+        | "Ut varius massa at mauris ornare vehicula. Phasellus volutpat, erat et mollis rhoncus, arcu lectus hendrerit nulla, quis finibus lectus sed."
 
-  section.main-container
-    //component(ng-repeat='box in vm.codeBoxes' color='::box.color')
-    img(src='http://placehold.it/1000x568&text=Code')
+    section.slideshow-slide.code-container(auto-height)
+      img.main-image(src='http://placehold.it/1000x568&text=Code')
 
-  section.main-container
-    bugs-canvas
+    section.slideshow-slide.bugs-container(auto-height)
+      bugs-canvas
+.slideshow-arrow-left(ng-click='vm.back()')
+.slideshow-arrow-right(ng-click='vm.forward()')

@@ -20,6 +20,7 @@ app.directive('designCanvas', require('./components/design-canvas/design-canvas'
 app.controller('DesignCanvasController', require('./components/design-canvas/design-canvas-controller.js'));
 app.directive('bugsCanvas', require('./components/bugs-canvas/bugs-canvas'));
 app.controller('BugsCanvasController', require('./components/bugs-canvas/bugs-canvas-controller.js'));
+app.directive('autoHeight', require('./components/auto-height/auto-height.js'));
 
 // resources
 app.factory('ProgressService', require('./services/progress-service'));

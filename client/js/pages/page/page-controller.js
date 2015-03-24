@@ -3,6 +3,8 @@
 module.exports = ['ProgressService', '$timeout', '$filter', function (ProgressService, $timeout, $filter) {
   var vm = this;
 
+  vm.slide = 0;
+
   function getProgress() {
     ProgressService.index().then(function(data) {
       vm.progress = data.progress;
@@ -16,6 +18,18 @@ module.exports = ['ProgressService', '$timeout', '$filter', function (ProgressSe
       $timeout(getProgress, 60000);
     });
   }
+
+  vm.forward = function() {
+    if (vm.slide === 4) return;
+    vm.slide++;
+    document.querySelector('.slideshow-container').style['margin-left'] = (vm.slide * -100).toString() + '%';
+  };
+
+  vm.back = function() {
+    if (vm.slide === 0) return;
+    vm.slide--;
+    document.querySelector('.slideshow-container').style['margin-left'] = (vm.slide * -100).toString() + '%';
+  };
 
   getProgress();
 }];
