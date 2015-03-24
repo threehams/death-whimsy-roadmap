@@ -21,6 +21,7 @@ module.exports = ['ProgressService', '$timeout', '$filter', function (ProgressSe
 
   getProgress();
 
+  vm.preloadVideo = true;
   vm.slideStates = {
     1: {
       active: false,

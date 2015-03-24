@@ -12,7 +12,8 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, S
     controllerAs: 'vm',
     bindToController: true,
     link: function(scope, element) {
-      var canvas = element[0];
+      var canvas = element[0].querySelector('canvas');
+      var video = element[0].querySelector('video');
       var context = canvas.getContext('2d');
       var timelapseImage;
       var frame = 0;
@@ -41,14 +42,17 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, S
       scope.vm.loop = function() {
         drawTimelapse();
 
-        if (frame < frames) {
+        if (frame < frames && scope.vm.active) {
           window.requestAnimationFrame(scope.vm.loop);
         }
       };
 
       scope.$watch('vm.active', function(newValue) {
         if (newValue) {
+          video.play();
           scope.vm.loop();
+        } else {
+          video.pause();
         }
       });
 
