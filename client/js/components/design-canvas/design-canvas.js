@@ -12,12 +12,12 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, S
     controllerAs: 'vm',
     bindToController: true,
     link: function(scope, element) {
-      var canvas = element[0];
+      var canvas = element[0].querySelector('.design-canvas');
       var context = canvas.getContext('2d');
       var morgan;
 
       function showCompletion() {
-
+        scope.vm.progressDone = true;
       }
 
       var step = 1;
