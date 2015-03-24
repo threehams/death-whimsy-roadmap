@@ -4,7 +4,7 @@ slideshow(slide-states='vm.slideStates')
       img.header-logo(src='/img/logo-150.png')
       span.header-title Progress
 
-    .section-title Here's what we're working on right now!
+    //.section-title
 
     section.progress-bar-container
       progress-bar(title='"Morgan Animations"', bar-min='0', bar-max='100', current='20')
@@ -40,6 +40,6 @@ slideshow(slide-states='vm.slideStates')
 
   section.slideshow-slide.bugs-container(auto-height)
     header.header
-      span.header-title Code
+      span.header-title Bugs
 
     bugs-canvas(active='vm.slideStates[4].active')

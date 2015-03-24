@@ -9,6 +9,7 @@
 
 .art-canvas {
   width: 100%;
+  display: block;
 
   @include desktop {
     display: none;

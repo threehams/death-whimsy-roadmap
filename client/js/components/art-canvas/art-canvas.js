@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, Sprite, DesignSequence) {
+module.exports = ['Character', 'Sprite', 'DesignSequence', '$window', function(Character, Sprite, DesignSequence, $window) {
   return {
     restrict: 'E',
     scope: {
@@ -17,6 +17,7 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, S
       var context = canvas.getContext('2d');
       var timelapseImage;
       var frame = 0;
+      var progress = 0;
       var frames = 98;
       var framesPerSecond = 5;
       var tick = 0;
@@ -42,8 +43,17 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, S
       scope.vm.loop = function() {
         drawTimelapse();
 
+        if (frame !== progress) {
+          progress = frame;
+          scope.vm.progress = progress * (scope.vm.currentProgress / frames);
+        }
+
         if (frame < frames && scope.vm.active) {
-          window.requestAnimationFrame(scope.vm.loop);
+          $window.requestAnimationFrame(scope.vm.loop);
+          scope.$digest();
+        } else {
+          scope.vm.progressDone = true;
+          scope.$digest();
         }
       };
 

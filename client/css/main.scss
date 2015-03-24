@@ -26,7 +26,7 @@ body {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  margin-bottom: 40px;
+//  margin-bottom: 40px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 1);
 }
 
@@ -42,12 +42,34 @@ body {
   color: $light-grey;
 }
 
-.sprint-title {
-  text-align: center;
-  color: $primary;
-  font-size: 18px;
-  font-weight: 800;
-  margin: 20px 0;
+.total-progress-container {
+  padding: 5px;
+}
+
+.total-progress-bar {
+  width: 94%;
+  box-sizing: border-box;
+}
+
+.total-progress-title {
+  width: 6%;
+  display: inline-block;
+  color: $dark-grey;
+  font-size: 20px;
+  padding-right: 5px;
+  box-sizing: border-box;
+}
+
+.total-progress-description {
+  color: $dark-grey;
+  padding: 10px;
+  opacity: 0;
+  transition-property: opacity;
+  transition-duration: 0.3s;
+
+  &.show {
+    opacity: 1;
+  }
 }
 
 .section-title {
