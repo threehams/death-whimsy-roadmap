@@ -27,12 +27,12 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, S
       var sequence = DesignSequence[10];
 
       scope.vm.loop = function() {
+        context.clearRect(morgan.x - 2, morgan.y - 2, morgan.x + 2, morgan.y + 2);
         if (!sequence[step]) {
           showCompletion(sequence.complete);
           return;
         }
 
-        context.clearRect(0, 0, canvas.width, canvas.height);
         if (sequence[step](morgan)) {
           step++;
         }

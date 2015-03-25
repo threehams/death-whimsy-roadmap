@@ -9,7 +9,7 @@ global._ = require('lodash');
 
 var vendor = ['ngRoute', 'ngAnimate', 'ngMessages', 'ngTouch'];
 var components = [];
-var app = angular.module('SampleApp', vendor.concat(components));
+var app = angular.module('DeathWhimsy', vendor.concat(components));
 
 // pages
 app.controller('PageController', require('./pages/page/page-controller.js'));

@@ -3,7 +3,7 @@
 describe('artCanvas', function() {
   var that = this;
 
-  beforeEach(angular.mock.module('SampleApp'));
+  beforeEach(angular.mock.module('DeathWhimsy'));
   beforeEach(inject(function ($rootScope, _$compile_) {
     that.$compile = _$compile_;
     that.scope = $rootScope.$new();

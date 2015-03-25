@@ -157,7 +157,7 @@ gulp.task('karma', function() {
 });
 
 gulp.task('default', function() {
-  runSequence('clean', 'build');
+  runSequence('clean', 'build', 'karma');
 });
 
 gulp.task('build',

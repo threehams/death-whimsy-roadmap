@@ -5,16 +5,16 @@ module.exports = function() {
   vm.slide = 0;
 
   vm.forward = function() {
-    if (vm.slide === 4) return;
-    if (vm.slideStates[vm.slide]) { vm.slideStates[vm.slide].active = false; }
+    if (vm.slide >= vm.slides.length) return;
+    vm.slides[vm.slide].active = false;
     vm.slide++;
-    if (vm.slideStates[vm.slide]) { vm.slideStates[vm.slide].active = true; }
+    vm.slides[vm.slide].active = true;
   };
 
   vm.back = function() {
-    if (vm.slide === 0) return;
-    if (vm.slideStates[vm.slide]) { vm.slideStates[vm.slide].active = false; }
+    if (vm.slide <= 0) return;
+    vm.slides[vm.slide].active = false;
     vm.slide--;
-    if (vm.slideStates[vm.slide]) { vm.slideStates[vm.slide].active = true; }
+    vm.slides[vm.slide].active = true;
   };
 };

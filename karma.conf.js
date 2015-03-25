@@ -14,7 +14,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'node_modules/lodash/dist/lodash.min.js',
+      'node_modules/lodash/index.js',
       'dist/js/vendor.js',
       'dist/js/main.js',
       'node_modules/angular-mocks/angular-mocks.js',
@@ -45,8 +45,8 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'client/**/*.html': ['ng-html2js'],
-      'client/**/*.js': ['sourcemap']
+      'client/**/*.html': ['ng-html2js']
+      //'client/**/*.js': ['sourcemap']
     },
 
     // test results reporter to use

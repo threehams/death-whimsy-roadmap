@@ -1,4 +1,4 @@
-slideshow(slide-states='vm.slideStates')
+slideshow(slides='vm.slides')
   section.slideshow-slide.summary-container(auto-height)
     header.header
       img(src='/img/logo-150.png')
@@ -18,7 +18,7 @@ slideshow(slide-states='vm.slideStates')
     header.header-subpage
       span Design
 
-    design-canvas(active='vm.slideStates[1].active')
+    design-canvas(active='vm.slides[1].active')
 
   //section.character-container
     .character-text
@@ -30,16 +30,16 @@ slideshow(slide-states='vm.slideStates')
     header.header-subpage
       span Art
 
-    art-canvas(active='vm.slideStates[2].active')
+    art-canvas(active='vm.slides[2].active')
 
   section.slideshow-slide.code-container(auto-height)
     header.header-subpage
       span Code
 
-    img.main-image(src='http://placehold.it/1000x568&text=Code')
+    //code-canvas(active='vm.slides[3].active')
 
   section.slideshow-slide.bugs-container(auto-height)
     header.header-subpage
       span Bugs
 
-    bugs-canvas(active='vm.slideStates[4].active')
+    bugs-canvas(active='vm.slides[4].active')

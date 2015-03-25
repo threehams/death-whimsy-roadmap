@@ -2,5 +2,5 @@ div
   .total-progress-container
     span.total-progress-title {{vm.progress | number: 0}}%
     progress.total-progress-bar(min=0, max=100, value='{{vm.progress}}')
-    span.total-progress-description(ng-show='vm.progressDone') All levels are complete and ready to ship! YEEEEHAWWWWWW
+    span.total-progress-description(ng-if='vm.progressDone') All levels are complete and ready to ship! YEEEEHAWWWWWW
   canvas.design-canvas(width=1000, height=563)
