@@ -3,15 +3,14 @@
 module.exports = ['$q', function($q) {
   return {
     load: function(src) {
-      var defer = $q.defer();
-      var image = new Image();
+      return $q(function(resolve, reject) {
+        var image = new Image();
 
-      image.onload = function() {
-        defer.resolve(image);
-      };
-      image.src = src;
-
-      return defer.promise;
+        image.onload = function() {
+          resolve(image);
+        };
+        image.src = src;
+      });
     }
   };
 }];

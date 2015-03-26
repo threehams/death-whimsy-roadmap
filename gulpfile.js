@@ -122,7 +122,7 @@ gulp.task('watch', function () {
       })
       .pipe(source('main.js'))
       .pipe(gulp.dest('./dist/js'))
-      .pipe(reload({stream: true}));
+      .pipe(reload({stream: true, once: true}));
   }
 });
 gulp.task('process-static-files', function () {
@@ -136,10 +136,10 @@ gulp.task('copy-static-files', function() {
 });
 
 gulp.task('process-png', function() {
+  console.log('Processing PNGs');
   return gulp.src(['./client/**/*.png'])
     .pipe(pngquant({quality: '65-80', speed: 4 })())
-    .pipe(gulp.dest('dist/'))
-    .pipe(reload({stream: true}));
+    .pipe(gulp.dest('dist/'));
 });
 gulp.task('connect-dist', function () {
   nodemon({
@@ -147,7 +147,10 @@ gulp.task('connect-dist', function () {
     env: {
       'PORT': 8888
     },
-    nodeArgs: ['--harmony-generators']
+    nodeArgs: ['--harmony-generators'],
+    watch: './server'
+  }).on('restart', function (files) {
+    console.log('App restarted due to: ', files);
   });
 });
 
