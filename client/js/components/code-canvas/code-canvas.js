@@ -68,8 +68,8 @@ module.exports = ['$window', '$q', 'ImagePreloadService', 'Sprite', function($wi
           iconY * 40,
           iconX + 40,
           iconY + 40,
-          x + 9,
-          y + 9,
+          x + 12,
+          y + 15,
           30,
           30
         );

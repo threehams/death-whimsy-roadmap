@@ -64,10 +64,10 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, S
           if (loaded === 2) {
             morgan = new Character({
               sprites: {
-                running: new Sprite({context: context, image: morganRun, frameCount: 18}),
+                running: new Sprite({context: context, image: morganRun, frameCount: 18, flippable: true}),
                 // TODO idle animation once it exists!
-                idle: new Sprite({context: context, image: morganRun, frameCount: 18}),
-                jumping: new Sprite({context: context, image: morganJump, frameCount: 18})
+                idle: new Sprite({context: context, image: morganRun, frameCount: 18, flippable: true}),
+                jumping: new Sprite({context: context, image: morganJump, frameCount: 18, flippable: true})
               },
               x: -50,
               y: 373
