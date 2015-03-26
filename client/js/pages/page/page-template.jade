@@ -1,10 +1,8 @@
-slideshow(slides='vm.slides')
+slideshow(slides='vm.slides', slide='::3')
   section.slideshow-slide.summary-container(auto-height)
     header.header
       img(src='/img/logo-150.png')
       span Progress
-
-    //.section-title
 
     section.progress-bar-container
       progress-bar(title='"Morgan Animations"', bar-min='0', bar-max='100', current='20')
@@ -36,7 +34,7 @@ slideshow(slides='vm.slides')
     header.header-subpage
       span Code
 
-    //code-canvas(active='vm.slides[3].active')
+    code-canvas(active='vm.slides[3].active')
 
   section.slideshow-slide.bugs-container(auto-height)
     header.header-subpage

@@ -15,7 +15,7 @@ body {
 .header {
   padding: 20px;
   background-color: $dark-grey;
-  font-size: 30px;
+  font-size: 26px;
   text-transform: uppercase;
   color: $light-grey;
   display: flex;
@@ -27,9 +27,9 @@ body {
 
 .header-subpage {
   float: left;
-  padding: 5px 15px;
+  padding: 2px 15px;
   background-color: $dark-grey;
-  font-size: 30px;
+  font-size: 24px;
   text-transform: uppercase;
   color: $light-grey;
   box-shadow: $element-shadow;
@@ -126,3 +126,4 @@ body {
 @import '../js/components/bugs-canvas/bugs-canvas-style';
 @import '../js/components/slideshow/slideshow-style';
 @import '../js/components/art-canvas/art-canvas-style';
+@import '../js/components/code-canvas/code-canvas-style';

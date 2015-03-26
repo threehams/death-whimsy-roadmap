@@ -2,7 +2,10 @@
 
 module.exports = function() {
   var vm = this;
-  vm.slide = 0;
+  vm.slide = vm.slide || 0;
+  if (vm.slide !== 0) {
+    vm.slides[vm.slide].active = true;
+  }
 
   vm.forward = function() {
     if (vm.slide >= vm.slides.length) return;

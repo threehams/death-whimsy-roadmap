@@ -25,6 +25,8 @@ app.directive('slideshow', require('./components/slideshow/slideshow'));
 app.controller('SlideshowController', require('./components/slideshow/slideshow-controller.js'));
 app.directive('artCanvas', require('./components/art-canvas/art-canvas'));
 app.controller('ArtCanvasController', require('./components/art-canvas/art-canvas-controller.js'));
+app.directive('codeCanvas', require('./components/code-canvas/code-canvas'));
+app.controller('CodeCanvasController', require('./components/code-canvas/code-canvas-controller.js'));
 
 // components with no controller
 app.directive('autoHeight', require('./components/auto-height/auto-height.js'));
@@ -34,6 +36,7 @@ app.factory('ProgressService', require('./services/progress-service'));
 app.factory('Character', require('./services/character-service'));
 app.factory('Sprite', require('./services/sprite-service'));
 app.factory('DesignSequence', require('./services/design-sequence-service'));
+app.factory('ImagePreloadService', require('./services/image-preload-service'));
 
 app.config([
   '$locationProvider',

@@ -18,6 +18,7 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var streamify = require('gulp-streamify');
 var gzip = require('gulp-gzip');
+var pngquant = require('imagemin-pngquant');
 
 gulp.task('clean', function (callback) {
   return del(['./dist'], callback);
@@ -96,7 +97,8 @@ gulp.task('watch', function () {
   });
 
   gulp.watch('client/**/*.scss', ['sass']);
-  gulp.watch(['client/**/*.html', 'client/**/*.css', 'client/img/*.*', 'client/vid/*.*'], ['copy-static-files']);
+  gulp.watch(['client/**/*.html', 'client/**/*.css', 'client/**/*.jpg', 'client/vid/*.*'], ['copy-static-files']);
+  gulp.watch('client/**/*.png', ['process-png']);
   gulp.watch('server/**/*.js', ['mocha']);
 
   bundler
@@ -123,8 +125,19 @@ gulp.task('watch', function () {
       .pipe(reload({stream: true}));
   }
 });
-gulp.task('copy-static-files', function () {
-  return gulp.src(['./client/**/*.html', './client/**/*.css', 'client/**/*.png', 'client/**/*.jpg', 'client/**/*.mp4'])
+gulp.task('process-static-files', function () {
+  runSequence(['copy-static-files', 'process-png']);
+});
+
+gulp.task('copy-static-files', function() {
+  return gulp.src(['./client/**/*.html', './client/**/*.css', 'client/**/*.jpg', 'client/**/*.mp4'])
+    .pipe(gulp.dest('dist/'))
+    .pipe(reload({stream: true}));
+});
+
+gulp.task('process-png', function() {
+  return gulp.src(['./client/**/*.png'])
+    .pipe(pngquant({quality: '65-80', speed: 4 })())
     .pipe(gulp.dest('dist/'))
     .pipe(reload({stream: true}));
 });
@@ -159,15 +172,16 @@ gulp.task('karma', function() {
 gulp.task('default', function() {
   runSequence('clean', 'build', 'karma');
 });
+// .pipe(pngquant({ quality: '65-80', speed: 4 })())
 
 gulp.task('build',
-  ['vendor', 'watch', 'sass', 'copy-static-files', 'connect-dist']
+  ['vendor', 'watch', 'sass', 'process-static-files', 'connect-dist']
 );
 
 gulp.task('deploy', function() {
     runSequence(
       'clean',
-      ['deploy-vendor', 'deploy-bundle', 'deploy-sass', 'copy-static-files']
+      ['deploy-vendor', 'deploy-bundle', 'deploy-sass', 'process-static-files']
     );
   }
 );

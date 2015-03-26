@@ -4,7 +4,8 @@ module.exports = function() {
   return {
     restrict: 'E',
     scope: {
-      slides: '='
+      slides: '=',
+      slide: '='
     },
     transclude: true,
     template: require('./slideshow-template.jade'),
