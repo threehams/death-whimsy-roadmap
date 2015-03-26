@@ -52,7 +52,7 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', '$window', function(C
           $window.requestAnimationFrame(scope.vm.loop);
           scope.$digest();
         } else {
-          scope.vm.progressDone = true;
+          scope.vm.done = true;
           scope.$digest();
         }
       };

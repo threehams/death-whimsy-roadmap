@@ -6,17 +6,35 @@ describe.only('Sprite', function() {
 
   beforeEach(angular.mock.module('DeathWhimsy'));
   beforeEach(inject(function (_Sprite_) {
-    this.fakeContext = {
+    that.fakeContext = {
       drawImage: function() {}
     };
     Sprite = _Sprite_;
   }));
 
   describe('animated sprite', function() {
+    describe('initialize', function() {
+      beforeEach(function() {
+        var image = new Image();
+        image.width = 60;
+        image.height = 20;
+
+        that.sprite = new Sprite({
+          context: that.fakeContext,
+          image: image,
+          frameCount: 3
+        });
+      });
+
+      it('sets dimensions to the first frame', function() {
+        expect(that.sprite.width).to.equal(20);
+        expect(that.sprite._yOffset).to.equal(0);
+      });
+    });
     describe('update', function() {
       beforeEach(function() {
         that.sprite = new Sprite({
-          context: that.context,
+          context: that.fakeContext,
           image: new Image(),
           ticksPerFrame: 6,
           frameCount: 2
@@ -44,9 +62,81 @@ describe.only('Sprite', function() {
         expect(that.sprite._frameIndex).to.equal(0);
       });
     });
-  });
 
-  describe('static sprite', function() {
+    describe('flippable', function() {
+      beforeEach(function() {
+        var image = new Image();
+        image.width = 20;
+        image.height = 40;
+        that.sprite = new Sprite({
+          context: that.fakeContext,
+          image: image,
+          flippable: true
+        });
+      });
 
+      it('only uses the top half of the image', function() {
+        expect(that.sprite.width).to.equal(20);
+        expect(that.sprite.height).to.equal(20);
+      });
+
+      it('points to the mirrored part of the sprite', function() {
+        that.sprite.flip();
+        expect(that.sprite._yOffset).to.equal(20);
+      });
+
+      it('points to the mirrored part of the sprite', function() {
+        that.sprite._yOffset = 20;
+        that.sprite.unflip();
+        expect(that.sprite._yOffset).to.equal(0);
+      });
+    });
+
+    describe('render', function() {
+      beforeEach(function() {
+        that.image = new Image();
+        that.image.width = 20;
+        that.image.height = 20;
+        that.sprite = new Sprite({
+          context: that.fakeContext,
+          image: that.image
+        });
+        that.spy = sinon.spy(that.fakeContext, 'drawImage');
+      });
+
+      describe('without scale', function() {
+        it('draws the sprite', function() {
+          that.sprite.render(10, 10);
+          expect(that.spy).to.have.been.calledWith(
+            that.image,
+            0,
+            0,
+            20,
+            20,
+            10,
+            10,
+            20,
+            20
+          );
+        });
+      });
+
+      describe('with scale', function() {
+        it('draws the sprite', function() {
+          that.sprite.render(10, 10, 2.0);
+          expect(that.spy).to.have.been.calledWith(
+            that.image,
+            0,
+            0,
+            20,
+            20,
+            0,
+            0,
+            40,
+            40
+          );
+        });
+      });
+    });
   });
 });

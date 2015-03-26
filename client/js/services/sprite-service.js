@@ -17,20 +17,21 @@ function SpriteService() {
     this.flippable = opts.flippable;
 
     this.height = opts.flippable ? this.image.height / 2 : this.image.height;
-    this.yOffset = 0; // used for accessing mirrored half of image, if flippable
+    this._yOffset = 0; // used for accessing mirrored half of image, if flippable
 
     this.ticksPerFrame = this.ticksPerFrame || 1;
     this.frameCount = opts.frameCount || 1;
     this.width = this.image.width / this.frameCount;
+    this._xOffset = 0;
 
     // Initialize animation properties
     this._frameIndex = 0;
     this._tick = 0;
-
   }
 
   Sprite.prototype.reset = function () {
     this._frameIndex = 0;
+    this._xOffset = 0;
     this._tick = 0;
   };
 
@@ -43,8 +44,10 @@ function SpriteService() {
 
       if (this._frameIndex < this.frameCount - 1) {
         this._frameIndex += 1;
+        this._xOffset = this._frameIndex * this.width;
       } else {
         this._frameIndex = 0;
+        this._xOffset = 0;
       }
     }
   };
@@ -54,7 +57,7 @@ function SpriteService() {
       console.log('Cannot flip sprite - flippable is set to false');
       return;
     }
-    this.yOffset = this.height;
+    this._yOffset = this.height;
   };
 
   Sprite.prototype.unflip = function() {
@@ -62,22 +65,34 @@ function SpriteService() {
       console.log('Cannot flip sprite - flippable is set to false');
       return;
     }
-    this.yOffset = 0;
+    this._yOffset = 0;
   };
 
-  Sprite.prototype.render = function (x, y) {
-    var that = this;
+  Sprite.prototype.render = function (x, y, scale) {
+    var width;
+    var height;
+    x = Math.round(x);
+    y = Math.round(y);
 
+    if (scale) {
+      width = this.width * scale;
+      height = this.height * scale;
+      x -= (width - this.width) / 2;
+      y -= (height - this.height) / 2;
+    } else {
+      width = this.width;
+      height = this.height;
+    }
     this.context.drawImage(
-      that.image,
-      that.frameIndex * that.width,
-      that.yOffset,
-      that.width,
-      that.height,
-      Math.floor(x),
-      Math.floor(y),
-      that.width,
-      that.height
+      this.image,
+      this._xOffset,
+      this._yOffset,
+      this.width,
+      this.height,
+      x,
+      y,
+      width,
+      height
     );
   };
 

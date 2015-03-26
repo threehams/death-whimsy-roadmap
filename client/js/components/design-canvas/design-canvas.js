@@ -18,7 +18,7 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, S
       var progress = 0;
 
       function showCompletion() {
-        scope.vm.progressDone = true;
+        scope.vm.done = true;
         scope.$digest();
       }
 

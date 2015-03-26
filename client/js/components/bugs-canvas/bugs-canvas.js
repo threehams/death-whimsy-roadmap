@@ -47,7 +47,7 @@ module.exports = [function() {
             window.requestAnimationFrame(scope.vm.loop);
           }
         } else {
-          scope.vm.progressDone = true;
+          scope.vm.done = true;
           scope.$digest();
         }
       };
