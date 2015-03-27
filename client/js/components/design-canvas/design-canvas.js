@@ -27,7 +27,6 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, S
       var sequence = DesignSequence[10];
 
       scope.vm.loop = function() {
-        context.clearRect(morgan.x - 2, morgan.y - 2, morgan.x + 2, morgan.y + 2);
         if (!sequence[step]) {
           showCompletion(sequence.complete);
           return;
@@ -37,15 +36,16 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', function(Character, S
           step++;
         }
 
+        morgan.clear();
         morgan.update();
         morgan.render();
 
         progress++;
-        scope.vm.progress = progress * (scope.vm.currentProgress / sequence.frames);
+        scope.vm.progress = progress / sequence.frames * 100;
 
         if (scope.vm.active) {
           window.requestAnimationFrame(scope.vm.loop);
-          scope.$digest();
+          //scope.$digest();
         }
       };
 

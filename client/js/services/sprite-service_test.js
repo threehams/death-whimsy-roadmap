@@ -1,6 +1,6 @@
 'use strict';
 
-describe.only('Sprite', function() {
+describe('Sprite', function() {
   var that = this;
   var Sprite;
 

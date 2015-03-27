@@ -15,8 +15,11 @@ var app = angular.module('DeathWhimsy', vendor.concat(components));
 app.controller('PageController', require('./pages/page/page-controller.js'));
 
 // components (controllers exposed for testing)
-app.directive('progressBar', require('./components/progress-bar/progress-bar'));
-app.controller('ProgressBarController', require('./components/progress-bar/progress-bar-controller.js'));
+app.directive('progressJar', require('./components/progress-jar/progress-jar'));
+app.controller('ProgressJarController', require('./components/progress-jar/progress-jar-controller.js'));
+app.directive('sectionProgress', require('./components/section-progress/section-progress'));
+app.controller('SectionProgressController', require('./components/section-progress/section-progress-controller.js'));
+
 app.directive('designCanvas', require('./components/design-canvas/design-canvas'));
 app.controller('DesignCanvasController', require('./components/design-canvas/design-canvas-controller.js'));
 app.directive('bugsCanvas', require('./components/bugs-canvas/bugs-canvas'));

@@ -45,7 +45,7 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', '$window', function(C
 
         if (frame !== progress) {
           progress = frame;
-          scope.vm.progress = progress * (scope.vm.currentProgress / frames);
+          scope.vm.progress = progress / frames * 100;
         }
 
         if (frame < frames && scope.vm.active) {

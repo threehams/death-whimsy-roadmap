@@ -1,7 +1,4 @@
 div
-  .total-progress-container
-    span.total-progress-title {{vm.progress | number: 0}}%
-    progress.total-progress-bar(min=0, max=100, value='{{vm.progress}}')
-    span.total-progress-description(ng-if='vm.done') All levels are complete and ready to ship! YEEEEHAWWWWWW
+  section-progress(progress='vm.progress', progress-end='::vm.progressEnd', description='::vm.description')
   div.design-center
     canvas.design-canvas(width=1000, height=563)

@@ -1,0 +1,6 @@
+div.progress-jar-group
+  div.progress-jar-title {{ vm.title }}
+  .progress-jar-jars
+    img.progress-jar-jar(ng-repeat='jar in vm.jarsFull', src='/img/jar-full.png')
+    img.progress-jar-jar(ng-repeat='jar in vm.jarsEmpty', src='/img/jar-empty.png')
+  img.progress-jar-shelf(src='/img/jar-shelf.png')

@@ -1,9 +1,5 @@
 div
-  .total-progress-container
-    span.total-progress-title {{vm.progress | number: 0}}%
-    progress.total-progress-bar(min=0, max=100, value='{{vm.progress}}')
-    div.total-progress-description(ng-if='vm.done') Movement and controls are in a state where the first six levels can
-      | be played start to finish!
+  section-progress(progress='vm.progress', progress-end='::vm.progressEnd', description='::vm.description')
   .code-canvas-container
     img.code-image-foreground(src='/img/code-foreground.png')
     canvas.code-canvas(width=1000, height=563)

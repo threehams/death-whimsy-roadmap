@@ -4,13 +4,13 @@ slideshow(slides='vm.slides', slide='::0')
       img(src='/img/logo-150.png')
       span Progress
 
-    section.progress-bar-container
-      progress-bar(title='"Morgan Animations"', bar-min='0', bar-max='100', current='20')
-      progress-bar(title='"Mason Implementation"', bar-min='0', bar-max='100', current='25')
-      progress-bar(title='"Website"', bar-min='0', bar-max='100', current='50')
-      progress-bar(title='"Caverns Level Art"', bar-min='0', bar-max='100', current='39')
-      progress-bar(title='"Roadmap"', bar-min='0', bar-max='100', current='2')
-      progress-bar(title='"Design"', bar-min='0', bar-max='100', current='90')
+    section.progress-jar-container
+      progress-jar(title='"Morgan Animations"', progress='20')
+      progress-jar(title='"Mason Implementation"', progress='25')
+      progress-jar(title='"Website"', progress='50')
+      progress-jar(title='"Caverns Level Art"', progress='39')
+      progress-jar(title='"Roadmap"', progress='2')
+      progress-jar(title='"Design"', progress='90')
 
   section.slideshow-slide.design-container(auto-height)
     header.header-subpage
@@ -36,8 +36,8 @@ slideshow(slides='vm.slides', slide='::0')
 
     code-canvas(active='vm.slides[3].active')
 
-  section.slideshow-slide.bugs-container(auto-height)
-    header.header-subpage
-      span Bugs
-
-    bugs-canvas(active='vm.slides[4].active')
+  //section.slideshow-slide.bugs-container(auto-height)
+  //  header.header-subpage
+  //    span Bugs
+  //
+  //  bugs-canvas(active='vm.slides[4].active')

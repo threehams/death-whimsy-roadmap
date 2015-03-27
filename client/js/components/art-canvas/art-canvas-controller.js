@@ -11,4 +11,6 @@ module.exports = ['$timeout', function ($timeout) {
 
   vm.touch = false; // TODO this should not be hardcoded - Modernizr?
   vm.progress = 0;
+  vm.progressEnd = 65;
+  vm.description = 'Art is done!';
 }];

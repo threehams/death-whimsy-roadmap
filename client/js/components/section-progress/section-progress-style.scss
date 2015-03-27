@@ -1,0 +1,38 @@
+.section-progress-container {
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.section-progress-bar {
+  box-sizing: border-box;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.section-progress-title {
+  display: inline-block;
+  color: $dark-grey;
+  font-size: 20px;
+  padding-right: 5px;
+  box-sizing: border-box;
+}
+
+.section-progress-description {
+  width: 100%;
+  color: $dark-grey;
+  padding: 0;
+  overflow: hidden;
+
+  &.ng-enter {
+    max-height: 0;
+    opacity: 0;
+    transition: 1s linear all;
+
+    &.ng-enter-active {
+      max-height: 60px;
+      opacity: 1;
+    }
+  }
+}

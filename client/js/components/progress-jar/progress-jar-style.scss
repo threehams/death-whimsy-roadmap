@@ -1,11 +1,11 @@
-.progress-bar-container {
+.progress-jar-container {
   padding: 20px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
 }
 
-.progress-bar-group {
+.progress-jar-group {
   background-color: #CCD1D9;
   flex-basis: 400px;
   flex-shrink: 1;
@@ -15,7 +15,7 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.progress-bar-title {
+.progress-jar-title {
   color: $black;
   text-transform: uppercase;
   text-align: center;
@@ -24,7 +24,7 @@
   margin-bottom: 5px;
 }
 
-.progress-bar-jars {
+.progress-jar-jars {
   width: 90%;
   margin: auto auto -5px 6%;
 
@@ -45,7 +45,7 @@
   }
 }
 
-.progress-bar-jar {
+.progress-jar-jar {
   display: inline-block;
   width: 10%;
 
@@ -55,6 +55,6 @@
   }
 }
 
-.progress-bar-shelf {
+.progress-jar-shelf {
   width: 100%;
 }

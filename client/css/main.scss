@@ -44,45 +44,6 @@ body {
   display: block;
 }
 
-.total-progress-container {
-  padding: 5px 10px;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.total-progress-bar {
-  box-sizing: border-box;
-  flex-grow: 1;
-  flex-shrink: 1;
-}
-
-.total-progress-title {
-  display: inline-block;
-  color: $dark-grey;
-  font-size: 20px;
-  padding-right: 5px;
-  box-sizing: border-box;
-}
-
-.total-progress-description {
-  width: 100%;
-  color: $dark-grey;
-  padding: 0;
-  overflow: hidden;
-
-  &.ng-enter {
-    max-height: 0;
-    opacity: 0;
-    transition: 1s linear all;
-
-    &.ng-enter-active {
-      max-height: 60px;
-      opacity: 1;
-    }
-  }
-}
-
 .section-title {
   margin: 5px 5px 20px;
   font-size: 30px;
@@ -121,9 +82,10 @@ body {
   padding: 10px;
 }
 
-@import '../js/components/progress-bar/progress-bar-style';
+@import '../js/components/progress-jar/progress-jar-style';
 @import '../js/components/design-canvas/design-canvas-style';
 @import '../js/components/bugs-canvas/bugs-canvas-style';
 @import '../js/components/slideshow/slideshow-style';
 @import '../js/components/art-canvas/art-canvas-style';
 @import '../js/components/code-canvas/code-canvas-style';
+@import '../js/components/section-progress/section-progress-style';

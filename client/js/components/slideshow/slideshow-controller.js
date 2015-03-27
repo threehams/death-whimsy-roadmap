@@ -8,7 +8,7 @@ module.exports = function() {
   }
 
   vm.forward = function() {
-    if (vm.slide >= vm.slides.length) return;
+    if (vm.slide >= vm.slides.length - 1) return;
     vm.slides[vm.slide].active = false;
     vm.slide++;
     vm.slides[vm.slide].active = true;

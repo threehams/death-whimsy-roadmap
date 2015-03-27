@@ -12,4 +12,6 @@ module.exports = [function () {
 
   vm.touch = false; // TODO this should not be hardcoded - Modernizr?
   vm.progress = 0;
+  vm.progressEnd = 45;
+  vm.description = 'Design is done!';
 }];

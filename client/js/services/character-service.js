@@ -68,6 +68,10 @@ function CharacterService() {
     this.sprite.update();
   };
 
+  Character.prototype.clear = function() {
+    this.sprite.clear(this.x, this.y);
+  };
+
   return Character;
 }
 

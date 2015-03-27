@@ -5,13 +5,11 @@ module.exports = function() {
     restrict: 'E',
     scope: {
       title: '=',
-      current: '=',
-      barMax: '=',
-      barMin: '='
+      progress: '='
     },
     replace: true,
-    template: require('./progress-bar-template.jade'),
-    controller: require('./progress-bar-controller'),
+    template: require('./progress-jar-template.jade'),
+    controller: require('./progress-jar-controller'),
     controllerAs: 'vm',
     bindToController: true
   };

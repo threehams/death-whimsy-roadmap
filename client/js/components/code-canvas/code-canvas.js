@@ -111,7 +111,7 @@ module.exports = ['$window', '$q', 'ImagePreloadService', 'Sprite', function($wi
           );
 
           jars.push(jar);
-          scope.vm.progress = (jars.length / totalJars) * (scope.vm.currentProgress / 100) * 100;
+          scope.vm.progress = jars.length / totalJars * 100;
           scope.$digest();
         } else if (tick % 3 && !collection.length) {
           scope.vm.done = true;

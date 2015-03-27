@@ -19,7 +19,6 @@ module.exports = ['ProgressService', '$timeout', function (ProgressService, $tim
     {},
     {},
     {},
-    {},
     {}
   ];
 }];

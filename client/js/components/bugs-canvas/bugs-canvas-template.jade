@@ -1,6 +1,3 @@
 div
-  .total-progress-container
-    span.bugs-title There are bugs.
-    progress.total-progress-bar(min=0, max=100, value='18')
-    div.total-progress-description(ng-if='vm.done') There are 47 unfixed bugs. We're working on it!
+  section-progress(progress='vm.progress', progress-end='::vm.progressEnd', description='::vm.description')
   canvas.bugs-canvas(width=1000, height=563)

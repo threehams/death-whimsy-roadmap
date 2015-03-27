@@ -77,6 +77,11 @@ function SpriteService() {
     this._yOffset = 0;
   };
 
+  Sprite.prototype.clear = function (x, y, scale) {
+    this.context.clearRect(x, y, this.width, this.height);
+  };
+
+
   Sprite.prototype.render = function (x, y, scale) {
     var width;
     var height;
