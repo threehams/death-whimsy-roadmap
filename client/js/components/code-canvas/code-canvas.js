@@ -77,8 +77,8 @@ module.exports = ['$window', '$q', 'ImagePreloadService', 'Sprite', function($wi
 
       Jar.prototype.render = function() {
         var scale = this.scales.length ? this.scales.pop() : null;
+        this.icon.render(this.x + 6, this.y + 11, scale);
         this.sprite.render(this.x, this.y, scale);
-        this.icon.render(this.x + 5, this.y + 9, scale);
       };
 
       /*
@@ -91,7 +91,6 @@ module.exports = ['$window', '$q', 'ImagePreloadService', 'Sprite', function($wi
       function randomSpriteCrop(image, width, height) {
         var x = _.random(0, image.width / width - 1) * width;
         var y = _.random(0, image.height / height - 1) * height;
-        console.log(x);
         return new Sprite({context: context, image: iconImage, crop: [
           x, y, width, height
         ]});
