@@ -29,6 +29,9 @@ module.exports = ['$window', '$q', 'ImagePreloadService', 'Sprite', function($wi
         }
       });
 
+      // Coordinates for the jars. Since some are stacked, fill in the bottom ones first, then the top.
+      // Fill out the left before the right, to make progress easier to see.
+      // TODO May want to split this into four section to make progress clearer day-to-day.
       var row1left = _.shuffle([
         [16, 195], [64, 194], [134, 196], [180, 197],
         [19, 311], [69, 315], [130, 317], [181, 320], [243, 324], [303, 327],
@@ -57,6 +60,8 @@ module.exports = ['$window', '$q', 'ImagePreloadService', 'Sprite', function($wi
 
       var tick = 0;
       var jars = [];
+
+      // Combine them all, slice the array based on progress, and reverse so we can use pop() to go from start to finish
       var collection = row1left.concat(row2left).concat(row1right).concat(row2right);
       collection = collection.slice(0, Math.floor(collection.length * (scope.vm.currentProgress / 100)));
       collection = collection.reverse();
@@ -73,8 +78,24 @@ module.exports = ['$window', '$q', 'ImagePreloadService', 'Sprite', function($wi
       Jar.prototype.render = function() {
         var scale = this.scales.length ? this.scales.pop() : null;
         this.sprite.render(this.x, this.y, scale);
-        this.icon.render(this.x + 8, this.y + 8, scale);
+        this.icon.render(this.x + 5, this.y + 9, scale);
       };
+
+      /*
+       * Pick a random crop from a larger image of sprites. Will follow grid lines.
+       *
+       * @param image     Image element instance
+       * @param width     Width of the crop to take
+       * @param height    Height of the crop to take
+       */
+      function randomSpriteCrop(image, width, height) {
+        var x = _.random(0, image.width / width - 1) * width;
+        var y = _.random(0, image.height / height - 1) * height;
+        console.log(x);
+        return new Sprite({context: context, image: iconImage, crop: [
+          x, y, width, height
+        ]});
+      }
 
       scope.vm.loop = function() {
         tick++;
@@ -84,14 +105,9 @@ module.exports = ['$window', '$q', 'ImagePreloadService', 'Sprite', function($wi
         if (tick % 3 === 0 && collection.length) {
           var position = collection.pop();
 
-          var iconX = _.random(0, iconImage.width / 40 - 1) * 40;
-          var iconY = _.random(0, iconImage.height / 40 - 1) * 40;
-
           var jar = new Jar(
             new Sprite({context: context, image: jarImage}),
-            new Sprite({context: context, image: iconImage, crop: [
-              iconX, iconY, 40, 40
-            ]}),
+            randomSpriteCrop(iconImage, 40, 40),
             {x: position[0], y: position[1] - jarImage.height} // coordinate list is based on bottom left!
           );
 
