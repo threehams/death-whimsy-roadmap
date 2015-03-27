@@ -3,7 +3,7 @@
 module.exports = [function () {
   var vm = this;
 
-  vm.currentProgress = 45;
+  vm.currentProgress = 90;
 
   vm.src = {
     jar: '/img/timelapse.jpg',

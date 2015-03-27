@@ -9,6 +9,8 @@ function SpriteService() {
    * opts.frameCount      Number of frames in the sprite (if animated)
    * opts.ticksPerFrame   Number of ticks (60fps) per frame of animation.
    *                        i.e. for 30 frames per second, this would be 2
+   * opts.crop            Optional crop array in format: [x, y, width, height]
+   *                        Cropped images cannot be animated or flipped!
    */
   function Sprite(opts) {
     this.context = opts.context;
@@ -16,13 +18,20 @@ function SpriteService() {
 
     this.flippable = opts.flippable;
 
-    this.height = opts.flippable ? this.image.height / 2 : this.image.height;
-    this._yOffset = 0; // used for accessing mirrored half of image, if flippable
+    if (opts.crop) {
+      this._xOffset = opts.crop[0];
+      this._yOffset = opts.crop[1];
+      this.width = opts.crop[2];
+      this.height = opts.crop[3];
+    } else {
+      this.height = opts.flippable ? this.image.height / 2 : this.image.height;
+      this._yOffset = 0; // used for accessing mirrored half of image, if flippable
 
-    this.ticksPerFrame = this.ticksPerFrame || 1;
-    this.frameCount = opts.frameCount || 1;
-    this.width = this.image.width / this.frameCount;
-    this._xOffset = 0;
+      this.ticksPerFrame = this.ticksPerFrame || 1;
+      this.frameCount = opts.frameCount || 1;
+      this.width = this.image.width / this.frameCount;
+      this._xOffset = 0;
+    }
 
     // Initialize animation properties
     this._frameIndex = 0;

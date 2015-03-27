@@ -14,23 +14,47 @@ describe.only('Sprite', function() {
 
   describe('animated sprite', function() {
     describe('initialize', function() {
-      beforeEach(function() {
-        var image = new Image();
-        image.width = 60;
-        image.height = 20;
+      describe('uncropped', function() {
+        beforeEach(function() {
+          var image = new Image();
+          image.width = 60;
+          image.height = 20;
 
-        that.sprite = new Sprite({
-          context: that.fakeContext,
-          image: image,
-          frameCount: 3
+          that.sprite = new Sprite({
+            context: that.fakeContext,
+            image: image,
+            frameCount: 3
+          });
+        });
+
+        it('sets dimensions to the first frame', function() {
+          expect(that.sprite.width).to.equal(20);
+          expect(that.sprite._yOffset).to.equal(0);
         });
       });
 
-      it('sets dimensions to the first frame', function() {
-        expect(that.sprite.width).to.equal(20);
-        expect(that.sprite._yOffset).to.equal(0);
+      describe('cropped', function() {
+        beforeEach(function() {
+          var image = new Image();
+          image.width = 40;
+          image.height = 40;
+
+          that.sprite = new Sprite({
+            context: that.fakeContext,
+            image: image,
+            crop: [10, 20, 40, 30]
+          });
+        });
+
+        it('crops the dimensions of the image', function() {
+          expect(that.sprite._xOffset).to.equal(10);
+          expect(that.sprite._yOffset).to.equal(20);
+          expect(that.sprite.width).to.equal(40);
+          expect(that.sprite.height).to.equal(30);
+        });
       });
     });
+    
     describe('update', function() {
       beforeEach(function() {
         that.sprite = new Sprite({
