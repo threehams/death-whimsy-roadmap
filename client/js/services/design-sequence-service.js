@@ -25,7 +25,7 @@ function DesignSequenceService() {
       }
     },
     2: function(morgan) {
-      if (morgan.y > 392) {
+      if (morgan.y > 393) {
         morgan.setState('idle');
         morgan.setState('running');
         return true;

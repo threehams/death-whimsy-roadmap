@@ -6,11 +6,12 @@ module.exports = ['ProgressService', '$timeout', function (ProgressService, $tim
   vm.slide = 0;
   vm.getProgress = function() {
     ProgressService.index().then(function(data) {
-      vm.progress = data.progress;
-      $timeout(vm.getProgress, 2000);
+      vm.epics = data.epics;
+      vm.totalProgress = data.total;
+      //$timeout(vm.getProgress, 2000);
     }).catch(function(err) {
       console.log(err);
-      $timeout(vm.getProgress, 60000);
+      //$timeout(vm.getProgress, 60000);
     });
   };
 

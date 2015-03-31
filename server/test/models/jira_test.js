@@ -25,6 +25,9 @@ describe('Jira', function() {
     it('returns a list of formatted issues', function *() {
       var jira = new Jira();
       var issues = yield jira.query();
+      issues = issues.filter(function(issue) {
+        return issue.type !== 'Epic';
+      });
       expect(issues[0].id).to.equal('10153');
       expect(issues[0].summary).to.equal('Test for webhook / sprint');
       expect(issues[0].description).to.equal('this is a test - ignore');
@@ -33,6 +36,7 @@ describe('Jira', function() {
       expect(issues[0].estimate).to.equal(1);
       expect(issues[0].labels).to.eql(['promotion']);
       expect(issues[0].sprints).to.eql([1]);
+      expect(issues[0].epic).to.eql('10120');
 
       expect(issues[1].estimate).to.equal(3);
     });
@@ -69,7 +73,7 @@ describe('Jira', function() {
     });
 
     afterEach(function *() {
-      services.redisClient.quit();
+      //services.redisClient.quit();
     });
 
     it('writes all issues to Redis', function *() {

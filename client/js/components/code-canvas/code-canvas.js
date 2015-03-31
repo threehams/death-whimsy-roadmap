@@ -4,7 +4,8 @@ module.exports = ['$window', '$q', 'ImagePreloader', 'Sprite', function($window,
   return {
     restrict: 'E',
     scope: {
-      active: '='
+      active: '=',
+      progressEnd: '='
     },
     replace: true,
     template: require('./code-canvas-template.jade'),

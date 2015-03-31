@@ -1,22 +1,17 @@
-slideshow(slides='vm.slides', slide='::1')
+slideshow(slides='vm.slides', slide='::0')
   section.slideshow-slide.summary-container(auto-height)
     header.header
       img(src='/img/logo-150.png')
       span Progress
 
     section.progress-jar-container
-      progress-jar(title='"Morgan Animations"', progress='20')
-      progress-jar(title='"Mason Implementation"', progress='25')
-      progress-jar(title='"Website"', progress='50')
-      progress-jar(title='"Caverns Level Art"', progress='39')
-      progress-jar(title='"Roadmap"', progress='2')
-      progress-jar(title='"Design"', progress='90')
+      progress-jar(ng-repeat='epic in vm.epics', title='epic.title', progress='epic.progress')
 
   section.slideshow-slide.design-container(auto-height)
     header.header-subpage
       span Design
 
-    design-canvas(active='vm.slides[1].active', progress-end='0')
+    design-canvas(active='vm.slides[1].active', progress-end='vm.totalProgress.design')
 
   section.slideshow-slide.art-container(auto-height)
     header.header-subpage

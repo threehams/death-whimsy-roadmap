@@ -8,15 +8,6 @@ function Progress() {}
 
 Progress.prototype.get = function() {
   return services.redisClient.getAsync('progress').then(JSON.parse);
-  //return {
-  //  sprint: {
-  //    all: 100,
-  //    code: 70,
-  //    art: 50,
-  //    design: 50,
-  //    bugs: 50
-  //  }
-  //};
 };
 
 Progress.prototype.calculate = function(issues, opts) {
@@ -27,12 +18,9 @@ Progress.prototype.calculate = function(issues, opts) {
   var current = 0;
 
   _(issues).filter(function(issue) {
-    if (opts.labels && _.difference(opts.labels, issue.labels).length > 0) {
-      return false;
-    }
-    if (opts.sprint && !(_.includes(issue.sprints, opts.sprint))) {
-      return false;
-    }
+    if (opts.epic && issue.epic !== opts.epic) return false;
+    if (opts.labels && _.difference(opts.labels, issue.labels).length > 0) return false;
+    if (opts.sprint && !(_.includes(issue.sprints, opts.sprint))) return false;
     if (opts.type && opts.type !== issue.type) return false;
     return true;
   }).forEach(function(issue) {
@@ -43,14 +31,28 @@ Progress.prototype.calculate = function(issues, opts) {
   return Promise.resolve(Math.round(current / total * 100));
 };
 
+Progress.prototype.epicsInSprint = function(issues, sprint) {
+  var epics = [];
+  var activeEpicIds = [];
+  _.forEach(issues, function(issue) {
+    if (issue.type === 'Epic') {
+      epics.push({id: issue.id, title: issue.summary});
+      return;
+    }
+
+    if (issue.type !== 'Story') return;
+    if (!(_.includes(issue.sprints, sprint))) return;
+
+    activeEpicIds.push(issue.epic);
+  });
+
+  return _.filter(epics, function(epic) {
+    return _.includes(activeEpicIds, epic.id);
+  });
+};
+
 Progress.prototype.writeAll = function(sprint) {
   var filters = [
-    {sprint: sprint.id},
-    {sprint: sprint.id, type: 'Story', labels: ['art']},
-    {sprint: sprint.id, type: 'Story', labels: ['design']},
-    {sprint: sprint.id, type: 'Story', labels: ['dev']},
-    {sprint: sprint.id, type: 'Bug'},
-    {},
     {type: 'Story', labels: ['art']},
     {type: 'Story', labels: ['design']},
     {type: 'Story', labels: ['dev']},
@@ -59,33 +61,28 @@ Progress.prototype.writeAll = function(sprint) {
 
   return this.getAllIssues().bind(this).then(function(issues) {
     this.issues = issues;
+
+    this.epics = this.epicsInSprint(issues, sprint.id);
+    _.forEach(this.epics, function(epic) {
+      filters.push({type: 'Story', epic: epic.id});
+    });
+
     return filters;
   }).map(function(filter) {
     return this.calculate(this.issues, filter);
   }).then(function(num) {
-    return services.redisClient.setAsync('progress', JSON.stringify({
-      progress: {
-        sprint: {
-          all: num[0],
-          art: num[1],
-          design: num[2],
-          code: num[3],
-          bugs: num[4]
-        },
-        total: {
-          all: num[5],
-          art: num[6],
-          design: num[7],
-          code: num[8],
-          bugs: num[9]
-        }
-      },
-      sprint: {
-        title: sprint.name,
-        startDate: sprint.startDate,
-        endDate: sprint.endDate
+    var totals = {
+      total: {
+        art: num[0],
+        design: num[1],
+        code: num[2],
+        bugs: num[3]
       }
-    }));
+    };
+    totals.epics = _.map(this.epics, function(epic, index) {
+      return {title: epic.title, progress: num[index + 4]};
+    });
+    return services.redisClient.setAsync('progress', JSON.stringify(totals));
   });
 };
 

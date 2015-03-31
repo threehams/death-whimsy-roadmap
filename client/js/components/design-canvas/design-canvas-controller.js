@@ -7,29 +7,38 @@ function DesignCanvasController ($q, $scope, $window, Character, Sprite, ImagePr
   vm.progress = 0;
   vm.description = 'This is example text for description of current progress. You can put whatever you want here!';
 
-  $q.all([
-    ImagePreloader.load('/img/morgan-run.png'),
-    ImagePreloader.load('/img/morgan-jump.png')
-  ]).then(function(images) {
-    vm.morgan = new Character({
-      sprites: {
-        running: new Sprite({context: vm.context, image: images[0], frameCount: 18, flippable: true}),
-        // TODO idle animation once it exists!
-        idle: new Sprite({context: vm.context, image: images[0], frameCount: 18, flippable: true}),
-        jumping: new Sprite({context: vm.context, image: images[1], frameCount: 18, flippable: true})
-      },
-      x: -50,
-      y: 348
-    });
-    vm.morgan.setState('running');
-    vm.loaded = true;
-    vm.sequence = DesignSequence[Math.floor(vm.progressEnd / 10) * 10];
-    vm.step = 1;
-
-    if (vm.active) {
-      vm.loop();
+  var cancel = $scope.$watch('vm.progressEnd', function(newValue) {
+    if (newValue !== undefined) {
+      startLoop();
+      cancel();
     }
   });
+
+  function startLoop() {
+    $q.all([
+      ImagePreloader.load('/img/morgan-run.png'),
+      ImagePreloader.load('/img/morgan-jump.png')
+    ]).then(function(images) {
+      vm.morgan = new Character({
+        sprites: {
+          running: new Sprite({context: vm.context, image: images[0], frameCount: 18, flippable: true}),
+          // TODO idle animation once it exists!
+          idle: new Sprite({context: vm.context, image: images[0], frameCount: 18, flippable: true}),
+          jumping: new Sprite({context: vm.context, image: images[1], frameCount: 18, flippable: true})
+        },
+        x: -50,
+        y: 348
+      });
+      vm.morgan.setState('running');
+      vm.loaded = true;
+      vm.sequence = DesignSequence[Math.floor(vm.progressEnd / 10) * 10];
+      vm.step = 1;
+
+      if (vm.active) {
+        vm.loop();
+      }
+    });
+  }
 
   $scope.$watch('vm.active', function(newValue) {
     if (newValue && vm.loaded) {

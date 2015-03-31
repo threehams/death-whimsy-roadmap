@@ -22,6 +22,7 @@ Jira.prototype.delete = function(issue) {
 
 Jira.prototype.query = function(opts) {
   var queryStrings = _.merge({maxResults: 1000}, opts || {});
+  var that = this;
   return requestAsync({
     url: 'https://squidtankgames.atlassian.net/rest/api/2/search',
     qs: queryStrings,
@@ -31,7 +32,15 @@ Jira.prototype.query = function(opts) {
     },
     json: true
   }).bind(this).spread(function(response, body) {
-    return _.map(body.issues, this.formatIssue);
+    this.epics = _.reduce(body.issues, function(epics, issue) {
+      if (issue.fields.issuetype.name === 'Epic') {
+        epics[issue.key] = issue;
+      }
+      return epics;
+    }, {});
+    return _.map(body.issues, function(issue) {
+      return that.formatIssue(issue);
+    });
   });
 };
 
@@ -53,7 +62,8 @@ Jira.prototype.formatIssue = function(issue) {
     labels: _.map(issue.fields.labels, function(label) { return label.toLowerCase(); }),
     description: issue.fields.description,
     estimate: issue.fields.customfield_10005 ? Math.floor(issue.fields.customfield_10005) : 1,
-    sprints: getSprintIds(issue.fields.customfield_10007)
+    sprints: getSprintIds(issue.fields.customfield_10007),
+    epic: issue.fields.customfield_10008 ? this.epics[issue.fields.customfield_10008].id : null
   };
 };
 

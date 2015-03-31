@@ -136,7 +136,6 @@ gulp.task('copy-static-files', function() {
 });
 
 gulp.task('process-png', function() {
-  console.log('Processing PNGs');
   return gulp.src(['./client/**/*.png'])
     .pipe(pngquant({quality: '65-80', speed: 4 })())
     .pipe(gulp.dest('dist/'));
