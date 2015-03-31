@@ -55,7 +55,7 @@ describe('DesignCanvasController', function() {
         $scope: that.scope,
         $window: that.fakeWindow,
         ImagePreloader: that.fakeImagePreloader,
-        DesignSequence: that.sequences
+        designSequences: that.sequences
       });
       vm = that.scope.vm;
       vm.context = that.fakeContext;

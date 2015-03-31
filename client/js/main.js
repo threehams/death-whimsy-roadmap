@@ -38,8 +38,10 @@ app.directive('autoHeight', require('./components/auto-height/auto-height.js'));
 app.factory('ProgressService', require('./services/progress-service'));
 app.factory('Character', require('./services/character-service'));
 app.factory('Sprite', require('./services/sprite-service'));
-app.factory('DesignSequence', require('./services/design-sequence-service'));
 app.factory('ImagePreloader', require('./services/image-preload-service'));
+
+app.value('designSequences', require('./services/design-sequences'));
+app.value('codeJars', require('./services/code-jars'));
 
 app.config([
   '$locationProvider',

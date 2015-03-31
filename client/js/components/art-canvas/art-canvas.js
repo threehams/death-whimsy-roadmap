@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = ['Character', 'Sprite', 'DesignSequence', '$window', function(Character, Sprite, DesignSequence, $window) {
+module.exports = ['$window', function($window) {
   return {
     restrict: 'E',
     scope: {

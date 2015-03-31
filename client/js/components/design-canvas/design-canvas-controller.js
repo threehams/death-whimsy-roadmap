@@ -1,6 +1,6 @@
 'use strict';
 
-function DesignCanvasController ($q, $scope, $window, Character, Sprite, ImagePreloader, DesignSequence) {
+function DesignCanvasController ($q, $scope, $window, Character, Sprite, ImagePreloader, designSequences) {
   var vm = this;
   var progress = 0;
 
@@ -31,7 +31,7 @@ function DesignCanvasController ($q, $scope, $window, Character, Sprite, ImagePr
       });
       vm.morgan.setState('running');
       vm.loaded = true;
-      vm.sequence = DesignSequence[Math.floor(vm.progressEnd / 10) * 10];
+      vm.sequence = designSequences[Math.floor(vm.progressEnd / 10) * 10];
       vm.step = 1;
 
       if (vm.active) {
@@ -74,6 +74,6 @@ function DesignCanvasController ($q, $scope, $window, Character, Sprite, ImagePr
 
 }
 
-DesignCanvasController.$inject = ['$q', '$scope', '$window', 'Character', 'Sprite', 'ImagePreloader', 'DesignSequence'];
+DesignCanvasController.$inject = ['$q', '$scope', '$window', 'Character', 'Sprite', 'ImagePreloader', 'designSequences'];
 
 module.exports = DesignCanvasController;
