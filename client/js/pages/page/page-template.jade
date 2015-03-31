@@ -1,4 +1,4 @@
-slideshow(slides='vm.slides', slide='::3')
+slideshow(slides='vm.slides', slide='::0')
   section.slideshow-slide.summary-container(auto-height)
     header.header
       img(src='/img/logo-150.png')
@@ -17,7 +17,7 @@ slideshow(slides='vm.slides', slide='::3')
     header.header-subpage
       span Art
 
-    art-canvas(active='vm.slides[2].active')
+    art-canvas(active='vm.slides[2].active', progress-end='vm.totalProgress.art')
 
   section.slideshow-slide.code-container(auto-height)
     header.header-subpage

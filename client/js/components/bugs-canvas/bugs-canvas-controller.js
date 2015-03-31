@@ -8,6 +8,5 @@ module.exports = ['$timeout', function ($timeout) {
   });
 
   vm.progress = 0;
-  vm.progressEnd = 90;
   vm.description = 'Bugs happen';
 }];

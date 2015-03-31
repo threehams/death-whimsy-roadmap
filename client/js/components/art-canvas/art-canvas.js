@@ -1,10 +1,47 @@
 'use strict';
 
-module.exports = ['$window', function($window) {
+function Timelapse(context, image, width, height) {
+  this.context = context;
+  this.image = image;
+  this.tick = 0;
+  this.framesPerSecond = 5;
+  this.frame = 0;
+  this.frameCount = 98;
+  this.width = width;
+  this.height = height;
+}
+
+Timelapse.prototype.update = function() {
+  if (this.frame > this.frameCount) {
+    this.done = true;
+  }
+};
+
+Timelapse.prototype.render = function() {
+  if (this.done) return;
+  if (this.tick % (30 / this.framesPerSecond) === 0) {
+    this.context.drawImage(
+      this.image,
+      this.frame * (this.image.width / this.frameCount),
+      0,
+      this.image.width / this.frameCount,
+      this.image.height,
+      0,
+      0,
+      this.width,
+      this.height
+    );
+    this.frame++;
+  }
+  this.tick++;
+};
+
+module.exports = ['$window', 'ImagePreloader', function($window, ImagePreloader) {
   return {
     restrict: 'E',
     scope: {
-      active: '='
+      active: '=',
+      progressEnd: '='
     },
     replace: true,
     template: require('./art-canvas-template.jade'),
@@ -13,32 +50,9 @@ module.exports = ['$window', function($window) {
     bindToController: true,
     link: function(scope, element) {
       var canvas = element[0].querySelector('canvas');
-      var video = element[0].querySelector('video');
-      var context = canvas.getContext('2d');
-      var timelapseImage;
-      var frame = 0;
-      var progress = 0;
-      var frames = 98;
-      var framesPerSecond = 5;
-      var tick = 0;
-
-      function drawTimelapse() {
-        if (tick % (30 / framesPerSecond) === 0) {
-          context.drawImage(
-            timelapseImage,
-            frame * (timelapseImage.width / frames),
-            0,
-            timelapseImage.width / frames,
-            timelapseImage.height,
-            0,
-            0,
-            canvas.width,
-            canvas.height
-          );
-          frame++;
-        }
-        tick++;
-      }
+      scope.vm.video = element[0].querySelector('video');
+      scope.vm.context = canvas.getContext('2d');
+      scope.vm.tick = 0;
 
       scope.vm.digestLoop = function() {
         scope.vm.loop();
@@ -46,44 +60,54 @@ module.exports = ['$window', function($window) {
       };
 
       scope.vm.loop = function() {
-        drawTimelapse();
+        scope.vm.tick++;
 
-        if (frame !== progress) {
-          progress = frame;
-          scope.vm.progress = progress / frames * 100;
-        }
+        scope.vm.timelapse.update();
+        scope.vm.timelapse.render();
 
-        if (frame < frames && scope.vm.active) {
+        scope.vm.progress = scope.vm.tick / 588 * 100; // frames * fps
+
+        if (scope.vm.active && !scope.vm.timelapse.done) {
           $window.requestAnimationFrame(scope.vm.digestLoop);
         } else if (scope.vm.active) {
           scope.vm.done = true;
-          scope.$digest();
+          scope.vm.video.pause();
         }
       };
 
       scope.$watch('vm.active', function(newValue) {
         if (newValue) {
-          if (!scope.vm.done) {
-            video.play();
+          if (!scope.vm.done && scope.vm.loaded) {
+            scope.vm.video.play();
             scope.vm.loop();
           }
         } else {
-          video.pause();
+          scope.vm.video.pause();
         }
       });
 
-      scope.$watch('vm.timelapseSrc', function(newValue) {
-        if (!newValue) return;
+      scope.$watch('vm.progressEnd', function(newValue) {
+        if (newValue) {
+          startLoop();
+        }
+      });
 
-        timelapseImage = new Image();
+      function startLoop() {
+        ImagePreloader.load('/img/timelapse.jpg').then(function(image) {
+          scope.vm.timelapse = new Timelapse(
+            scope.vm.context,
+            image,
+            1000,
+            563
+          );
+          scope.vm.loaded = true;
 
-        timelapseImage.onload = function() {
           if (scope.vm.active) {
+            scope.vm.video.play();
             scope.vm.loop();
           }
-        };
-        timelapseImage.src = newValue;
-      });
+        });
+      }
     }
   };
 }];

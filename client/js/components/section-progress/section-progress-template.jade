@@ -1,4 +1,4 @@
 .section-progress-container
   span.section-progress-title {{vm.current() | number: 0}}%
   progress.section-progress-bar(min=0, max=100, value='{{vm.current()}}')
-  span.section-progress-description(ng-if='vm.progress === 100') {{vm.description}}
+  span.section-progress-description(ng-if='vm.progress > 99') {{vm.description}}

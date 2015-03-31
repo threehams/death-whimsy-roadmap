@@ -8,6 +8,14 @@ function Progress() {}
 
 Progress.prototype.get = function() {
   return services.redisClient.getAsync('progress').then(JSON.parse);
+  //return {
+  //  total: {
+  //    design: 20,
+  //    code: 67,
+  //    art: 100,
+  //    bugs: 25
+  //  }
+  //};
 };
 
 Progress.prototype.calculate = function(issues, opts) {
