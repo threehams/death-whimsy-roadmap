@@ -50,38 +50,6 @@ body {
   color: $dark-grey;
 }
 
-.character-container {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: flex-start;
-  justify-content: flex-start;
-  margin-bottom: 20px;
-}
-
-.character-icon {
-  min-width: 100px;
-  max-width: 100px;
-  flex-basis: 0;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin: 2px;
-  padding: 2px;
-
-  img {
-    width: 100%;
-  }
-}
-
-.character-text {
-  flex-grow: 1;
-  flex-shrink: 1;
-  color: $black;
-  background-color: $white;
-  border-radius: 5px;
-  margin: 4px;
-  padding: 10px;
-}
-
 @import '../js/components/progress-jar/progress-jar-style';
 @import '../js/components/design-canvas/design-canvas-style';
 @import '../js/components/bugs-canvas/bugs-canvas-style';

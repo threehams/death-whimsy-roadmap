@@ -39,7 +39,7 @@ app.factory('ProgressService', require('./services/progress-service'));
 app.factory('Character', require('./services/character-service'));
 app.factory('Sprite', require('./services/sprite-service'));
 app.factory('DesignSequence', require('./services/design-sequence-service'));
-app.factory('ImagePreloadService', require('./services/image-preload-service'));
+app.factory('ImagePreloader', require('./services/image-preload-service'));
 
 app.config([
   '$locationProvider',

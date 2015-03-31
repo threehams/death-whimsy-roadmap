@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = ['$window', '$q', 'ImagePreloadService', 'Sprite', function($window, $q, ImagePreloadService, Sprite) {
+module.exports = ['$window', '$q', 'ImagePreloader', 'Sprite', function($window, $q, ImagePreloader, Sprite) {
   return {
     restrict: 'E',
     scope: {
@@ -18,8 +18,8 @@ module.exports = ['$window', '$q', 'ImagePreloadService', 'Sprite', function($wi
       var iconImage;
 
       $q.all([
-        ImagePreloadService.load('/img/jar-empty-50px.png'),
-        ImagePreloadService.load('/img/code-icons.png')
+        ImagePreloader.load('/img/jar-empty-50px.png'),
+        ImagePreloader.load('/img/code-icons.png')
       ]).then(function(images) {
         jarImage = images[0];
         iconImage = images[1];
@@ -96,6 +96,11 @@ module.exports = ['$window', '$q', 'ImagePreloadService', 'Sprite', function($wi
         ]});
       }
 
+      scope.vm.digestLoop = function() {
+        scope.vm.loop();
+        scope.$digest();
+      };
+
       scope.vm.loop = function() {
         tick++;
 
@@ -112,10 +117,8 @@ module.exports = ['$window', '$q', 'ImagePreloadService', 'Sprite', function($wi
 
           jars.push(jar);
           scope.vm.progress = jars.length / totalJars * 100;
-          scope.$digest();
         } else if (tick % 3 && !collection.length) {
           scope.vm.done = true;
-          scope.$digest();
         }
 
         _.forEach(jars, function(jar) {
@@ -123,7 +126,7 @@ module.exports = ['$window', '$q', 'ImagePreloadService', 'Sprite', function($wi
         });
 
         if (scope.vm.active) {
-          requestAnimationFrame(scope.vm.loop);
+          requestAnimationFrame(scope.vm.digestLoop);
         }
       };
 

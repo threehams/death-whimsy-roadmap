@@ -40,6 +40,11 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', '$window', function(C
         tick++;
       }
 
+      scope.vm.digestLoop = function() {
+        scope.vm.loop();
+        scope.$digest();
+      };
+
       scope.vm.loop = function() {
         drawTimelapse();
 
@@ -49,9 +54,8 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', '$window', function(C
         }
 
         if (frame < frames && scope.vm.active) {
-          $window.requestAnimationFrame(scope.vm.loop);
-          scope.$digest();
-        } else {
+          $window.requestAnimationFrame(scope.vm.digestLoop);
+        } else if (scope.vm.active) {
           scope.vm.done = true;
           scope.$digest();
         }
@@ -59,8 +63,10 @@ module.exports = ['Character', 'Sprite', 'DesignSequence', '$window', function(C
 
       scope.$watch('vm.active', function(newValue) {
         if (newValue) {
-          video.play();
-          scope.vm.loop();
+          if (!scope.vm.done) {
+            video.play();
+            scope.vm.loop();
+          }
         } else {
           video.pause();
         }

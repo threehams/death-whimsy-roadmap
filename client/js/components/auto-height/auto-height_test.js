@@ -13,7 +13,7 @@ describe('autoHeight', function() {
     that.compiled = that.$compile(that.element);
   }));
 
-  it('does something', function() {
+  it('matched the height of the window', function() {
     that.$window.innerHeight = 400;
     var element = that.compiled(that.scope);
     that.scope.$digest();

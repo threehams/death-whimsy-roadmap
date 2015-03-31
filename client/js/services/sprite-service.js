@@ -78,7 +78,7 @@ function SpriteService() {
   };
 
   Sprite.prototype.clear = function (x, y, scale) {
-    this.context.clearRect(x, y, this.width, this.height);
+    this.context.clearRect(x - 2, y - 2, this.width + 4, this.height + 4);
   };
 
 
