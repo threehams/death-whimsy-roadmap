@@ -10,9 +10,11 @@ describe('SectionProgressController', function() {
     that.controller('SectionProgressController as vm', {'$scope': that.scope});
   }));
 
-  describe('full/empty jars', function() {
-    it('fails', function() {
-      expect(true).to.be.false;
+  describe('current progress', function() {
+    it('calculates current progress', function() {
+      that.scope.vm.progress = 50;
+      that.scope.vm.progressEnd = 40;
+      expect(that.scope.vm.current()).to.equal(20);
     });
   });
 });

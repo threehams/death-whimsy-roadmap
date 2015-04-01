@@ -8,26 +8,21 @@ describe('PageController', function() {
     that.scope = $rootScope;
     that.controller = _$controller_;
     that.q = _$q_;
-    that.progressData = {
-      total: {
-        all: 5,
-        art: 0,
-        design: 0,
-        code: 0,
-        bugs: 0
-      }
+    that.totalProgress = {
+      art: 0,
+      design: 0,
+      code: 0
     };
-    that.sprintData = {
-      title: 'Sprint 5',
-      startDate: new Date().toString(),
-      endDate: new Date().toString()
+    that.epicsData = {
+      title: 'Death Animation',
+      progress: 90
     };
     that.fakeProgressService = {
       index: function() {
         var defer = that.q.defer();
         defer.resolve({
-          progress: that.progressData,
-          sprint: that.sprintData
+          total: that.totalProgress,
+          epics: that.epicsData
         });
         return defer.promise;
       }
@@ -37,6 +32,6 @@ describe('PageController', function() {
   it('populates progress data', function() {
     that.controller('PageController as vm', {'$scope': that.scope, ProgressService: that.fakeProgressService});
     that.scope.$digest();
-    expect(that.scope.vm.progress).to.eql(that.progressData);
+    expect(that.scope.vm.totalProgress).to.eql(that.totalProgress);
   });
 });

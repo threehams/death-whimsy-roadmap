@@ -1,6 +1,6 @@
 'use strict';
 
-describe('designCanvas', function() {
+describe('bugsCanvas', function() {
   var that = this;
 
   beforeEach(angular.mock.module('DeathWhimsy'));
@@ -14,7 +14,7 @@ describe('designCanvas', function() {
     that.isolate = that.element.isolateScope();
   }));
 
-  it('does something', function() {
+  xit('does something', function() {
     expect(that.scope).to.be.false;
   });
 });

@@ -13,19 +13,19 @@ slideshow(slides='vm.slides', slide='::0')
     header.header-subpage
       span Design
 
-    design-canvas(active='vm.slides[1].active', progress-end='vm.totalProgress.design')
+    design-canvas(active='vm.slides[1].active', progress-end='::vm.totalProgress.design')
 
   section.slideshow-slide.art-container(auto-height)
     header.header-subpage
       span Art
 
-    art-canvas(active='vm.slides[2].active', progress-end='vm.totalProgress.art')
+    art-canvas(active='vm.slides[2].active', progress-end='::vm.totalProgress.art')
 
   section.slideshow-slide.code-container(auto-height)
     header.header-subpage
       span Code
 
-    code-canvas(active='vm.slides[3].active', progress-end='vm.totalProgress.code')
+    code-canvas(active='vm.slides[3].active', progress-end='::vm.totalProgress.code')
 
   //section.slideshow-slide.bugs-container(auto-height)
   //  header.header-subpage

@@ -16,8 +16,8 @@ describe('DesignCanvasController', function() {
       drawImage: function() {}
     };
     that.fakeImagePreloader = {
-      load: function(url) {
-        return $q(function(resolve, reject) {
+      load: function() {
+        return $q(function(resolve) {
           resolve(new Image());
         });
       }
@@ -31,6 +31,7 @@ describe('DesignCanvasController', function() {
     });
 
     it('creates a character from the images', function() {
+      vm.progressEnd = 0;
       that.scope.$digest();
       expect(vm.morgan.state).to.eql('running');
     });
@@ -39,7 +40,7 @@ describe('DesignCanvasController', function() {
   describe('sequence', function() {
     beforeEach(function() {
       that.sequences = {};
-      that.sequences[10] = {
+      that.sequences[0] = {
         1: function (character) {
           if (character.x > 3) {
             return true;
@@ -59,7 +60,7 @@ describe('DesignCanvasController', function() {
       });
       vm = that.scope.vm;
       vm.context = that.fakeContext;
-      vm.progressEnd = 10;
+      vm.progressEnd = 0;
     });
 
     it('moves to the next step', function() {

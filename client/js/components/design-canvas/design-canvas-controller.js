@@ -9,13 +9,13 @@ function DesignCanvasController ($q, $scope, $window, Character, Sprite, ImagePr
 
   var cancel = $scope.$watch('vm.progressEnd', function(newValue) {
     if (newValue !== undefined) {
-      startLoop();
       cancel();
+      return startLoop();
     }
   });
 
   function startLoop() {
-    $q.all([
+    return $q.all([
       ImagePreloader.load('/img/morgan-run.png'),
       ImagePreloader.load('/img/morgan-jump.png')
     ]).then(function(images) {

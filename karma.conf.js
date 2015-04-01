@@ -19,6 +19,8 @@ module.exports = function(config) {
       'dist/js/main.js',
       'node_modules/angular-mocks/angular-mocks.js',
       'client/**/*_test.js'
+      //{pattern: 'dist/img/**/*.png', watched: true, included: false, served: true},
+      //{pattern: 'dist/img/**/*.jpg', watched: true, included: false, served: true}
     ],
 
     // list of files to exclude
@@ -56,6 +58,10 @@ module.exports = function(config) {
 
     // web server port
     port: 9876,
+
+    proxies: {
+      '/img/': 'http://localhost:8080/img/'
+    },
 
     // enable / disable colors in the output (reporters and logs)
     colors: true,
