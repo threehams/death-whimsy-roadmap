@@ -82,6 +82,9 @@ module.exports = ['$scope', '$q', '$window', 'ImagePreloader', 'Sprite', 'codeJa
     ]});
   }
 
+  /*
+   * Wrap animation loop to call digest cycle (for progress update).
+   */
   vm.digestLoop = function() {
     vm.loop();
     $scope.$digest();
@@ -92,7 +95,7 @@ module.exports = ['$scope', '$q', '$window', 'ImagePreloader', 'Sprite', 'codeJa
    * Starts at 30 frames and speeds up gradually before capping at 2 frames.
    */
   vm.getFramesPerJar = function(tick) {
-    return Math.max(Math.round(30 - Math.pow(tick / 25, 2)), 2);
+    return Math.max(Math.round(30 - Math.pow(tick / 25, 2)), 3);
   };
 
   /*

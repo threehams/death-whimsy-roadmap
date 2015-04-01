@@ -1,14 +1,14 @@
 'use strict';
 
-function Timelapse(context, image, width, height, opts) {
+function Timelapse(context, image, opts) {
   this.context = context;
   this.image = image;
   this.tick = 0;
   this.framesPerSecond = 5;
   this.frame = 0;
-  this.frameCount = 98;
-  this.width = width;
-  this.height = height;
+  this.frameCount = opts.frameCount;
+  this.width = opts.width;
+  this.height = opts.height;
   this.endFrame = opts.endFrame;
 }
 
@@ -43,6 +43,10 @@ module.exports = ['$window', '$scope', 'ImagePreloader', function ($window, $sco
   vm.touch = false; // TODO this should not be hardcoded - Modernizr?
   vm.progress = 0;
   vm.description = 'Art is done!';
+  // Minimum number of animation frames to show at 0% progress.
+  // Without this, low progress is very jarring...
+  vm.minFrames = 20;
+  vm.frameCount = 98;
 
   vm.tick = 0;
 
@@ -57,12 +61,13 @@ module.exports = ['$window', '$scope', 'ImagePreloader', function ($window, $sco
     vm.timelapse.update();
     vm.timelapse.render();
 
-    vm.progress = vm.tick / ((vm.timelapse.endFrame) * 6) * 100; // frames * fps
+    vm.progress = vm.tick / ((vm.timelapse.endFrame) * 6 + vm.minFrames) * 100; // frames + 5 second lead-in time * fps
 
-    if (vm.active && !vm.timelapse.done) {
+    if (vm.active && vm.progress < 100) {
       $window.requestAnimationFrame(vm.digestLoop);
     } else if (vm.active) {
       vm.done = true;
+      vm.progress = 100;
       vm.video.pause();
     }
   };
@@ -84,14 +89,21 @@ module.exports = ['$window', '$scope', 'ImagePreloader', function ($window, $sco
     }
   });
 
+  function getEndFrame(progress) {
+    return vm.minFrames + Math.ceil((vm.frameCount - vm.minFrames) * (progress / 100));
+  }
+
   function startLoop() {
     ImagePreloader.load('/img/timelapse.jpg').then(function(image) {
       vm.timelapse = new Timelapse(
         vm.context,
         image,
-        1000,
-        563,
-        {endFrame: Math.ceil(98 * (vm.progressEnd / 100)) }
+        {
+          width: 1000,
+          height: 563,
+          endFrame: getEndFrame(vm.progressEnd),
+          frameCount: vm.frameCount
+        }
       );
       vm.loaded = true;
 
