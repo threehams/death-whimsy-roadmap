@@ -7,7 +7,8 @@ describe('Sprite', function() {
   beforeEach(angular.mock.module('DeathWhimsy'));
   beforeEach(inject(function (_Sprite_) {
     that.fakeContext = {
-      drawImage: function() {}
+      drawImage: function() {},
+      clearRect: function() {}
     };
     Sprite = _Sprite_;
   }));
@@ -154,6 +155,43 @@ describe('Sprite', function() {
             0,
             20,
             20,
+            0,
+            0,
+            40,
+            40
+          );
+        });
+      });
+    });
+
+    describe('clear', function() {
+      beforeEach(function() {
+        that.image = new Image();
+        that.image.width = 20;
+        that.image.height = 20;
+        that.sprite = new Sprite({
+          context: that.fakeContext,
+          image: that.image
+        });
+        that.spy = sinon.spy(that.fakeContext, 'clearRect');
+      });
+
+      describe('without scale', function() {
+        it('clears the area', function() {
+          that.sprite.clear(10, 10);
+          expect(that.spy).to.have.been.calledWith(
+            10,
+            10,
+            20,
+            20
+          );
+        });
+      });
+
+      describe('with scale', function() {
+        it('draws the sprite', function() {
+          that.sprite.clear(10, 10, 2.0);
+          expect(that.spy).to.have.been.calledWith(
             0,
             0,
             40,

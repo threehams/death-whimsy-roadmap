@@ -70,7 +70,7 @@ function CharacterService() {
   };
 
   Character.prototype.clear = function() {
-    this.sprite.clear(this.x, this.y);
+    this.sprite.clear(this.x, this.y, 1.1);
   };
 
   Character.prototype.update = function() {

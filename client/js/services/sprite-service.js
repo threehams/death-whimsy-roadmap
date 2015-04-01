@@ -78,9 +78,26 @@ function SpriteService() {
   };
 
   Sprite.prototype.clear = function (x, y, scale) {
-    this.context.clearRect(x - 2, y - 2, this.width + 4, this.height + 4);
+    if (scale) {
+      var scaled = this.calculateScale(x, y, scale);
+      this.context.clearRect(scaled.x, scaled.y, scaled.width, scaled.height);
+    } else {
+      this.context.clearRect(x, y, this.width, this.height);
+    }
   };
 
+  Sprite.prototype.calculateScale = function(x, y, scale) {
+    var width = Math.round(this.width * scale);
+    var height = Math.round(this.height * scale);
+    x = Math.round(x - (width - this.width) / 2);
+    y = Math.round(y - (height - this.height) / 2);
+    return {
+      x: x,
+      y: y,
+      width: width,
+      height: height
+    };
+  };
 
   Sprite.prototype.render = function (x, y, scale) {
     var width;
@@ -89,10 +106,11 @@ function SpriteService() {
     y = Math.round(y);
 
     if (scale) {
-      width = this.width * scale;
-      height = this.height * scale;
-      x -= (width - this.width) / 2;
-      y -= (height - this.height) / 2;
+      var props = this.calculateScale(x, y, scale);
+      x = props.x;
+      y = props.y;
+      width = props.width;
+      height = props.height;
     } else {
       width = this.width;
       height = this.height;

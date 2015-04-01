@@ -9,11 +9,20 @@ function Jar(sprite, icon, opts) {
   this.y = opts.y;
   this.sprite = sprite;
   this.icon = icon;
-  this.scales = [0.2, 0.3, 0.5, 1.2, null].reverse(); // reverse to use pop(), but still be readable
+  this.scales = [0.2, 0.3, 0.5, 1.2];
+  this.frame = 0;
 }
 
+Jar.prototype.clear = function() {
+  this.sprite.clear(this.x, this.y, this.scales[this.frame]);
+};
+
+Jar.prototype.update = function() {
+  this.frame++;
+};
+
 Jar.prototype.render = function() {
-  var scale = this.scales.length ? this.scales.pop() : null;
+  var scale = this.scales[this.frame] ? this.scales[this.frame] : null;
   this.icon.render(this.x + 6, this.y + 11, scale);
   this.sprite.render(this.x, this.y, scale);
 };
@@ -23,8 +32,7 @@ module.exports = ['$scope', '$q', '$window', 'ImagePreloader', 'Sprite', 'codeJa
 
   vm.progress = 0;
   vm.description = 'Code is done!';
-
-  vm.framesPerJar = 5;
+  vm.framesPerJar = 30;
 
   var cancel = $scope.$watch('vm.progressEnd', function(newValue) {
     if (newValue !== undefined) {
@@ -47,6 +55,11 @@ module.exports = ['$scope', '$q', '$window', 'ImagePreloader', 'Sprite', 'codeJa
       vm.totalJars = vm.collection.length;
       vm.tick = 0;
       vm.jars = [];
+      // Run a simulation to see how much progress should be incremented per tick
+      vm.progressPerTick = 100 / _.reduce(vm.collection, function(sum) {
+        return sum + vm.getFramesPerJar(sum);
+      }, 1);
+      console.log(vm.progressPerTick);
 
       if (vm.active) {
         vm.loop();
@@ -74,14 +87,21 @@ module.exports = ['$scope', '$q', '$window', 'ImagePreloader', 'Sprite', 'codeJa
     $scope.$digest();
   };
 
+  /*
+   * Get the number of frames to skip before the next jar is drawn.
+   * Starts at 30 frames and speeds up gradually before capping at 2 frames.
+   */
+  vm.getFramesPerJar = function(tick) {
+    return Math.max(Math.round(30 - Math.pow(tick / 25, 2)), 2);
+  };
+
+  /*
+   * Pop jars onto the canvas to show progress as time goes on.
+   */
   vm.loop = function() {
     vm.tick++;
 
-    vm.context.clearRect(0, 0, 1000, 563); // TODO sort-of DOM manipulation in controller - how to handle this? Canvas complicates everything
-
-    if (vm.collection.length) {
-      vm.progress = (vm.tick / vm.framesPerJar) / vm.totalJars * 100;
-    }
+    if (vm.progress < 100) vm.progress = vm.tick * vm.progressPerTick;
 
     if (vm.tick % vm.framesPerJar === 0 && vm.collection.length) {
       var position = vm.collection.pop();
@@ -92,12 +112,17 @@ module.exports = ['$scope', '$q', '$window', 'ImagePreloader', 'Sprite', 'codeJa
         {x: position[0], y: position[1] - vm.jarImage.height} // coordinate list is based on bottom left!
       );
 
+      // keep track of the jars which need to be rendered each frame
+      // TODO only clear the half of the canvas which is active
       vm.jars.push(jar);
+      vm.framesPerJar = vm.getFramesPerJar(vm.tick);
     } else if (vm.tick % 3 && !vm.collection.length) {
       vm.done = true;
     }
 
+    _.forEach(vm.jars, function(jar) { jar.clear(); });
     _.forEach(vm.jars, function(jar) {
+      jar.update();
       jar.render();
     });
 
