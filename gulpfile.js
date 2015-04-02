@@ -60,7 +60,6 @@ gulp.task('deploy-vendor', function() {
 
 function buildVendor() {
   return browserify()
-    .add('./client/vendor/modernizr-touch.js')
     .require('lodash')
     .require('angular')
     .require('angular-route')
