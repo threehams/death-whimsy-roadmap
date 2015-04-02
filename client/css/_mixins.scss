@@ -4,6 +4,12 @@
   }
 }
 
+@mixin large-desktop {
+  @media (min-width: #{$large-desktop-width}) {
+    @content;
+  }
+}
+
 @keyframes pop-in {
   0% { opacity: 0; transform: scale(0.1); }
   80% { opacity: 1; transform: scale(1.2); }

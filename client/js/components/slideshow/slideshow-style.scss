@@ -37,13 +37,23 @@
   transition-property: all;
   transition-delay: 0s;
 
-  &.enabled:hover {
-    border-right-color: $primary;
-  }
+  display: none;
 
   &.enabled {
     opacity: 1;
     cursor: pointer;
+  }
+
+  @include desktop {
+    display: block;
+  }
+
+  @include large-desktop {
+    left: 20px;
+    bottom: 50%;
+    border-bottom: 40px solid transparent;
+    border-right: 40px solid $primary;
+    border-top: 40px solid transparent;
   }
 }
 
@@ -62,12 +72,22 @@
   transition-property: all;
   transition-delay: 0s;
 
-//  &.enabled:hover {
-  //    border-left-color: $primary;
-  //  }
+  display: none;
 
   &.enabled {
     opacity: 1;
     cursor: pointer;
+  }
+
+  @include desktop {
+    display: block;
+  }
+
+  @include large-desktop {
+    right: 50px;
+    bottom: 50%;
+    border-bottom: 40px solid transparent;
+    border-left: 40px solid $primary;
+    border-top: 40px solid transparent;
   }
 }

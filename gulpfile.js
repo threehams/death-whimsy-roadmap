@@ -60,6 +60,7 @@ gulp.task('deploy-vendor', function() {
 
 function buildVendor() {
   return browserify()
+    .add('./client/vendor/modernizr-touch.js')
     .require('lodash')
     .require('angular')
     .require('angular-route')
@@ -97,7 +98,7 @@ gulp.task('watch', function () {
   });
 
   gulp.watch('client/**/*.scss', ['sass']);
-  gulp.watch(['client/**/*.html', 'client/**/*.css', 'client/**/*.jpg', 'client/vid/*.*'], ['copy-static-files']);
+  gulp.watch(['client/**/*.html', 'client/**/*.css', 'client/**/*.svg', 'client/**/*.jpg', 'client/vid/*.*'], ['copy-static-files']);
   gulp.watch('client/**/*.png', ['process-png']);
   gulp.watch('server/**/*.js', ['mocha']);
 
@@ -130,7 +131,7 @@ gulp.task('process-static-files', function () {
 });
 
 gulp.task('copy-static-files', function() {
-  return gulp.src(['./client/**/*.html', './client/**/*.css', 'client/**/*.jpg', 'client/**/*.mp4'])
+  return gulp.src(['./client/**/*.html', './client/**/*.css', 'client/**/*.svg', 'client/**/*.jpg', 'client/**/*.mp4'])
     .pipe(gulp.dest('dist/'))
     .pipe(reload({stream: true}));
 });

@@ -9,6 +9,9 @@ slideshow(slides='vm.slides', slide='::0')
     section.progress-jar-container
       progress-jar(ng-repeat='epic in vm.epics', title='epic.title', progress='epic.progress')
 
+    .swipe-left-container
+      img.swipe-left(src='/img/swipe-left.svg')
+
   section.slideshow-slide.design-container(auto-height)
     header.header-subpage
       span Design
