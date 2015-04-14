@@ -1,6 +1,6 @@
 'use strict';
 
-function DesignCanvas () {
+module.exports = function() {
   return {
     restrict: 'E',
     scope: {
@@ -23,6 +23,4 @@ function DesignCanvas () {
       });
     }
   };
-}
-
-module.exports = DesignCanvas;
+};

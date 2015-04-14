@@ -1,33 +1,6 @@
 'use strict';
 
-/*
- * Jar object, handles its own animation and rendering.
- * Inlined since it's not yet used outside of this controller.
- */
-function Jar(sprite, icon, opts) {
-  this.x = opts.x;
-  this.y = opts.y;
-  this.sprite = sprite;
-  this.icon = icon;
-  this.scales = [0.2, 0.3, 0.5, 1.2];
-  this.frame = 0;
-}
-
-Jar.prototype.clear = function() {
-  this.sprite.clear(this.x, this.y, this.scales[this.frame]);
-};
-
-Jar.prototype.update = function() {
-  this.frame++;
-};
-
-Jar.prototype.render = function() {
-  var scale = this.scales[this.frame] ? this.scales[this.frame] : null;
-  this.icon.render(this.x + 6, this.y + 11, scale);
-  this.sprite.render(this.x, this.y, scale);
-};
-
-module.exports = ['$scope', '$q', '$window', 'ImagePreloader', 'Sprite', 'codeJars', function ($scope, $q, $window, ImagePreloader, Sprite, codeJars) {
+function CodeCanvasController ($scope, $q, $window, ImagePreloader, Sprite, codeJars) {
   var vm = this;
 
   vm.progress = 0;
@@ -61,9 +34,7 @@ module.exports = ['$scope', '$q', '$window', 'ImagePreloader', 'Sprite', 'codeJa
       }, 1);
       console.log(vm.progressPerTick);
 
-      if (vm.active) {
-        vm.loop();
-      }
+      if (vm.active) vm.loop();
     });
   }
 
@@ -129,9 +100,7 @@ module.exports = ['$scope', '$q', '$window', 'ImagePreloader', 'Sprite', 'codeJa
       jar.render();
     });
 
-    if (vm.active) {
-      $window.requestAnimationFrame(vm.digestLoop);
-    }
+    if (vm.active) $window.requestAnimationFrame(vm.digestLoop);
   };
 
   $scope.$watch('vm.active', function(newValue) {
@@ -139,4 +108,35 @@ module.exports = ['$scope', '$q', '$window', 'ImagePreloader', 'Sprite', 'codeJa
       vm.loop();
     }
   });
-}];
+}
+
+CodeCanvasController.$inject = ['$scope', '$q', '$window', 'ImagePreloader', 'Sprite', 'codeJars'];
+
+module.exports = CodeCanvasController;
+
+/*
+ * Jar object, handles its own animation and rendering.
+ * Inlined since it's not yet used outside of this controller.
+ */
+function Jar(sprite, icon, opts) {
+  this.x = opts.x;
+  this.y = opts.y;
+  this.sprite = sprite;
+  this.icon = icon;
+  this.scales = [0.2, 0.3, 0.5, 1.2];
+  this.frame = 0;
+}
+
+Jar.prototype.clear = function() {
+  this.sprite.clear(this.x, this.y, this.scales[this.frame]);
+};
+
+Jar.prototype.update = function() {
+  this.frame++;
+};
+
+Jar.prototype.render = function() {
+  var scale = this.scales[this.frame] ? this.scales[this.frame] : null;
+  this.icon.render(this.x + 6, this.y + 11, scale);
+  this.sprite.render(this.x, this.y, scale);
+};

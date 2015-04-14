@@ -23,11 +23,12 @@ describe('GET /api/resources', function() {
     services.redisClient = redis.createClient();
     yield services.redisClient.selectAsync(15);
     yield services.redisClient.flushdbAsync();
-    //yield services.redisClient.setAsync('progress', JSON.stringify({
-    //  sprint: {
-    //    all: 100
-    //  }
-    //}));
+    yield services.redisClient.setAsync('progress', JSON.stringify({
+      sprint: {
+        all: 100
+      }
+    }));
+    process.env.WEBHOOK_TOKEN = 'abcd';
   });
 
   afterEach(function *() {
@@ -35,19 +36,19 @@ describe('GET /api/resources', function() {
   });
 
   it('rejects calls with no token', function *() {
-    var response = yield request.get('/api/progress').expect(200).end();
-    expect(response.body).to.eql({sprint: {all: 100}});
+    var response = yield request.post('/api/webhooks').expect(401).end();
+    expect(response.body).to.eql({});
   });
 
   it('rejects calls with an incorrect token', function *() {
-    var response = yield request.get('/api/progress').expect(200).end();
-    expect(response.body).to.eql({sprint: {all: 100}});
+    var response = yield request.post('/api/webhooks?token=1234').expect(401).end();
+    expect(response.body).to.eql({});
   });
 
   describe('hooks', function() {
     it('rejects calls with an incorrect token', function *() {
-      var response = yield request.get('/api/progress').expect(200).end();
-      expect(response.body).to.eql({sprint: {all: 100}});
+      var response = yield request.post('/api/webhooks?token=abcd').send({}).expect(200).end();
+      expect(response.body).to.eql({});
     });
   });
 });

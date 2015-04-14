@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = ['$window', '$q', 'ImagePreloader', 'Sprite', 'codeJars', function($window, $q, ImagePreloader, Sprite, codeJars) {
+module.exports = function() {
   return {
     restrict: 'E',
     scope: {
@@ -17,4 +17,4 @@ module.exports = ['$window', '$q', 'ImagePreloader', 'Sprite', 'codeJars', funct
       scope.vm.context = canvas.getContext('2d');
     }
   };
-}];
+};

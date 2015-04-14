@@ -1,15 +1,15 @@
 'use strict';
-
 var Jira = require('../models/jira');
 var Progress = require('../models/progress');
 var parse = require('co-body');
 
 module.exports = {
   create: function *() {
-    if (!this.query.token || (this.query.token !== process.env.WEBHOOK_TOKEN)) {
+    if (!this.query.token || !process.env.WEBHOOK_TOKEN || (this.query.token !== process.env.WEBHOOK_TOKEN)) {
       this.status = 401;
       return;
     }
+
     var body = yield parse.json(this);
 
     var jira = new Jira();

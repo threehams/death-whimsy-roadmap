@@ -9,13 +9,13 @@ function DesignCanvasController ($q, $scope, $window, Character, Sprite, ImagePr
 
   var cancel = $scope.$watch('vm.progressEnd', function(newValue) {
     if (newValue !== undefined) {
+      startLoop();
       cancel();
-      return startLoop();
     }
   });
 
   function startLoop() {
-    return $q.all([
+    $q.all([
       ImagePreloader.load('/img/morgan-run.png'),
       ImagePreloader.load('/img/morgan-jump.png')
     ]).then(function(images) {
@@ -34,9 +34,7 @@ function DesignCanvasController ($q, $scope, $window, Character, Sprite, ImagePr
       vm.sequence = designSequences[Math.floor(vm.progressEnd / 10) * 10];
       vm.step = 1;
 
-      if (vm.active) {
-        vm.loop();
-      }
+      if (vm.active) vm.loop();
     });
   }
 

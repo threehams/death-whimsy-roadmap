@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = ['$window', 'ImagePreloader', function($window, ImagePreloader) {
+module.exports = function() {
   return {
     restrict: 'E',
     scope: {
@@ -18,4 +18,4 @@ module.exports = ['$window', 'ImagePreloader', function($window, ImagePreloader)
       scope.vm.context = canvas.getContext('2d');
     }
   };
-}];
+};
