@@ -32,7 +32,7 @@ describe('GET /api/resources', function() {
   });
 
   afterEach(function *() {
-    //services.redisClient.quit();
+    services.redisClient.quit();
   });
 
   it('rejects calls with no token', function *() {

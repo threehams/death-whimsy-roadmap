@@ -270,6 +270,10 @@ describe('Progress', function() {
         }));
       });
 
+      afterEach(function *() {
+        services.redisClient.quit();
+      });
+
       it('calculates progress', function *() {
         var progress = new Progress();
         yield progress.writeAll({id: 1, name: 'THE BEST SPRINT'});
@@ -344,6 +348,10 @@ describe('Progress', function() {
         yield services.redisClient.setAsync('unrelated', 'snoogans');
       });
 
+      afterEach(function *() {
+        services.redisClient.quit();
+      });
+
       it('calculates progress', function *() {
         var progress = new Progress();
         yield progress.writeAll({id: 1, name: 'THE BEST SPRINT'});
@@ -389,6 +397,10 @@ describe('Progress', function() {
       });
     });
 
+    afterEach(function *() {
+      services.redisClient.quit();
+    });
+
     describe('epic', function() {
       beforeEach(function *() {
         services.redisClient = redis.createClient();
@@ -421,6 +433,10 @@ describe('Progress', function() {
           epic: '29'
         }));
         yield services.redisClient.setAsync('unrelated', 'snoogans');
+      });
+
+      afterEach(function *() {
+        services.redisClient.quit();
       });
 
       it('calculates progress for issues if their epics in the current sprint', function *() {

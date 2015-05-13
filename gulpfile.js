@@ -154,9 +154,13 @@ gulp.task('connect-dist', function () {
 });
 
 gulp.task('mocha', function() {
-  var mocha = require('gulp-mocha-co');
+  var mocha = require('gulp-spawn-mocha');
   return gulp.src(['./server/test/**/*_test.js'])
-    .pipe(mocha())
+    .pipe(mocha({
+      harmonyGenerators: true,
+      ui: 'bdd',
+      reporter: 'progress'
+    }))
     .on('error', function() {
       this.emit('end'); // without this, can't start watching tests if one is broken
     });

@@ -10,7 +10,8 @@ require('co-mocha');
 var app = require('../../app');
 var request = require('co-supertest');
 var nock = require('nock');
-nock.enableNetConnect();
+nock.enableNetConnect('localhost');
+nock.enableNetConnect('127.0.0.1');
 var services = require('../../services');
 var redis = Promise.promisifyAll(require('redis'));
 
@@ -36,7 +37,7 @@ describe('GET /api/resources', function() {
   });
 
   afterEach(function *() {
-    //services.redisClient.quit();
+    services.redisClient.quit();
   });
 
   it('returns sprint progress', function *() {

@@ -73,7 +73,7 @@ describe('Jira', function() {
     });
 
     afterEach(function *() {
-      //services.redisClient.quit();
+      services.redisClient.quit();
     });
 
     it('writes all issues to Redis', function *() {
