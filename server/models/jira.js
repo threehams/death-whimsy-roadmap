@@ -4,6 +4,7 @@ var Promise = require('bluebird');
 var _ = require('lodash');
 var requestAsync = Promise.promisify(require('request'));
 var services = require('../services');
+var moment = require('moment');
 
 function Jira() { }
 
@@ -21,6 +22,7 @@ Jira.prototype.delete = function(issue) {
 
 Jira.prototype.query = function(opts) {
   var queryStrings = _.merge({maxResults: 1000}, opts || {});
+  var that = this;
   return requestAsync({
     url: 'https://squidtankgames.atlassian.net/rest/api/2/search',
     qs: queryStrings,
@@ -30,7 +32,15 @@ Jira.prototype.query = function(opts) {
     },
     json: true
   }).bind(this).spread(function(response, body) {
-    return _.map(body.issues, this.formatIssue);
+    this.epics = _.reduce(body.issues, function(epics, issue) {
+      if (issue.fields.issuetype.name === 'Epic') {
+        epics[issue.key] = issue;
+      }
+      return epics;
+    }, {});
+    return _.map(body.issues, function(issue) {
+      return that.formatIssue(issue);
+    });
   });
 };
 
@@ -52,10 +62,18 @@ Jira.prototype.formatIssue = function(issue) {
     labels: _.map(issue.fields.labels, function(label) { return label.toLowerCase(); }),
     description: issue.fields.description,
     estimate: issue.fields.customfield_10005 ? Math.floor(issue.fields.customfield_10005) : 1,
-    sprints: getSprintIds(issue.fields.customfield_10007)
+    sprints: getSprintIds(issue.fields.customfield_10007),
+    epic: issue.fields.customfield_10008 ? this.epics[issue.fields.customfield_10008].id : null
   };
 };
 
+/*
+ * Get sprint details from undocumented Jira Agile API.
+ *
+ * This requests a full list of issues for the sprint, and throws away everything except the sprint details.
+ * It may be possible to find a better route to hit, with a lot of searching.
+ *
+ */
 Jira.prototype.getCurrentSprint = function() {
   return requestAsync({
     url: 'https://squidtankgames.atlassian.net/rest/greenhopper/1.0/sprintquery/1', // TODO rapidview id 1 hardcoded
@@ -65,7 +83,23 @@ Jira.prototype.getCurrentSprint = function() {
     },
     json: true
   }).bind(this).spread(function(response, body) {
-    return _.find(body.sprints, {state: 'ACTIVE'});
+    var sprintId = _.find(body.sprints, {state: 'ACTIVE'}).id;
+    return requestAsync({
+      url: 'https://squidtankgames.atlassian.net/rest/greenhopper/1.0/rapid/charts/sprintreport?rapidViewId=1&sprintId=' + sprintId,
+      auth: {
+        user: process.env.JIRA_USERNAME || require('../../.env.json').jira.username,
+        password: process.env.JIRA_PASSWORD || require('../../.env.json').jira.password
+      },
+      json: true
+    });
+  }).spread(function(response, body) {
+    var sprint = body.sprint;
+    return {
+      id: sprint.id,
+      name: sprint.name,
+      startDate: moment(sprint.startDate, 'D/MMM/YY H:mm a').toDate(), // 18/Mar/15 1:51 PM
+      endDate: moment(sprint.endDate, 'D/MMM/YY H:mm a').toDate()
+    };
   });
 };
 

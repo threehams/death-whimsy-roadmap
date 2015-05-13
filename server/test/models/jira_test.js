@@ -12,6 +12,7 @@ var nock = require('nock');
 nock.enableNetConnect();
 var services = require('../../services');
 var redis = Promise.promisifyAll(require('redis'));
+var moment = require('moment');
 
 describe('Jira', function() {
   describe('query', function() {
@@ -24,6 +25,9 @@ describe('Jira', function() {
     it('returns a list of formatted issues', function *() {
       var jira = new Jira();
       var issues = yield jira.query();
+      issues = issues.filter(function(issue) {
+        return issue.type !== 'Epic';
+      });
       expect(issues[0].id).to.equal('10153');
       expect(issues[0].summary).to.equal('Test for webhook / sprint');
       expect(issues[0].description).to.equal('this is a test - ignore');
@@ -32,6 +36,7 @@ describe('Jira', function() {
       expect(issues[0].estimate).to.equal(1);
       expect(issues[0].labels).to.eql(['promotion']);
       expect(issues[0].sprints).to.eql([1]);
+      expect(issues[0].epic).to.eql('10120');
 
       expect(issues[1].estimate).to.equal(3);
     });
@@ -42,12 +47,18 @@ describe('Jira', function() {
       nock('https://squidtankgames.atlassian.net')
         .get('/rest/greenhopper/1.0/sprintquery/1')
         .replyWithFile(200, __dirname + '/../fixtures/jira-sprints.json');
+      nock('https://squidtankgames.atlassian.net')
+        .get('/rest/greenhopper/1.0/rapid/charts/sprintreport?rapidViewId=1&sprintId=1')
+        .replyWithFile(200, __dirname + '/../fixtures/jira-sprint-details.json');
     });
 
     it('returns the latest sprint', function *() {
       var jira = new Jira();
       var sprint = yield jira.getCurrentSprint();
+      expect(sprint.id).to.equal(1);
       expect(sprint.name).to.equal('Sprint 4');
+      expect(sprint.startDate).to.eql(moment('2015-03-18T20:51:00.000Z').toDate());
+      expect(sprint.endDate).to.eql(moment('2015-03-30T20:51:00.000Z').toDate());
     });
   });
 
@@ -65,7 +76,7 @@ describe('Jira', function() {
       services.redisClient.quit();
     });
 
-    it('returns the latest sprint', function *() {
+    it('writes all issues to Redis', function *() {
       var jira = new Jira();
       yield jira.writeAll();
       var record = JSON.parse(yield services.redisClient.getAsync('issue10153'));

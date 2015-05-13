@@ -1,16 +1,38 @@
 'use strict';
 
-module.exports = ['ProgressService', function (ProgressService) {
+module.exports = ['ProgressService', '$location', function (ProgressService, $location) {
   var vm = this;
 
-  vm.codeBoxes = _.map(_.range(0, 200), function() {
-    if (Math.random() > 0.5) return {color: 'red'};
-    return {color: 'green'};
-  });
-  vm.sprint = { title: 1, endDate: moment().toDate() };
-  vm.build = {version: '0.1', title: 'Ephemeral Lagamorph'};
+  vm.slide = 0;
+  vm.getProgress = function() {
+    ProgressService.index().then(function(data) {
+      vm.epics = data.epics;
+      if ($location.search().progress) {
+        vm.fakeProgress = parseInt($location.search().progress);
+        vm.totalProgress = {
+          art: vm.fakeProgress,
+          code: vm.fakeProgress,
+          design: vm.fakeProgress
+        };
+      } else {
+        vm.totalProgress = data.total;
+      }
+      //$timeout(vm.getProgress, 2000);
+    }).catch(function(err) {
+      console.log(err);
+      //$timeout(vm.getProgress, 60000);
+    });
+  };
 
-  ProgressService.index().then(function(data) {
-    vm.progress = data;
-  });
+  vm.incrementProgress = function(progress) {
+    $location.path('/').search({progress: progress});
+  };
+
+  vm.getProgress();
+  vm.slides = [
+    {},
+    {},
+    {},
+    {}
+  ];
 }];

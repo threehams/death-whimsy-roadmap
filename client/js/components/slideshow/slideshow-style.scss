@@ -1,0 +1,93 @@
+.slideshow-overflow {
+  overflow-x: hidden;
+}
+
+.slideshow-container {
+  width: 500%;
+  transition-duration: 0.5s;
+  transition-property: all;
+  transition-delay: 0s;
+}
+
+.slideshow-slide {
+  overflow-y: scroll;
+  float: left;
+  width: 20%;
+  opacity: 1;
+  padding: 0 0.5% 20px 0.5%;
+  box-sizing: border-box;
+
+  &:nth-of-type(3) {
+    opacity: 1;
+  }
+}
+
+.slideshow-arrow-left {
+  position: fixed;
+  right: 100px;
+  bottom: 50px;
+  width: 0;
+  height: 0;
+  border-bottom: 20px solid transparent;
+  border-right: 20px solid $primary;
+  border-top: 20px solid transparent;
+  cursor: auto;
+  opacity: 0.2;
+  transition-duration: 0.3s;
+  transition-property: all;
+  transition-delay: 0s;
+
+  display: none;
+
+  &.enabled {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  @include desktop {
+    display: block;
+  }
+
+  @include large-desktop {
+    left: 20px;
+    bottom: 50%;
+    border-bottom: 40px solid transparent;
+    border-right: 40px solid $primary;
+    border-top: 40px solid transparent;
+  }
+}
+
+.slideshow-arrow-right {
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+  width: 0;
+  height: 0;
+  border-bottom: 20px solid transparent;
+  border-left: 20px solid $primary;
+  border-top: 20px solid transparent;
+  cursor: auto;
+  opacity: 0.2;
+  transition-duration: 0.3s;
+  transition-property: all;
+  transition-delay: 0s;
+
+  display: none;
+
+  &.enabled {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  @include desktop {
+    display: block;
+  }
+
+  @include large-desktop {
+    right: 50px;
+    bottom: 50%;
+    border-bottom: 40px solid transparent;
+    border-left: 40px solid $primary;
+    border-top: 40px solid transparent;
+  }
+}

@@ -1,0 +1,21 @@
+.art-video {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: none;
+  box-shadow: $element-shadow;
+
+  @include desktop {
+    display: block;
+  }
+}
+
+.art-canvas {
+  width: 100%;
+  display: block;
+  box-shadow: $element-shadow;
+
+  @include desktop {
+    display: none;
+  }
+}

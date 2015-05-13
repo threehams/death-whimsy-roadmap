@@ -1,7 +1,6 @@
 'use strict';
 
 var Jira = require('../models/jira');
-var Promise = require('bluebird');
 var Progress = require('../models/progress');
 
 module.exports = {

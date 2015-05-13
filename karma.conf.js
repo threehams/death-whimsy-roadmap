@@ -10,16 +10,17 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'chai', 'sinon'],
+    frameworks: ['mocha', 'chai', 'sinon', 'sinon-chai'],
 
     // list of files / patterns to load in the browser
     files: [
-      'node_modules/lodash/dist/lodash.min.js',
+      'node_modules/lodash/index.js',
       'dist/js/vendor.js',
       'dist/js/main.js',
       'node_modules/angular-mocks/angular-mocks.js',
-      'node_modules/moment/moment.js',
       'client/**/*_test.js'
+      //{pattern: 'dist/img/**/*.png', watched: true, included: false, served: true},
+      //{pattern: 'dist/img/**/*.jpg', watched: true, included: false, served: true}
     ],
 
     // list of files to exclude
@@ -46,8 +47,8 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'client/**/*.html': ['ng-html2js'],
-      'client/**/*.js': ['sourcemap']
+      'client/**/*.html': ['ng-html2js']
+      //'client/**/*.js': ['sourcemap']
     },
 
     // test results reporter to use
@@ -57,6 +58,10 @@ module.exports = function(config) {
 
     // web server port
     port: 9876,
+
+    proxies: {
+      '/img/': 'http://localhost:8080/img/'
+    },
 
     // enable / disable colors in the output (reporters and logs)
     colors: true,

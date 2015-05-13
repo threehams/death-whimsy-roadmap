@@ -1,0 +1,13 @@
+.design-center {
+  width: 100%;
+  text-align: center;
+}
+
+.design-canvas {
+  margin: 0 auto;
+  max-width: 1000px;
+  width: 100%;
+//  background-image: url('/img/design-0.jpg');
+  background-size: 100% 100%;
+  box-shadow: $element-shadow;
+}

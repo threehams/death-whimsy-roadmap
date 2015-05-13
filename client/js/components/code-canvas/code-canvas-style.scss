@@ -1,0 +1,21 @@
+.code-canvas-container {
+  text-align: center;
+  box-shadow: $element-shadow;
+  margin: 0 auto;
+  max-width: 1000px;
+  display: block;
+  position: relative;
+}
+
+.code-canvas {
+  display: block;
+  width: 100%;
+  background: url('/img/code-background.jpg');
+  background-size: 100%;
+}
+
+.code-image-foreground {
+  width: 100%;
+  display: block;
+  position: absolute;
+}

@@ -1,63 +1,37 @@
-header.header
-  img.header-logo(src='/img/logo-200.png')
-  span.header-title The Deathmap
+slideshow(slides='vm.slides', slide='::0')
+  section.slideshow-slide.summary-container(auto-height)
+    header.header
+      button(ng-click='vm.incrementProgress(vm.fakeProgress + 10)' ng-if='vm.fakeProgress') Add 10 Progress
+      button(ng-click='vm.incrementProgress(10)' ng-if='!vm.fakeProgress') Set Fake Progress
+      img(src='/img/logo-150.png')
+      span Progress
 
-header.build-title Current Build: v.{{ ::vm.build.version }} ({{ ::vm.build.title }})
+    section.progress-jar-container
+      progress-jar(ng-repeat='epic in vm.epics', title='epic.title', progress='epic.progress')
 
-div.body-container
-  section.progress-container
-    div.progress-group
-      div.progress-title Sprint \#{{ ::vm.sprint.title }} (ending {{ ::vm.sprint.endDate | date : 'MM/dd/yyyy' }})
-      progress-bar(bar-min='0', bar-max='100', current='vm.progress.sprint.all')
+    .swipe-left-container
+      img.swipe-left(src='/img/swipe-left.svg')
 
-  section.progress-container
-    div.progress-group
-      div.progress-title Code!
-      progress-bar(bar-min='0', bar-max='100', current='vm.progress.sprint.code')
-    div.progress-group
-      div.progress-title Art!
-      progress-bar(bar-min='0', bar-max='100', current='vm.progress.sprint.art')
-    div.progress-group
-      div.progress-title Design!
-      progress-bar(bar-min='0', bar-max='100', current='vm.progress.sprint.design')
-    div.progress-group
-      div.progress-title Bugs!
-      progress-bar(bar-min='0', bar-max='100', current='vm.progress.sprint.bugs')
+  section.slideshow-slide.design-container(auto-height)
+    header.header-subpage
+      span Design
 
-  section.character-container
-    div.character-icon
-      img(src='http://placehold.it/200x200&text=Cindy')
-    div.character-text
-      | "Ut varius massa at mauris ornare vehicula. Phasellus volutpat, erat et mollis rhoncus, arcu lectus hendrerit nulla, quis finibus lectus sed."
+    design-canvas(active='vm.slides[1].active', progress-end='::vm.totalProgress.design')
 
-  section.design-container
-    .design-title Design status!
-    img(src='/img/design-end.jpg')
+  section.slideshow-slide.art-container(auto-height)
+    header.header-subpage
+      span Art
 
-  section.upcoming-container
-    // Stuff from the current sprint which is in progress
-    div.upcoming-group
-      div.upcoming
+    art-canvas(active='vm.slides[2].active', progress-end='::vm.totalProgress.art')
 
-  //section.character-container
-    div.character-text
-      | "Fusce quis porttitor enim, eu vestibulum dui. Pellentesque turpis est, egestas laoreet vulputate blandit, ultrices a lectus. Mauris posuere."
-    div.character-icon
-      img(src='http://placehold.it/200x200&text=Michelle')
+  section.slideshow-slide.code-container(auto-height)
+    header.header-subpage
+      span Code
 
-  section.art-container
-    .art-title Art status!
-    img(src='/img/art-end.jpg')
+    code-canvas(active='vm.slides[3].active', progress-end='::vm.totalProgress.code')
 
-  //section.character-container
-    div.character-icon
-      img(src='http://placehold.it/200x200&text=Zach')
-    div.character-text
-      | "Morbi vel pharetra nibh, vitae mollis massa. Mauris scelerisque nibh eget ligula vulputate feugiat sit amet non nisl. Donec rhoncus posuere."
-
-  section.code-container
-    component(ng-repeat='box in vm.codeBoxes' color='::box.color')
-
-  section.bugs
-    .bugs-title
-    img(src='/img/bugs-end.jpg')
+  //section.slideshow-slide.bugs-container(auto-height)
+  //  header.header-subpage
+  //    span Bugs
+  //
+  //  bugs-canvas(active='vm.slides[4].active')

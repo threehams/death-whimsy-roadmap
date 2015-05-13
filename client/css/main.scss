@@ -1,144 +1,57 @@
 @import 'constants';
 @import 'base';
 @import 'mixins';
-@import '../js/components/progress-bar/progress-bar-style';
+
+.arrow-right {
+  position: absolute;
+}
 
 body {
-  background-color: $black;
+  background-color: $background;
   color: $primary;
   margin: 0;
 }
 
-.body-container {
-  max-width: 1000px;
-  margin: auto;
-}
-
 .header {
   padding: 20px;
-  background-color: $background;
-  border: 2px solid $secondary;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-}
-
-.header-logo {
-
-}
-
-.header-title {
-  margin: 5px 20px;
-  font-size: 30px;
-  color: $primary;
-}
-
-.build-title {
-  text-align: center;
+  background-color: $dark-grey;
+  font-size: 26px;
+  text-transform: uppercase;
   color: $light-grey;
-  font-size: 18px;
-  font-weight: 800;
-  margin: 20px 0;
-}
-
-.divider {
-  min-height: 40px;
-}
-
-.large-divider {
-  min-height: 80px;
-}
-
-.bugs {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-
-  img {
-    width: 100%;
-  }
+  box-shadow: $element-shadow;
 }
 
-.code-container {
-  width: 80%;
-  align-items: flex-start;
-  align-content: flex-start;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  margin-bottom: 40px;
-}
-
-.code-box {
-  background-color: #3299bb;
-  margin: 2px;
-  padding: 2px;
-  width: 15px;
-  height: 15px;
-  color: white;
+.header-subpage {
+  float: left;
+  padding: 2px 15px;
+  background-color: $dark-grey;
+  font-size: 24px;
+  text-transform: uppercase;
+  color: $light-grey;
+  box-shadow: $element-shadow;
 
   @include desktop {
-    border-radius: 2px;
-    width: 45px;
-    height: 45px;
-    color: white;
+    float: none;
   }
 }
 
-.character-container {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: flex-start;
-  justify-content: flex-start;
-  margin-bottom: 20px;
-}
+.swipe-left-container {
+  width: 100%;
+  text-align: center;
 
-.design-container {
-  margin-bottom: 20px;
-
-  img {
-    width: 100%;
+  @include desktop {
+    display: none;
   }
 }
 
-.art-container {
-  margin-bottom: 20px;
-
-  img {
-    width: 100%;
-  }
-}
-
-.character-icon {
-  min-width: 100px;
-  max-width: 100px;
-  flex-basis: 0;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin: 2px;
-  padding: 2px;
-
-  img {
-    width: 100%;
-  }
-}
-
-.character-text {
-  flex-grow: 1;
-  flex-shrink: 1;
-  color: $black;
-  background-color: $white;
-  border-radius: 5px;
-  margin: 4px;
-  padding: 10px;
-}
-
-.green {
-  background-color: $green;
-}
-
-.red {
-  background-color: $red;
-}
+@import '../js/components/progress-jar/progress-jar-style';
+@import '../js/components/design-canvas/design-canvas-style';
+@import '../js/components/bugs-canvas/bugs-canvas-style';
+@import '../js/components/slideshow/slideshow-style';
+@import '../js/components/art-canvas/art-canvas-style';
+@import '../js/components/code-canvas/code-canvas-style';
+@import '../js/components/section-progress/section-progress-style';

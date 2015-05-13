@@ -14,7 +14,6 @@ var progress = new Progress();
 var run = Promise.coroutine(function *() {
   yield jira.writeAll();
   var sprint = yield jira.getCurrentSprint();
-  console.log(JSON.stringify(sprint));
   yield progress.writeAll(sprint);
 });
 
